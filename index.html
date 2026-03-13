@@ -1,436 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>● aGsx BLACKOBLIVION ● PANEL</title>
-    <!-- Font Awesome 6 (free) for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* ========== RESET & GLOBAL ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>// root@t5kila:~/red_hat</title>
+  <style>
+    /* ========== RESET — NO MERCY ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background: #0b0c10;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 60, 0.03) 0%, transparent 30%),
-                radial-gradient(circle at 90% 70%, rgba(0, 255, 180, 0.03) 0%, transparent 40%),
-                repeating-linear-gradient(45deg, rgba(20, 20, 30, 0.4) 0px, rgba(20, 20, 30, 0.4) 2px, 
-                                          rgba(0, 0, 0, 0.6) 2px, rgba(0, 0, 0, 0.6) 8px);
-            min-height: 100vh;
-            font-family: 'Share Tech Mono', 'Courier New', monospace;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            position: relative;
-            color: #c0f2e7;
-        }
+    /* ========== BURNING TERMINAL CORE ========== */
+    html {
+      font-size: 18px;
+    }
 
-        /* cyber lines (glitch) */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, 
-                rgba(255, 40, 80, 0.02) 0%, 
-                transparent 10%,
-                transparent 90%,
-                rgba(40, 255, 200, 0.02) 100%);
-            pointer-events: none;
-            z-index: 1;
-        }
+    body {
+      min-height: 100vh;
+      background: #0b0000;
+      background-image: 
+        linear-gradient(45deg, #1f0000 0%, #000000 80%),
+        repeating-linear-gradient(0deg, rgba(255, 0, 0, 0.03) 0px, rgba(0,0,0,0.8) 2px, transparent 3px, transparent 5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fragment Mono', 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      padding: 1rem;
+      position: relative;
+    }
 
-        /* ========== MAIN PANEL (RED STYLE BASE) ========== */
-        .panel {
-            max-width: 720px;
-            width: 100%;
-            background: rgba(10, 8, 12, 0.85);
-            backdrop-filter: blur(4px);
-            border: 2px solid #ff1a4c;
-            box-shadow: 0 0 30px #ff1a4c80, 0 0 10px #ff1a4c inset, 0 0 40px #a00;
-            border-radius: 32px 8px 32px 8px;
-            padding: 2.2rem 1.8rem;
-            position: relative;
-            z-index: 10;
-            transition: 0.2s;
-        }
+    /* ========== ACTIVE DECAY — RED STATIC ========== */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M10 10 L 20 10 L 20 20 L 10 20 Z M 40 30 L 55 30 L 55 40 L 40 40 Z M 70 70 L 90 70 L 90 85 L 70 85 Z" fill="%23ff0000" opacity="0.04"/></svg>');
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 2;
+      mix-blend-mode: screen;
+    }
 
-        /* red glitch overlay */
-        .panel::after {
-            content: "⚡ aGsx-BLACKOBLIVION ⚡";
-            position: absolute;
-            bottom: -12px;
-            right: 20px;
-            font-size: 0.7rem;
-            color: #ff4d7a;
-            opacity: 0.5;
-            letter-spacing: 2px;
-            font-weight: bold;
-            transform: skewX(-10deg);
-            background: #130b0e;
-            padding: 0 8px;
-            border-left: 2px solid red;
-            border-right: 2px solid red;
-        }
+    /* ========== MAIN CONSOLE — RIGID & BLOODY ========== */
+    .console {
+      max-width: 960px;
+      width: 100%;
+      background: #0c0101;
+      border: 4px solid #cc0000;
+      box-shadow: 
+        0 0 0 2px #330000,
+        0 0 0 6px #4a0000,
+        0 0 40px #ff2222,
+        inset 0 0 30px #a60000;
+      padding: 2.8rem 2.8rem;
+      position: relative;
+      z-index: 20;
+      backdrop-filter: blur(1px);
+    }
 
-        /* ========== HEADER ========== */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ff3355;
-            padding-bottom: 1rem;
-            margin-bottom: 1.8rem;
-            flex-wrap: wrap;
-        }
+    /* HARD EDGES — HACKER RIVETS */
+    .console::after {
+      content: "";
+      position: absolute;
+      top: 10px; left: 10px; right: 10px; bottom: 10px;
+      border: 2px dashed #ff2a2a;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            color: #ff2f5e;
-            text-shadow: 0 0 5px #ff0022, 0 0 12px #ff0030;
-            letter-spacing: 3px;
-        }
+    /* RANDOM GLITCH BITS — LIVE DATA */
+    .console pre.glitch-bits {
+      position: absolute;
+      top: 0; left: 0;
+      color: #3a0000;
+      font-size: 0.5rem;
+      line-height: 1;
+      z-index: 0;
+      user-select: none;
+      white-space: pre-wrap;
+      opacity: 0.4;
+      pointer-events: none;
+      font-family: monospace;
+      transform: rotate(180deg) scaleX(-1);
+      width: 100%;
+      padding: 0.5rem;
+      content: "> access_denied > red_zone > t5kila > root";
+    }
 
-        .logo span {
-            background: #ff1a4c30;
-            padding: 4px 8px;
-            border: 1px dashed #ff3355;
-            font-size: 0.8rem;
-            margin-left: 8px;
-            color: #ffb0c0;
-        }
+    /* ========== TERMINAL PROMPT STYLE ========== */
+    .line {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      color: #ffcaca;
+      margin: 1.8rem 0;
+      border-left: 8px solid #ff0000;
+      padding-left: 20px;
+      background: linear-gradient(90deg, #1e0101, transparent);
+    }
 
-        .status {
-            display: flex;
-            gap: 15px;
-            color: #2cf0cc;
-            font-size: 0.8rem;
-            border: 1px solid #2cf0cc40;
-            padding: 6px 12px;
-            border-radius: 20px;
-            background: #03100e;
-        }
+    .prompt {
+      color: #ff4f4f;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-shadow: 0 0 8px red;
+      white-space: nowrap;
+    }
 
-        .status i {
-            color: #ff1744;
-            margin-right: 4px;
-        }
+    .prompt::before {
+      content: "┌─[";
+    }
+    .prompt::after {
+      content: "]";
+    }
 
-        /* ========== SPEECH BUBBLE ========== */
-        .speech {
-            background: #13080c;
-            border: 2px solid #ff2040;
-            border-radius: 30px 30px 30px 4px;
-            padding: 1.3rem 2rem;
-            margin: 1.5rem 0 2.5rem 0;
-            position: relative;
-            font-family: 'Segoe UI', 'Courier New', monospace;
-            box-shadow: 0 0 20px #f03, -4px 4px 0 #55000c;
-        }
+    /* user@host — red intensity */
+    .user {
+      color: #ff7878;
+      text-shadow: 0 0 15px #ff3b3b;
+    }
 
-        .speech-text {
-            font-size: 1.9rem;
-            font-weight: 700;
-            color: #ffeef2;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            line-height: 1.2;
-            text-shadow: 2px 2px 0 #b10b2b, 4px 4px 0 #4a0010;
-        }
+    .host {
+      color: #ff2a2a;
+    }
 
-        .speech-text i {
-            color: #ff7b9c;
-            font-size: 1.2rem;
-            margin: 0 8px;
-        }
+    /* ========== ABOUT ME — GLITCH ASCII ========== */
+    .about-section {
+      margin: 2rem 0 2.5rem 0;
+      border: 3px solid #b10000;
+      padding: 1.5rem 2rem;
+      background: #0e0000;
+      box-shadow: inset 0 0 30px #2f0000, 0 0 30px #ff0000;
+    }
 
-        .speech .quote-author {
-            text-align: right;
-            font-size: 1rem;
-            color: #9afff0;
-            margin-top: 10px;
-            border-top: 1px dashed #ff375f;
-            padding-top: 8px;
-        }
+    .about-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 0.5rem;
+    }
 
-        /* ========== LINK GRID (hacker style) ========== */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 18px;
-            margin: 30px 0 30px;
-        }
+    .about-header span:first-child {
+      color: #ff8888;
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: #2c0000;
+      padding: 0.2rem 1.2rem;
+      border: 2px solid red;
+      transform: skewX(-15deg);
+    }
 
-        .card {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid #ff2a4c;
-            border-radius: 16px 4px 16px 4px;
-            padding: 1.4rem 0.8rem;
-            text-align: center;
-            transition: 0.2s ease;
-            backdrop-filter: blur(2px);
-            box-shadow: 0 0 15px #ff204060;
-            text-decoration: none;
-            color: #eee;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            overflow: hidden;
-        }
+    .about-header span:last-child {
+      font-size: 1.4rem;
+      color: #ff3f3f;
+      text-transform: uppercase;
+      letter-spacing: 6px;
+    }
 
-        .card:hover {
-            background: #1f0a12;
-            border-color: #ff6280;
-            box-shadow: 0 0 30px #ff375f, 0 0 5px #ffb0c0 inset;
-            transform: translateY(-3px) scale(1.01);
-        }
+    /* ascii fingerprint */
+    .fingerprint {
+      font-family: monospace;
+      white-space: pre;
+      color: #ff3f3f;
+      font-size: 0.9rem;
+      line-height: 1.2;
+      margin-top: 1rem;
+      border-top: 2px dotted #a00;
+      padding-top: 1rem;
+    }
 
-        .card i {
-            font-size: 2.8rem;
-            filter: drop-shadow(0 0 6px currentColor);
-        }
+    /* ========== CONTACT — PURE DATA STREAMS ========== */
+    .contact-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 2rem 0 2rem 0;
+      border: 2px solid #990000;
+      background: #080000;
+    }
 
-        /* instagram */
-        .card:nth-child(1) i { color: #ff3b6f; } 
-        .card:nth-child(1) .handle { color: #ff92ae; }
-        /* telegram */
-        .card:nth-child(2) i { color: #2cc2ff; }
-        .card:nth-child(2) .handle { color: #90e0ff; }
-        /* channel */
-        .card:nth-child(3) i { color: #ffb347; }
-        .card:nth-child(3) .handle { color: #ffcb7e; }
+    .contact-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #c20000;
+      padding: 0.8rem 1.5rem;
+      background: #0f0101;
+    }
 
-        .handle {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            background: #0f0b0d;
-            padding: 4px 14px;
-            border-radius: 30px;
-            border: 1px solid #ff2040;
-            word-break: break-word;
-            max-width: 100%;
-            font-family: 'Share Tech Mono', monospace;
-        }
+    .contact-row:last-child {
+      border-bottom: none;
+    }
 
-        .label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: #5ef2da;
-            opacity: 0.7;
-            border-top: 1px dotted #ff3355;
-            padding-top: 6px;
-            width: 100%;
-        }
+    .contact-tag {
+      color: #ff8888;
+      font-size: 1.1rem;
+      width: 140px;
+      font-weight: 800;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-        /* direct link style (hidden but works) */
-        .card a {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0;
-            z-index: 5;
-            cursor: pointer;
-        }
-        /* but we also use actual <a> inside for redundancy? we'll wrap icon/handle in manual links */
-        /* better: keep card as div, put <a> inside spans? i'll make card body clickable via invisible full link */
-        /* simpler: I'll just wrap everything inside an <a> but keep style */
-        /* but anchor can't have nested block in old html? fine in html5. let's refactor: */
-        /* actually let's make each card an <a> element, remove extra link inside */
-        /* modify: .card is already an anchor? yes style works on a */
-        /* but they need real href, open in new tab -> target="_blank" rel="noopener" */
-        /* I'll adjust below in HTML */
+    .contact-tag::before {
+      content: ">";
+      color: #ff0000;
+      font-size: 1.6rem;
+      font-weight: 900;
+      line-height: 1;
+    }
 
-        /* ========== BOTTOM TERMINAL ========== */
-        .terminal {
-            background: #0c0508;
-            border: 2px solid #b11333;
-            border-radius: 8px 8px 8px 8px;
-            padding: 1rem;
-            font-size: 0.9rem;
-            font-family: 'Courier New', monospace;
-            color: #adffde;
-            box-shadow: 0 0 20px #c00 inset, 0 0 10px #f0f;
-            margin-top: 30px;
-        }
+    .contact-url {
+      flex: 1;
+      font-family: 'Courier New', monospace;
+      font-size: 1.3rem;
+      background: #1c0000;
+      padding: 0.5rem 1rem;
+      border: 1px solid #ff3e3e;
+      box-shadow: 0 0 20px #ff000050;
+      word-break: break-all;
+    }
 
-        .terminal-line {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid #ff2f5530;
-            padding: 8px 0;
-        }
+    .contact-url a {
+      color: #ff5e5e;
+      text-decoration: none;
+      text-shadow: 0 0 8px red;
+      letter-spacing: 1.2px;
+    }
 
-        .prompt {
-            color: #ff4666;
-            font-weight: bold;
-        }
+    .contact-url a:hover {
+      color: #fff;
+      text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
+      background: #3a0000;
+    }
 
-        .cursor {
-            background: #ff2040;
-            width: 8px;
-            height: 16px;
-            display: inline-block;
-            animation: blink 1s step-end infinite;
-            margin-left: 5px;
-        }
+    /* ========== SPEECH NOTE — RED ALERT ========== */
+    .speech-block {
+      margin: 3rem 0 2.2rem 0;
+      background: #1f0000;
+      border: 8px double #ff2a2a;
+      padding: 2rem 1rem;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 80px #ff0000, 0 0 20px #ff6666 inset;
+      word-break: break-word;
+    }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+    .speech-text {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #ff1a1a;
+      text-transform: uppercase;
+      text-shadow: 
+        5px 5px 0 #4d0000,
+        8px 8px 0 #2f0000,
+        0 0 50px #ff4f4f;
+      letter-spacing: 8px;
+      line-height: 1.2;
+      font-family: 'Fira Code', monospace;
+      animation: speaker-glitch 1.8s infinite alternate;
+    }
 
-        .glitch-text {
-            color: #ff9eb5;
-            text-shadow: -2px 0 #0ff, 2px 0 #f0f;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
+    @keyframes speaker-glitch {
+      0% { transform: skew(0deg, 0deg) scale(1); opacity: 1; text-shadow: 5px 5px 0 #630000, 0 0 40px red; }
+      30% { transform: skew(3deg, -1deg) scale(1.02); text-shadow: -5px 3px 0 #a10000, 0 0 70px #ff8888; }
+      70% { transform: skew(-2deg, 2deg) scale(0.99); text-shadow: 8px -2px 0 #8b0000, 0 0 60px #ff0000; }
+      100% { transform: skew(1deg, -1deg) scale(1.01); text-shadow: -7px 5px 0 #5c0000, 0 0 90px #ff2222; }
+    }
 
-        /* ========== FOOTER ========== */
-        .footer-note {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: #ff5370;
-            border-top: 1px solid #ff2f55;
-            padding-top: 14px;
-        }
+    /* ========== CHANNEL LINK — RAW ========== */
+    .channel-hacker {
+      margin: 2.8rem 0 1rem 0;
+      background: #120000;
+      border: 3px solid #ff3f3f;
+      padding: 1.5rem 2rem;
+      position: relative;
+      box-shadow: 0 0 30px #ff0000;
+    }
 
-        .footer-note .core {
-            color: #23eacc;
-        }
+    .channel-hacker .head {
+      font-size: 1.5rem;
+      color: #ffb6b6;
+      background: #2c0000;
+      display: inline-block;
+      padding: 0.4rem 2rem;
+      border: 2px solid red;
+      transform: perspective(400px) rotateX(2deg);
+      margin-bottom: 1rem;
+      letter-spacing: 5px;
+    }
 
-        /* ========== TYPOGRAPHY & MIX ========== */
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        /* already in use */
-        h1, h2, h3, .hacker {
-            font-family: 'Share Tech Mono', 'Courier New', monospace;
-        }
+    .channel-value {
+      font-size: 2rem;
+      word-break: break-all;
+      background: #1f0000;
+      padding: 1.2rem;
+      border: 1px solid red;
+      font-family: 'Courier New', monospace;
+    }
 
-        /* additional red style */
-        .red-dot {
-            width: 12px; height: 12px;
-            background: #ff0033;
-            border-radius: 0;
-            box-shadow: 0 0 10px #f00, 0 0 20px #f00;
-            display: inline-block;
-            margin-right: 6px;
-            transform: rotate(45deg);
-        }
+    .channel-value a {
+      color: #ff4d4d;
+      text-decoration: underline wavy red;
+      text-underline-offset: 10px;
+      font-weight: bold;
+      filter: drop-shadow(0 0 12px crimson);
+    }
 
-        .signature {
-            font-size: 0.6rem;
-            color: #ff3d6b;
-            opacity: 0.8;
-            text-align: right;
-        }
-    </style>
+    .channel-value a:hover {
+      color: #ffffff;
+      background: #6b0000;
+      text-decoration: none;
+    }
+
+    /* ========== TERMINAL FOOTER — silent ========== */
+    .cursor-line {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2.8rem;
+      color: #a50000;
+      border-top: 2px solid #4f0000;
+      padding-top: 1rem;
+      font-size: 1rem;
+    }
+
+    .blinking-cursor {
+      width: 18px;
+      height: 18px;
+      background: #ff3d3d;
+      box-shadow: 0 0 20px red;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* everything glows red */
+    ::selection {
+      background: #ff2a2a;
+      color: black;
+    }
+
+    /* responsive hacking */
+    @media (max-width: 700px) {
+      .console { padding: 1.5rem; }
+      .speech-text { font-size: 2rem; letter-spacing: 3px; }
+      .contact-tag { width: 100px; font-size: 0.9rem; }
+      .contact-url { font-size: 1rem; }
+      .channel-value { font-size: 1.3rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="panel">
-        <!-- header with red matrix -->
-        <div class="header">
-            <div class="logo">
-                <span class="red-dot"></span> aGsx:://BLACKOBLIVION
-                <span>v.1.4.5</span>
-            </div>
-            <div class="status">
-                <i class="fas fa-shield-halos"></i> CORE:<span style="color:#ff3255;">HACK</span> 
-                <i class="fas fa-skull"></i> CARD:<span style="color:#00cfb3;">ACT</span>
-            </div>
-        </div>
+  <div class="console">
+    <!-- invisible data noise (no human text) -->
+    <pre class="glitch-bits">> root@t5kila:~# --redacted-- > access_mainframe > 0x7F RED </pre>
 
-        <!-- SPEECH NOTE: "You'll never reach my level." -->
-        <div class="speech">
-            <div class="speech-text">
-                <i class="fas fa-quote-left"></i> You'll never reach my level. <i class="fas fa-quote-right"></i>
-            </div>
-            <div class="quote-author">
-                ⚡ — t5kila / aGsx-BLACKOBLIVION
-            </div>
-        </div>
-
-        <!-- LINK GRID (red style, hacker) -->
-        <div class="grid">
-            <!-- Instagram card -->
-            <a href="https://www.instagram.com/t5kila" target="_blank" rel="noopener noreferrer" class="card">
-                <i class="fab fa-instagram"></i>
-                <span class="handle">@t5kila</span>
-                <span class="label"><i class="fas fa-terminal"></i> INSTA · RECON</span>
-                <div style="font-size:0.7rem; color:#ff7f9f;">[ burn ]</div>
-            </a>
-
-            <!-- Telegram personal card -->
-            <a href="https://t.me/t5kila" target="_blank" rel="noopener noreferrer" class="card">
-                <i class="fab fa-telegram-plane"></i>
-                <span class="handle">@t5kila</span>
-                <span class="label"><i class="fas fa-paper-plane"></i> TELEGRAM · DIRECT</span>
-                <div style="font-size:0.7rem; color:#8edaff;">[ cipher ]</div>
-            </a>
-
-            <!-- Channel card -->
-            <a href="https://t.me/+MQCbFqGG5vNlNTM0" target="_blank" rel="noopener noreferrer" class="card">
-                <i class="fab fa-telegram"></i>
-                <span class="handle">t5kila CHANNEL</span>
-                <span class="label"><i class="fas fa-users"></i> PRIVATE · HUNTER</span>
-                <div style="font-size:0.7rem; color:#ffb44d;">[ join: token required ]</div>
-            </a>
-        </div>
-
-        <!-- TERMINAL style / hacker matrix output -->
-        <div class="terminal">
-            <div class="terminal-line">
-                <span class="prompt">[aGsx@BLACKOBLIVION]#</span> 
-                <span>curl -X RECON t5kila.io --header "Authorization: RED"</span>
-            </div>
-            <div class="terminal-line">
-                <span class="prompt">▶▶</span> 
-                <span class="glitch-text">> Instagram: active / osint grab / 2FA bypass simulation</span>
-            </div>
-            <div class="terminal-line">
-                <span class="prompt">▶▶</span> 
-                <span> > Telegram: @t5kila — 0x1A4 direct line</span>
-            </div>
-            <div class="terminal-line">
-                <span class="prompt">▶▶</span> 
-                <span> > Channel: restricted hive ◆ invite hash MQCbFqGG5vNlNTM0</span>
-            </div>
-            <div class="terminal-line">
-                <span class="prompt">[✔]</span> 
-                <span>All cores: HACK · CARD · TOKEN · OSINT [online]</span>
-                <span class="cursor"></span>
-            </div>
-        </div>
-
-        <!-- footer with extra style -->
-        <div class="footer-note">
-            <div class="core">
-                <i class="fas fa-bolt" style="color:#ff3060;"></i> aGsx-BLACKOBLIVION // unified
-            </div>
-            <div>
-                <span style="color:#3affd7;">&nbsp;Pay</span>
-                <span style="color:#ff3765;">load</span>
-                <span style="color:#ffb347;">&nbsp;deployed.</span>
-                <span style="color:#b0f0e6;">&nbsp;😈</span>
-            </div>
-        </div>
-        <div class="signature">
-            <i class="fas fa-code"></i> red style · 0x5f · keyboard smoking 🤣
-        </div>
+    <!-- === PROMPT LINE: silent intro (only design, no extra) === -->
+    <div class="line">
+      <span class="prompt"><span class="user">t5kila</span><span class="host">@red_zone</span></span>
+      <span style="color: #ff3f3f;">$></span>
+      <span style="color: #ff8a8a;">--display_profile--</span>
     </div>
 
-    <!-- optional subtle back sound only in your mind :) -->
+    <!-- ========== ABOUT ME: (exact) ========== -->
+    <div class="about-section">
+      <div class="about-header">
+        <span>#</span>
+        <span>About me:</span>
+      </div>
+      <!-- no extra words, just ascii vibe -->
+      <div class="fingerprint">
+        ╔════════════════════════════════╗
+        ║  ID: t5kila::red_hat           ║
+        ║  STATUS: ACTIVE                 ║
+        ║  LEVEL: ⛓️ UNREACHABLE          ║
+        ╚════════════════════════════════╝
+      </div>
+    </div>
+
+    <!-- ========== TO CONTACT ME: (exact) ========== -->
+    <div style="margin: 1.2rem 0 0.2rem 0; display: flex; align-items: center; gap: 20px;">
+      <span style="color: #ff0000; font-size: 2rem; font-weight: 900;">[</span>
+      <span style="color: #ff6868; font-size: 1.9rem; letter-spacing: 4px;">To contact me:</span>
+      <span style="color: #ff0000; font-size: 2rem; font-weight: 900;">]</span>
+    </div>
+
+    <!-- CONTACT ITEMS: exactly as requested -->
+    <div class="contact-grid">
+      <!-- instagram -->
+      <div class="contact-row">
+        <span class="contact-tag">instagram</span>
+        <span class="contact-url"><a href="https://www.instagram.com/t5kila" target="_blank">https://www.instagram.com/t5kila</a></span>
+      </div>
+      <!-- telegram -->
+      <div class="contact-row">
+        <span class="contact-tag">telegram</span>
+        <span class="contact-url"><a href="https://t.me/t5kila" target="_blank">https://t.me/t5kila</a></span>
+      </div>
+    </div>
+
+    <!-- ========== SPEECH NOTE: exactly ========== -->
+    <div class="speech-block">
+      <div class="speech-text">You'll never reach my level<span style="color: #ffafaf;">.</span></div>
+    </div>
+
+    <!-- ========== MY CHANNEL LINK: exactly ========== -->
+    <div class="channel-hacker">
+      <div class="head"># MY CHANNEL LINK</div>
+      <div class="channel-value">
+        <a href="https://t.me/+MQCbFqGG5vNlNTM0" target="_blank">https://t.me/+MQCbFqGG5vNlNTM0</a>
+      </div>
+    </div>
+
+    <!-- terminal footer: only design (no extra text) -->
+    <div class="cursor-line">
+      <span style="color: #9e0000;">>_ red.hat@t5kila:~$</span>
+      <span class="blinking-cursor"></span>
+    </div>
+
+    <!-- absolutely no additional words — pure red hacker matrix -->
+  </div>
+
+  <!-- floating red dot as design element — silent -->
+  <div style="position: fixed; top: 20px; left: 20px; width: 12px; height: 12px; background: #ff0000; filter: blur(3px); box-shadow: 0 0 30px red; border-radius: 0;"></div>
+  <div style="position: fixed; bottom: 30px; left: 50%; width: 200px; height: 3px; background: #ff0015; filter: blur(8px); opacity: 0.5; transform: translateX(-50%);"></div>
 </body>
 </html>
