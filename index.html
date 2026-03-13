@@ -3,336 +3,384 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>// root@t5kila:~/red_hat</title>
+  <title>KALI :: ROOT@T5KILA:~#</title>
   <style>
-    /* ========== RESET — NO MERCY ========== */
+    /* ===== RESET ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* ========== BURNING TERMINAL CORE ========== */
-    html {
-      font-size: 18px;
-    }
-
+    /* ===== KALI RAW STYLE ===== */
     body {
-      min-height: 100vh;
-      background: #0b0000;
+      background: #050000;
       background-image: 
-        linear-gradient(45deg, #1f0000 0%, #000000 80%),
-        repeating-linear-gradient(0deg, rgba(255, 0, 0, 0.03) 0px, rgba(0,0,0,0.8) 2px, transparent 3px, transparent 5px);
+        radial-gradient(circle at 20% 30%, #2f0000 0%, #000000 80%),
+        repeating-linear-gradient(45deg, #1f0000 0px, #1f0000 2px, #000000 2px, #000000 6px);
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Fragment Mono', 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      font-family: 'Red Hat Mono', 'Courier New', 'Fira Code', monospace;
       padding: 1rem;
       position: relative;
     }
 
-    /* ========== ACTIVE DECAY — RED STATIC ========== */
-    body::before {
+    /* SCANLINES — LIKE OLD CRT */
+    body::after {
       content: "";
       position: fixed;
-      inset: 0;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M10 10 L 20 10 L 20 20 L 10 20 Z M 40 30 L 55 30 L 55 40 L 40 40 Z M 70 70 L 90 70 L 90 85 L 70 85 Z" fill="%23ff0000" opacity="0.04"/></svg>');
-      opacity: 0.3;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(255, 0, 0, 0.02) 0px, rgba(0,0,0,0.6) 2px, transparent 3px);
       pointer-events: none;
-      z-index: 2;
-      mix-blend-mode: screen;
+      z-index: 5;
     }
 
-    /* ========== MAIN CONSOLE — RIGID & BLOODY ========== */
-    .console {
-      max-width: 960px;
+    /* MAIN TERMINAL — KALI INSPIRED */
+    .kali-terminal {
+      max-width: 1000px;
       width: 100%;
       background: #0c0101;
-      border: 4px solid #cc0000;
+      border: 3px solid #b30000;
       box-shadow: 
-        0 0 0 2px #330000,
-        0 0 0 6px #4a0000,
+        0 0 0 2px #4a0000,
+        0 0 0 5px #1f0000,
         0 0 40px #ff2222,
-        inset 0 0 30px #a60000;
-      padding: 2.8rem 2.8rem;
+        inset 0 0 50px #5a0000;
+      padding: 2.5rem 2.2rem;
       position: relative;
       z-index: 20;
-      backdrop-filter: blur(1px);
     }
 
-    /* HARD EDGES — HACKER RIVETS */
-    .console::after {
-      content: "";
-      position: absolute;
-      top: 10px; left: 10px; right: 10px; bottom: 10px;
-      border: 2px dashed #ff2a2a;
-      opacity: 0.3;
-      pointer-events: none;
-      z-index: 1;
+    /* KALI HEADER BAR — LIKE TERMINAL TITLE */
+    .term-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 2px solid #b30000;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
     }
 
-    /* RANDOM GLITCH BITS — LIVE DATA */
-    .console pre.glitch-bits {
-      position: absolute;
-      top: 0; left: 0;
-      color: #3a0000;
-      font-size: 0.5rem;
-      line-height: 1;
-      z-index: 0;
-      user-select: none;
-      white-space: pre-wrap;
-      opacity: 0.4;
-      pointer-events: none;
-      font-family: monospace;
-      transform: rotate(180deg) scaleX(-1);
-      width: 100%;
-      padding: 0.5rem;
-      content: "> access_denied > red_zone > t5kila > root";
+    .term-dots {
+      display: flex;
+      gap: 8px;
     }
 
-    /* ========== TERMINAL PROMPT STYLE ========== */
-    .line {
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 0;
+      background: #2a0000;
+      border: 1px solid #b30000;
+    }
+
+    .dot.red {
+      background: #ff0000;
+      box-shadow: 0 0 15px red;
+    }
+
+    .term-title {
+      color: #ff6262;
+      font-size: 1.2rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: #140000;
+      padding: 5px 18px;
+      border-left: 6px solid #ff0000;
+      font-weight: 600;
+    }
+
+    .term-title::before {
+      content: "⚡";
+      color: #ff4f4f;
+      margin-right: 10px;
+    }
+
+    /* PROMPT STYLE — KALI ROOT */
+    .prompt-line {
       display: flex;
       align-items: baseline;
-      gap: 12px;
-      color: #ffcaca;
-      margin: 1.8rem 0;
-      border-left: 8px solid #ff0000;
-      padding-left: 20px;
-      background: linear-gradient(90deg, #1e0101, transparent);
-    }
-
-    .prompt {
-      color: #ff4f4f;
-      font-weight: bold;
+      gap: 8px;
+      color: #ffb8b8;
+      margin: 20px 0 10px 0;
       font-size: 1.2rem;
-      text-shadow: 0 0 8px red;
-      white-space: nowrap;
     }
 
-    .prompt::before {
-      content: "┌─[";
-    }
-    .prompt::after {
-      content: "]";
-    }
-
-    /* user@host — red intensity */
-    .user {
-      color: #ff7878;
-      text-shadow: 0 0 15px #ff3b3b;
+    .prompt-user {
+      color: #ff4f4f;
+      font-weight: 800;
+      text-shadow: 0 0 10px #ff0000;
     }
 
-    .host {
+    .prompt-at {
+      color: #b30000;
+    }
+
+    .prompt-path {
+      color: #ffa0a0;
+    }
+
+    .prompt-sign {
       color: #ff2a2a;
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin-left: 5px;
+      text-shadow: 0 0 8px red;
     }
 
-    /* ========== ABOUT ME — GLITCH ASCII ========== */
-    .about-section {
-      margin: 2rem 0 2.5rem 0;
-      border: 3px solid #b10000;
-      padding: 1.5rem 2rem;
-      background: #0e0000;
-      box-shadow: inset 0 0 30px #2f0000, 0 0 30px #ff0000;
+    /* ABOUT ME — KALI CONFIG FILE (cleaned, no extra lines) */
+    .config-section {
+      background: #0d0000;
+      border: 2px solid #8b0000;
+      margin: 30px 0 30px 0;
+      padding: 0;
     }
 
-    .about-header {
+    .config-header {
+      background: #2a0000;
+      padding: 12px 25px;
+      border-bottom: 2px solid #ff1a1a;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .config-header span:first-child {
+      color: #ff8989;
+      font-size: 1.8rem;
+      font-weight: 900;
+      transform: rotate(0deg);
+    }
+
+    .config-header span:last-child {
+      color: #ff3838;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      font-weight: 700;
+      text-shadow: 0 0 18px red;
+    }
+
+    /* NO config-body, no extra lines — only the header remains.
+       The design keeps the "About me:" title without any user/role lines. */
+    
+    /* CONTACT — KALI STYLE NETSTAT */
+    .contact-title {
       display: flex;
       align-items: center;
       gap: 15px;
-      margin-bottom: 0.5rem;
+      margin: 40px 0 15px 0;
     }
 
-    .about-header span:first-child {
-      color: #ff8888;
-      font-size: 1.8rem;
-      font-weight: 800;
-      background: #2c0000;
-      padding: 0.2rem 1.2rem;
-      border: 2px solid red;
-      transform: skewX(-15deg);
+    .contact-title .bracket {
+      font-size: 2.8rem;
+      color: #ff2020;
+      font-weight: 900;
+      line-height: 1;
+      text-shadow: 0 0 25px red;
     }
 
-    .about-header span:last-child {
-      font-size: 1.4rem;
-      color: #ff3f3f;
+    .contact-title .title-text {
+      font-size: 2rem;
+      color: #ff7b7b;
       text-transform: uppercase;
+      background: #1d0000;
+      padding: 5px 25px;
+      border: 2px solid #a30000;
       letter-spacing: 6px;
     }
 
-    /* ascii fingerprint */
-    .fingerprint {
-      font-family: monospace;
-      white-space: pre;
-      color: #ff3f3f;
-      font-size: 0.9rem;
-      line-height: 1.2;
-      margin-top: 1rem;
-      border-top: 2px dotted #a00;
-      padding-top: 1rem;
-    }
-
-    /* ========== CONTACT — PURE DATA STREAMS ========== */
-    .contact-grid {
+    /* contact table — kali style */
+    .contact-table {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      margin: 2rem 0 2rem 0;
-      border: 2px solid #990000;
-      background: #080000;
+      border: 2px solid #880000;
+      background: #0a0000;
+      margin-bottom: 30px;
     }
 
     .contact-row {
       display: flex;
       align-items: center;
+      border-bottom: 2px solid #600;
       flex-wrap: wrap;
-      border-bottom: 1px solid #c20000;
-      padding: 0.8rem 1.5rem;
-      background: #0f0101;
     }
 
     .contact-row:last-child {
       border-bottom: none;
     }
 
-    .contact-tag {
-      color: #ff8888;
-      font-size: 1.1rem;
-      width: 140px;
-      font-weight: 800;
+    .contact-label {
+      background: #1b0000;
+      padding: 18px 20px;
+      width: 160px;
+      color: #ff6767;
+      font-weight: 900;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      border-right: 4px solid #ff2222;
+      letter-spacing: 3px;
+    }
+
+    .contact-label::before {
+      content: ">_";
+      color: #ff8f8f;
+      margin-right: 8px;
+    }
+
+    .contact-data {
+      flex: 1;
+      padding: 12px 25px;
+      background: #100000;
+      font-size: 1.4rem;
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+    }
+
+    .contact-data a {
+      color: #ff4f4f;
+      text-decoration: none;
+      border-bottom: 2px dashed #b30000;
+      box-shadow: 0 0 12px #ff0000;
+      transition: 0.15s;
+      padding: 3px 0;
+    }
+
+    .contact-data a:hover {
+      color: #fff;
+      background: #7a0000;
+      border-bottom: 2px solid #ffffff;
+    }
+
+    /* SPEECH — KALI ROOT WARNING */
+    .speech-container {
+      margin: 40px 0 35px 0;
+      border: 4px solid #ff2222;
+      background: #190000;
+      padding: 0;
+      position: relative;
+      box-shadow: 0 0 60px #ff0000, inset 0 0 30px #c00000;
+    }
+
+    .speech-header {
+      background: #2f0000;
+      padding: 12px 25px;
+      border-bottom: 3px solid #ff0000;
+      color: #ffacac;
+      font-size: 1.4rem;
       text-transform: uppercase;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 15px;
     }
 
-    .contact-tag::before {
-      content: ">";
-      color: #ff0000;
-      font-size: 1.6rem;
-      font-weight: 900;
-      line-height: 1;
+    .speech-header .skull {
+      font-size: 2rem;
+      filter: drop-shadow(0 0 10px red);
     }
 
-    .contact-url {
-      flex: 1;
-      font-family: 'Courier New', monospace;
-      font-size: 1.3rem;
-      background: #1c0000;
-      padding: 0.5rem 1rem;
-      border: 1px solid #ff3e3e;
-      box-shadow: 0 0 20px #ff000050;
-      word-break: break-all;
-    }
-
-    .contact-url a {
-      color: #ff5e5e;
-      text-decoration: none;
-      text-shadow: 0 0 8px red;
-      letter-spacing: 1.2px;
-    }
-
-    .contact-url a:hover {
-      color: #fff;
-      text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
-      background: #3a0000;
-    }
-
-    /* ========== SPEECH NOTE — RED ALERT ========== */
-    .speech-block {
-      margin: 3rem 0 2.2rem 0;
-      background: #1f0000;
-      border: 8px double #ff2a2a;
-      padding: 2rem 1rem;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 0 80px #ff0000, 0 0 20px #ff6666 inset;
-      word-break: break-word;
-    }
-
-    .speech-text {
+    .speech-main {
+      padding: 28px 25px;
       font-size: 3.2rem;
       font-weight: 900;
-      color: #ff1a1a;
+      color: #ff2020;
       text-transform: uppercase;
+      text-align: center;
+      letter-spacing: 6px;
+      word-break: break-word;
+      font-family: 'Red Hat Mono', 'Courier New', monospace;
       text-shadow: 
-        5px 5px 0 #4d0000,
-        8px 8px 0 #2f0000,
-        0 0 50px #ff4f4f;
-      letter-spacing: 8px;
+        4px 4px 0 #4c0000,
+        8px 8px 0 #2b0000,
+        0 0 60px #ff6666;
       line-height: 1.2;
-      font-family: 'Fira Code', monospace;
-      animation: speaker-glitch 1.8s infinite alternate;
+      animation: glitch-speech 2.2s infinite alternate;
     }
 
-    @keyframes speaker-glitch {
-      0% { transform: skew(0deg, 0deg) scale(1); opacity: 1; text-shadow: 5px 5px 0 #630000, 0 0 40px red; }
-      30% { transform: skew(3deg, -1deg) scale(1.02); text-shadow: -5px 3px 0 #a10000, 0 0 70px #ff8888; }
-      70% { transform: skew(-2deg, 2deg) scale(0.99); text-shadow: 8px -2px 0 #8b0000, 0 0 60px #ff0000; }
-      100% { transform: skew(1deg, -1deg) scale(1.01); text-shadow: -7px 5px 0 #5c0000, 0 0 90px #ff2222; }
+    @keyframes glitch-speech {
+      0% { transform: skew(0deg, 0deg); text-shadow: 4px 4px 0 #4f0000, 8px 8px 0 #2a0000, 0 0 50px red; }
+      20% { transform: skew(2deg, -1deg); text-shadow: -5px 4px 0 #8f0000, 10px 2px 0 #3f0000; }
+      40% { transform: skew(-2deg, 1deg); text-shadow: 7px -3px 0 #7a0000, -6px 6px 0 #5f0000; }
+      60% { transform: skew(3deg, -2deg); text-shadow: -8px -2px 0 #9f0000, 9px -4px 0 #3f0000; }
+      80% { transform: skew(-3deg, 2deg); text-shadow: 5px -5px 0 #b30000, -7px 7px 0 #770000; }
+      100% { transform: skew(1deg, -1deg); text-shadow: 4px 4px 0 #6b0000, 8px 8px 0 #2f0000, 0 0 70px #ff8888; }
     }
 
-    /* ========== CHANNEL LINK — RAW ========== */
-    .channel-hacker {
-      margin: 2.8rem 0 1rem 0;
-      background: #120000;
-      border: 3px solid #ff3f3f;
-      padding: 1.5rem 2rem;
-      position: relative;
-      box-shadow: 0 0 30px #ff0000;
+    /* CHANNEL — KALI DIRECTORY */
+    .channel-area {
+      margin: 40px 0 20px 0;
+      background: #0e0000;
+      border: 3px solid #ff2a2a;
+      padding: 0;
     }
 
-    .channel-hacker .head {
-      font-size: 1.5rem;
-      color: #ffb6b6;
-      background: #2c0000;
-      display: inline-block;
-      padding: 0.4rem 2rem;
-      border: 2px solid red;
-      transform: perspective(400px) rotateX(2deg);
-      margin-bottom: 1rem;
-      letter-spacing: 5px;
-    }
-
-    .channel-value {
-      font-size: 2rem;
-      word-break: break-all;
-      background: #1f0000;
-      padding: 1.2rem;
-      border: 1px solid red;
-      font-family: 'Courier New', monospace;
-    }
-
-    .channel-value a {
-      color: #ff4d4d;
-      text-decoration: underline wavy red;
-      text-underline-offset: 10px;
-      font-weight: bold;
-      filter: drop-shadow(0 0 12px crimson);
-    }
-
-    .channel-value a:hover {
-      color: #ffffff;
-      background: #6b0000;
-      text-decoration: none;
-    }
-
-    /* ========== TERMINAL FOOTER — silent ========== */
-    .cursor-line {
+    .channel-head {
+      background: #250000;
+      padding: 15px 25px;
+      border-bottom: 3px solid #ff0000;
+      color: #ff7474;
+      font-size: 1.8rem;
+      font-weight: 800;
       display: flex;
-      justify-content: space-between;
-      margin-top: 2.8rem;
-      color: #a50000;
-      border-top: 2px solid #4f0000;
-      padding-top: 1rem;
-      font-size: 1rem;
+      align-items: center;
     }
 
-    .blinking-cursor {
-      width: 18px;
-      height: 18px;
+    .channel-head::before {
+      content: "📡 ";
+      font-size: 2rem;
+      margin-right: 20px;
+      filter: drop-shadow(0 0 8px red);
+    }
+
+    .channel-body {
+      padding: 22px 30px;
+      background: #0c0000;
+    }
+
+    .channel-link {
+      background: #1f0000;
+      border: 2px solid #a30000;
+      padding: 20px 25px;
+      font-size: 1.9rem;
+      word-break: break-all;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+    }
+
+    .channel-link a {
+      color: #ff5252;
+      text-decoration: none;
+      text-shadow: 0 0 10px #ff2f2f;
+      border-bottom: 3px wavy #ff3b3b;
+    }
+
+    .channel-link a:hover {
+      color: white;
+      background: #7a0000;
+      border-bottom: 3px solid white;
+    }
+
+    /* FOOTER CURSOR — KALI STYLE */
+    .footer-prompt {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 2px solid #7a0000;
+      padding-top: 20px;
+      color: #8f0000;
+      font-size: 1.1rem;
+    }
+
+    .cursor-block {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
       background: #ff3d3d;
-      box-shadow: 0 0 20px red;
+      box-shadow: 0 0 25px red;
       animation: blink 1s step-end infinite;
     }
 
@@ -341,95 +389,110 @@
       50% { opacity: 0; }
     }
 
-    /* everything glows red */
+    /* EVERYTHING RED */
     ::selection {
-      background: #ff2a2a;
+      background: #b30000;
       color: black;
     }
 
-    /* responsive hacking */
+    /* responsive */
     @media (max-width: 700px) {
-      .console { padding: 1.5rem; }
-      .speech-text { font-size: 2rem; letter-spacing: 3px; }
-      .contact-tag { width: 100px; font-size: 0.9rem; }
-      .contact-url { font-size: 1rem; }
-      .channel-value { font-size: 1.3rem; }
+      .kali-terminal { padding: 1.2rem; }
+      .config-header span:last-child { font-size: 1.3rem; }
+      .contact-label { width: 130px; font-size: 1rem; }
+      .contact-data { font-size: 1rem; }
+      .speech-main { font-size: 2rem; letter-spacing: 2px; }
+      .channel-link { font-size: 1.3rem; }
     }
   </style>
 </head>
 <body>
-  <div class="console">
-    <!-- invisible data noise (no human text) -->
-    <pre class="glitch-bits">> root@t5kila:~# --redacted-- > access_mainframe > 0x7F RED </pre>
+  <div class="kali-terminal">
 
-    <!-- === PROMPT LINE: silent intro (only design, no extra) === -->
-    <div class="line">
-      <span class="prompt"><span class="user">t5kila</span><span class="host">@red_zone</span></span>
-      <span style="color: #ff3f3f;">$></span>
-      <span style="color: #ff8a8a;">--display_profile--</span>
+    <!-- KALI TERMINAL HEADER (design only) -->
+    <div class="term-header">
+      <div class="term-dots">
+        <span class="dot red"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <div class="term-title">root@kali:~#</div>
+      <div style="flex:1; border-bottom: 2px dotted #5f0000;"></div>
     </div>
 
-    <!-- ========== ABOUT ME: (exact) ========== -->
-    <div class="about-section">
-      <div class="about-header">
+    <!-- PROMPT (silent) -->
+    <div class="prompt-line">
+      <span class="prompt-user">┌──(t5kila㉿kali)</span>
+      <span class="prompt-path">[~/red-zone]</span>
+    </div>
+    <div class="prompt-line" style="margin-top: -10px;">
+      <span class="prompt-sign">└─$></span>
+      <span style="color: #ff7b7b;">--display_profile --red</span>
+    </div>
+
+    <!-- ===== ABOUT ME: EXACT ===== -->
+    <div class="config-section">
+      <div class="config-header">
         <span>#</span>
         <span>About me:</span>
       </div>
-      <!-- no extra words, just ascii vibe -->
-      <div class="fingerprint">
-        ╔════════════════════════════════╗
-        ║  ID: t5kila::red_hat           ║
-        ║  STATUS: ACTIVE                 ║
-        ║  LEVEL: ⛓️ UNREACHABLE          ║
-        ╚════════════════════════════════╝
-      </div>
+      <!-- NO config-body — user/role/access lines removed as requested -->
     </div>
 
-    <!-- ========== TO CONTACT ME: (exact) ========== -->
-    <div style="margin: 1.2rem 0 0.2rem 0; display: flex; align-items: center; gap: 20px;">
-      <span style="color: #ff0000; font-size: 2rem; font-weight: 900;">[</span>
-      <span style="color: #ff6868; font-size: 1.9rem; letter-spacing: 4px;">To contact me:</span>
-      <span style="color: #ff0000; font-size: 2rem; font-weight: 900;">]</span>
+    <!-- ===== TO CONTACT ME: EXACT ===== -->
+    <div class="contact-title">
+      <span class="bracket">[</span>
+      <span class="title-text">To contact me:</span>
+      <span class="bracket">]</span>
     </div>
 
-    <!-- CONTACT ITEMS: exactly as requested -->
-    <div class="contact-grid">
+    <div class="contact-table">
       <!-- instagram -->
       <div class="contact-row">
-        <span class="contact-tag">instagram</span>
-        <span class="contact-url"><a href="https://www.instagram.com/t5kila" target="_blank">https://www.instagram.com/t5kila</a></span>
+        <div class="contact-label">instagram</div>
+        <div class="contact-data"><a href="https://www.instagram.com/t5kila" target="_blank">https://www.instagram.com/t5kila</a></div>
       </div>
       <!-- telegram -->
       <div class="contact-row">
-        <span class="contact-tag">telegram</span>
-        <span class="contact-url"><a href="https://t.me/t5kila" target="_blank">https://t.me/t5kila</a></span>
+        <div class="contact-label">telegram</div>
+        <div class="contact-data"><a href="https://t.me/t5kila" target="_blank">https://t.me/t5kila</a></div>
       </div>
     </div>
 
-    <!-- ========== SPEECH NOTE: exactly ========== -->
-    <div class="speech-block">
-      <div class="speech-text">You'll never reach my level<span style="color: #ffafaf;">.</span></div>
-    </div>
-
-    <!-- ========== MY CHANNEL LINK: exactly ========== -->
-    <div class="channel-hacker">
-      <div class="head"># MY CHANNEL LINK</div>
-      <div class="channel-value">
-        <a href="https://t.me/+MQCbFqGG5vNlNTM0" target="_blank">https://t.me/+MQCbFqGG5vNlNTM0</a>
+    <!-- ===== SPEECH NOTE: EXACT ===== -->
+    <div class="speech-container">
+      <div class="speech-header">
+        <span class="skull">⛧</span>
+        <span>t5kila@kali:~# echo "YOU'LL NEVER REACH MY LEVEL"</span>
+        <span class="skull">⛧</span>
+      </div>
+      <div class="speech-main">
+        You'll never reach my level<span style="color: #ff7b7b;">.</span>
       </div>
     </div>
 
-    <!-- terminal footer: only design (no extra text) -->
-    <div class="cursor-line">
-      <span style="color: #9e0000;">>_ red.hat@t5kila:~$</span>
-      <span class="blinking-cursor"></span>
+    <!-- ===== MY CHANNEL LINK: EXACT ===== -->
+    <div class="channel-area">
+      <div class="channel-head">MY CHANNEL LINK</div>
+      <div class="channel-body">
+        <div class="channel-link">
+          <a href="https://t.me/+MQCbFqGG5vNlNTM0" target="_blank">https://t.me/+MQCbFqGG5vNlNTM0</a>
+        </div>
+      </div>
     </div>
 
-    <!-- absolutely no additional words — pure red hacker matrix -->
+    <!-- FOOTER PROMPT (pure design) -->
+    <div class="footer-prompt">
+      <span>t5kila@kali:~# <span style="color:#ff6868;">--</span></span>
+      <span class="cursor-block"></span>
+      <span>[ >_ ]</span>
+    </div>
+
+    <!-- no extra text / only required elements -->
   </div>
 
-  <!-- floating red dot as design element — silent -->
-  <div style="position: fixed; top: 20px; left: 20px; width: 12px; height: 12px; background: #ff0000; filter: blur(3px); box-shadow: 0 0 30px red; border-radius: 0;"></div>
-  <div style="position: fixed; bottom: 30px; left: 50%; width: 200px; height: 3px; background: #ff0015; filter: blur(8px); opacity: 0.5; transform: translateX(-50%);"></div>
+  <!-- floating red artifacts — silent -->
+  <div style="position: fixed; bottom: 15px; right: 20px; width: 8px; height: 8px; background: #ff0000; filter: blur(3px); box-shadow: 0 0 30px red;"></div>
+  <div style="position: fixed; top: 40px; right: 40px; width: 200px; height: 2px; background: #ff3b3b; opacity: 0.3; transform: rotate(-25deg);"></div>
 </body>
 </html>
