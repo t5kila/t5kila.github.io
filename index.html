@@ -1,498 +1,700 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KALI :: ROOT@T5KILA:~#</title>
-  <style>
-    /* ===== RESET ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-ONLINE · SNAP PANEL · @t5kila</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
 
-    /* ===== KALI RAW STYLE ===== */
-    body {
-      background: #050000;
-      background-image: 
-        radial-gradient(circle at 20% 30%, #2f0000 0%, #000000 80%),
-        repeating-linear-gradient(45deg, #1f0000 0px, #1f0000 2px, #000000 2px, #000000 6px);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Red Hat Mono', 'Courier New', 'Fira Code', monospace;
-      padding: 1rem;
-      position: relative;
-    }
+        body {
+            background: #0a0c14;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+        }
 
-    /* SCANLINES — LIKE OLD CRT */
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: repeating-linear-gradient(0deg, rgba(255, 0, 0, 0.02) 0px, rgba(0,0,0,0.6) 2px, transparent 3px);
-      pointer-events: none;
-      z-index: 5;
-    }
+        /* animated background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.05) 0%, transparent 30%);
+            pointer-events: none;
+            z-index: -1;
+        }
 
-    /* MAIN TERMINAL — KALI INSPIRED */
-    .kali-terminal {
-      max-width: 1000px;
-      width: 100%;
-      background: #0c0101;
-      border: 3px solid #b30000;
-      box-shadow: 
-        0 0 0 2px #4a0000,
-        0 0 0 5px #1f0000,
-        0 0 40px #ff2222,
-        inset 0 0 50px #5a0000;
-      padding: 2.5rem 2.2rem;
-      position: relative;
-      z-index: 20;
-    }
+        /* github corner */
+        .github-corner {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 100;
+        }
 
-    /* KALI HEADER BAR — LIKE TERMINAL TITLE */
-    .term-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 2px solid #b30000;
-      padding-bottom: 10px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
+        .github-corner svg {
+            fill: #00ffff;
+            color: #0a0c14;
+            width: 70px;
+            height: 70px;
+            filter: drop-shadow(0 0 10px cyan);
+        }
 
-    .term-dots {
-      display: flex;
-      gap: 8px;
-    }
+        .main-panel {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(10, 15, 25, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 2rem;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 0, 255, 0.2) inset, 0 0 40px rgba(0, 255, 255, 0.3);
+            padding: 2rem;
+        }
 
-    .dot {
-      width: 16px;
-      height: 16px;
-      border-radius: 0;
-      background: #2a0000;
-      border: 1px solid #b30000;
-    }
+        /* header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.4);
+            padding-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
 
-    .dot.red {
-      background: #ff0000;
-      box-shadow: 0 0 15px red;
-    }
+        .logo h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, cyan, magenta);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 0 10px cyan);
+        }
 
-    .term-title {
-      color: #ff6262;
-      font-size: 1.2rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      background: #140000;
-      padding: 5px 18px;
-      border-left: 6px solid #ff0000;
-      font-weight: 600;
-    }
+        .logo span {
+            font-size: 1rem;
+            color: rgba(0, 255, 255, 0.7);
+            display: block;
+            margin-top: 0.2rem;
+        }
 
-    .term-title::before {
-      content: "⚡";
-      color: #ff4f4f;
-      margin-right: 10px;
-    }
+        .badge {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid magenta;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            box-shadow: 0 0 15px magenta;
+        }
 
-    /* PROMPT STYLE — KALI ROOT */
-    .prompt-line {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      color: #ffb8b8;
-      margin: 20px 0 10px 0;
-      font-size: 1.2rem;
-    }
+        /* stats row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
 
-    .prompt-user {
-      color: #ff4f4f;
-      font-weight: 800;
-      text-shadow: 0 0 10px #ff0000;
-    }
+        .stat-box {
+            background: rgba(0, 20, 30, 0.7);
+            border: 1px solid cyan;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
 
-    .prompt-at {
-      color: #b30000;
-    }
+        .stat-box.highlight {
+            border-color: magenta;
+            box-shadow: 0 0 25px magenta;
+        }
 
-    .prompt-path {
-      color: #ffa0a0;
-    }
+        .stat-label {
+            color: #8ab3cf;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
 
-    .prompt-sign {
-      color: #ff2a2a;
-      font-size: 1.5rem;
-      font-weight: 900;
-      margin-left: 5px;
-      text-shadow: 0 0 8px red;
-    }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 15px cyan;
+            line-height: 1.2;
+        }
 
-    /* ABOUT ME — KALI CONFIG FILE (cleaned, no extra lines) */
-    .config-section {
-      background: #0d0000;
-      border: 2px solid #8b0000;
-      margin: 30px 0 30px 0;
-      padding: 0;
-    }
+        .stat-value.pink {
+            color: #ffb3ff;
+            text-shadow: 0 0 20px magenta;
+        }
 
-    .config-header {
-      background: #2a0000;
-      padding: 12px 25px;
-      border-bottom: 2px solid #ff1a1a;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
+        /* upload card */
+        .upload-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px dashed rgba(0, 255, 255, 0.6);
+            border-radius: 2rem;
+            padding: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
 
-    .config-header span:first-child {
-      color: #ff8989;
-      font-size: 1.8rem;
-      font-weight: 900;
-      transform: rotate(0deg);
-    }
+        .upload-card:hover {
+            border-color: magenta;
+            background: rgba(20, 0, 30, 0.5);
+            box-shadow: 0 0 40px magenta;
+        }
 
-    .config-header span:last-child {
-      color: #ff3838;
-      font-size: 1.8rem;
-      text-transform: uppercase;
-      letter-spacing: 6px;
-      font-weight: 700;
-      text-shadow: 0 0 18px red;
-    }
+        .upload-icon {
+            font-size: 3.5rem;
+            filter: drop-shadow(0 0 10px cyan);
+            margin-bottom: 1rem;
+        }
 
-    /* NO config-body, no extra lines — only the header remains.
-       The design keeps the "About me:" title without any user/role lines. */
-    
-    /* CONTACT — KALI STYLE NETSTAT */
-    .contact-title {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin: 40px 0 15px 0;
-    }
+        .upload-title {
+            color: white;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
 
-    .contact-title .bracket {
-      font-size: 2.8rem;
-      color: #ff2020;
-      font-weight: 900;
-      line-height: 1;
-      text-shadow: 0 0 25px red;
-    }
+        .upload-hint {
+            color: #8aa0b0;
+            font-size: 1rem;
+        }
 
-    .contact-title .title-text {
-      font-size: 2rem;
-      color: #ff7b7b;
-      text-transform: uppercase;
-      background: #1d0000;
-      padding: 5px 25px;
-      border: 2px solid #a30000;
-      letter-spacing: 6px;
-    }
+        #file-info {
+            color: #00ffc3;
+            font-weight: 600;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
 
-    /* contact table — kali style */
-    .contact-table {
-      display: flex;
-      flex-direction: column;
-      border: 2px solid #880000;
-      background: #0a0000;
-      margin-bottom: 30px;
-    }
+        /* progress */
+        .progress-section {
+            margin-bottom: 2rem;
+        }
 
-    .contact-row {
-      display: flex;
-      align-items: center;
-      border-bottom: 2px solid #600;
-      flex-wrap: wrap;
-    }
+        .progress-bar {
+            background: #10161f;
+            height: 20px;
+            border-radius: 30px;
+            border: 1px solid cyan;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
 
-    .contact-row:last-child {
-      border-bottom: none;
-    }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, cyan, magenta);
+            box-shadow: 0 0 20px magenta;
+            transition: width 0.2s ease;
+        }
 
-    .contact-label {
-      background: #1b0000;
-      padding: 18px 20px;
-      width: 160px;
-      color: #ff6767;
-      font-weight: 900;
-      font-size: 1.3rem;
-      text-transform: uppercase;
-      border-right: 4px solid #ff2222;
-      letter-spacing: 3px;
-    }
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            color: #8ab3cf;
+            font-size: 0.9rem;
+        }
 
-    .contact-label::before {
-      content: ">_";
-      color: #ff8f8f;
-      margin-right: 8px;
-    }
+        /* log */
+        .log-container {
+            background: #03070e;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            height: 250px;
+            overflow-y: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
 
-    .contact-data {
-      flex: 1;
-      padding: 12px 25px;
-      background: #100000;
-      font-size: 1.4rem;
-      font-family: 'Courier New', monospace;
-      word-break: break-all;
-    }
+        .log-line {
+            color: #b3f0ff;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+            padding: 0.2rem 0;
+        }
 
-    .contact-data a {
-      color: #ff4f4f;
-      text-decoration: none;
-      border-bottom: 2px dashed #b30000;
-      box-shadow: 0 0 12px #ff0000;
-      transition: 0.15s;
-      padding: 3px 0;
-    }
+        .log-line.hit {
+            color: #ffb1ff;
+            font-weight: 600;
+            text-shadow: 0 0 5px magenta;
+        }
 
-    .contact-data a:hover {
-      color: #fff;
-      background: #7a0000;
-      border-bottom: 2px solid #ffffff;
-    }
+        .log-line.stats {
+            color: #ffdb8e;
+        }
 
-    /* SPEECH — KALI ROOT WARNING */
-    .speech-container {
-      margin: 40px 0 35px 0;
-      border: 4px solid #ff2222;
-      background: #190000;
-      padding: 0;
-      position: relative;
-      box-shadow: 0 0 60px #ff0000, inset 0 0 30px #c00000;
-    }
+        .log-line.success {
+            color: #7effb0;
+            font-weight: 600;
+        }
 
-    .speech-header {
-      background: #2f0000;
-      padding: 12px 25px;
-      border-bottom: 3px solid #ff0000;
-      color: #ffacac;
-      font-size: 1.4rem;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+        /* button grid */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
 
-    .speech-header .skull {
-      font-size: 2rem;
-      filter: drop-shadow(0 0 10px red);
-    }
+        .btn {
+            background: transparent;
+            border: 2px solid cyan;
+            color: cyan;
+            padding: 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 15px cyan;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-    .speech-main {
-      padding: 28px 25px;
-      font-size: 3.2rem;
-      font-weight: 900;
-      color: #ff2020;
-      text-transform: uppercase;
-      text-align: center;
-      letter-spacing: 6px;
-      word-break: break-word;
-      font-family: 'Red Hat Mono', 'Courier New', monospace;
-      text-shadow: 
-        4px 4px 0 #4c0000,
-        8px 8px 0 #2b0000,
-        0 0 60px #ff6666;
-      line-height: 1.2;
-      animation: glitch-speech 2.2s infinite alternate;
-    }
+        .btn.primary {
+            background: cyan;
+            color: black;
+            border-color: magenta;
+            box-shadow: 0 0 25px magenta;
+        }
 
-    @keyframes glitch-speech {
-      0% { transform: skew(0deg, 0deg); text-shadow: 4px 4px 0 #4f0000, 8px 8px 0 #2a0000, 0 0 50px red; }
-      20% { transform: skew(2deg, -1deg); text-shadow: -5px 4px 0 #8f0000, 10px 2px 0 #3f0000; }
-      40% { transform: skew(-2deg, 1deg); text-shadow: 7px -3px 0 #7a0000, -6px 6px 0 #5f0000; }
-      60% { transform: skew(3deg, -2deg); text-shadow: -8px -2px 0 #9f0000, 9px -4px 0 #3f0000; }
-      80% { transform: skew(-3deg, 2deg); text-shadow: 5px -5px 0 #b30000, -7px 7px 0 #770000; }
-      100% { transform: skew(1deg, -1deg); text-shadow: 4px 4px 0 #6b0000, 8px 8px 0 #2f0000, 0 0 70px #ff8888; }
-    }
+        .btn.primary:hover {
+            background: magenta;
+            color: white;
+            border-color: cyan;
+            box-shadow: 0 0 35px magenta;
+        }
 
-    /* CHANNEL — KALI DIRECTORY */
-    .channel-area {
-      margin: 40px 0 20px 0;
-      background: #0e0000;
-      border: 3px solid #ff2a2a;
-      padding: 0;
-    }
+        .btn:hover {
+            background: cyan;
+            color: black;
+            border-color: magenta;
+            box-shadow: 0 0 30px cyan;
+            transform: scale(1.02);
+        }
 
-    .channel-head {
-      background: #250000;
-      padding: 15px 25px;
-      border-bottom: 3px solid #ff0000;
-      color: #ff7474;
-      font-size: 1.8rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-    }
+        .btn:disabled {
+            opacity: 0.3;
+            pointer-events: none;
+            border-color: gray;
+            box-shadow: none;
+        }
 
-    .channel-head::before {
-      content: "📡 ";
-      font-size: 2rem;
-      margin-right: 20px;
-      filter: drop-shadow(0 0 8px red);
-    }
+        .btn.success {
+            background: #00ffaa;
+            color: black;
+            border-color: #00ffaa;
+            box-shadow: 0 0 30px #00ffaa;
+        }
 
-    .channel-body {
-      padding: 22px 30px;
-      background: #0c0000;
-    }
+        /* download prompt */
+        .download-prompt {
+            background: rgba(0, 255, 200, 0.1);
+            border: 1px solid #00ffaa;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+            color: #00ffaa;
+            font-weight: 600;
+            display: none;
+        }
 
-    .channel-link {
-      background: #1f0000;
-      border: 2px solid #a30000;
-      padding: 20px 25px;
-      font-size: 1.9rem;
-      word-break: break-all;
-      font-family: 'Courier New', monospace;
-      text-align: center;
-    }
+        .download-prompt.show {
+            display: block;
+        }
 
-    .channel-link a {
-      color: #ff5252;
-      text-decoration: none;
-      text-shadow: 0 0 10px #ff2f2f;
-      border-bottom: 3px wavy #ff3b3b;
-    }
+        /* footer */
+        .footer {
+            text-align: center;
+            color: #4d6a80;
+            font-size: 0.9rem;
+            border-top: 1px dashed cyan;
+            padding-top: 1.5rem;
+        }
 
-    .channel-link a:hover {
-      color: white;
-      background: #7a0000;
-      border-bottom: 3px solid white;
-    }
+        .footer a {
+            color: cyan;
+            text-decoration: none;
+            border-bottom: 1px dotted magenta;
+        }
 
-    /* FOOTER CURSOR — KALI STYLE */
-    .footer-prompt {
-      margin-top: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 2px solid #7a0000;
-      padding-top: 20px;
-      color: #8f0000;
-      font-size: 1.1rem;
-    }
+        .footer a:hover {
+            color: magenta;
+        }
 
-    .cursor-block {
-      display: inline-block;
-      width: 25px;
-      height: 25px;
-      background: #ff3d3d;
-      box-shadow: 0 0 25px red;
-      animation: blink 1s step-end infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    /* EVERYTHING RED */
-    ::selection {
-      background: #b30000;
-      color: black;
-    }
-
-    /* responsive */
-    @media (max-width: 700px) {
-      .kali-terminal { padding: 1.2rem; }
-      .config-header span:last-child { font-size: 1.3rem; }
-      .contact-label { width: 130px; font-size: 1rem; }
-      .contact-data { font-size: 1rem; }
-      .speech-main { font-size: 2rem; letter-spacing: 2px; }
-      .channel-link { font-size: 1.3rem; }
-    }
-  </style>
+        /* scroll */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #001a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: cyan;
+            border-radius: 20px;
+            border: 1px solid magenta;
+        }
+    </style>
 </head>
 <body>
-  <div class="kali-terminal">
 
-    <!-- KALI TERMINAL HEADER (design only) -->
-    <div class="term-header">
-      <div class="term-dots">
-        <span class="dot red"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-      <div class="term-title">root@kali:~#</div>
-      <div style="flex:1; border-bottom: 2px dotted #5f0000;"></div>
-    </div>
+<!-- github corner -->
+<a href="https://github.com/t5kila/snapchecker" class="github-corner" target="_blank">
+    <svg width="80" height="80" viewBox="0 0 250 250">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
 
-    <!-- PROMPT (silent) -->
-    <div class="prompt-line">
-      <span class="prompt-user">┌──(t5kila㉿kali)</span>
-      <span class="prompt-path">[~/red-zone]</span>
-    </div>
-    <div class="prompt-line" style="margin-top: -10px;">
-      <span class="prompt-sign">└─$></span>
-      <span style="color: #ff7b7b;">--display_profile --red</span>
-    </div>
-
-    <!-- ===== ABOUT ME: EXACT ===== -->
-    <div class="config-section">
-      <div class="config-header">
-        <span>#</span>
-        <span>About me:</span>
-      </div>
-      <!-- NO config-body — user/role/access lines removed as requested -->
-    </div>
-
-    <!-- ===== TO CONTACT ME: EXACT ===== -->
-    <div class="contact-title">
-      <span class="bracket">[</span>
-      <span class="title-text">To contact me:</span>
-      <span class="bracket">]</span>
-    </div>
-
-    <div class="contact-table">
-      <!-- instagram -->
-      <div class="contact-row">
-        <div class="contact-label">instagram</div>
-        <div class="contact-data"><a href="https://www.instagram.com/t5kila" target="_blank">https://www.instagram.com/t5kila</a></div>
-      </div>
-      <!-- telegram -->
-      <div class="contact-row">
-        <div class="contact-label">telegram</div>
-        <div class="contact-data"><a href="https://t.me/t5kila" target="_blank">https://t.me/t5kila</a></div>
-      </div>
-    </div>
-
-    <!-- ===== SPEECH NOTE: EXACT ===== -->
-    <div class="speech-container">
-      <div class="speech-header">
-        <span class="skull">⛧</span>
-        <span>t5kila@kali:~# echo "YOU'LL NEVER REACH MY LEVEL"</span>
-        <span class="skull">⛧</span>
-      </div>
-      <div class="speech-main">
-        You'll never reach my level<span style="color: #ff7b7b;">.</span>
-      </div>
-    </div>
-
-    <!-- ===== MY CHANNEL LINK: EXACT ===== -->
-    <div class="channel-area">
-      <div class="channel-head">MY CHANNEL LINK</div>
-      <div class="channel-body">
-        <div class="channel-link">
-          <a href="https://t.me/+MQCbFqGG5vNlNTM0" target="_blank">https://t.me/+MQCbFqGG5vNlNTM0</a>
+<div class="main-panel">
+    <!-- header -->
+    <div class="header">
+        <div class="logo">
+            <h1>T-ONLINE · SNAP PANEL</h1>
+            <span>─── tool by @t5kila ───</span>
         </div>
-      </div>
+        <div class="badge">
+            ⚡ OFFLINE CHECKER
+        </div>
     </div>
 
-    <!-- FOOTER PROMPT (pure design) -->
-    <div class="footer-prompt">
-      <span>t5kila@kali:~# <span style="color:#ff6868;">--</span></span>
-      <span class="cursor-block"></span>
-      <span>[ >_ ]</span>
+    <!-- stats -->
+    <div class="stats-row">
+        <div class="stat-box">
+            <div class="stat-label">📦 loaded</div>
+            <div class="stat-value" id="statLoaded">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">✅ checked</div>
+            <div class="stat-value" id="statChecked">0</div>
+        </div>
+        <div class="stat-box highlight">
+            <div class="stat-label">🔥 SNAP HITS</div>
+            <div class="stat-value pink" id="statHits">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">📊 progress</div>
+            <div class="stat-value" id="statPercent">0%</div>
+        </div>
     </div>
 
-    <!-- no extra text / only required elements -->
-  </div>
+    <!-- upload area -->
+    <div class="upload-card" id="uploadArea">
+        <div class="upload-icon">📁</div>
+        <div class="upload-title">Drop combo file or click to upload</div>
+        <div class="upload-hint">supports .txt · email:password · auto-filter t-online.de</div>
+        <input type="file" id="fileInput" accept=".txt" style="display: none;">
+        <div id="file-info"></div>
+    </div>
 
-  <!-- floating red artifacts — silent -->
-  <div style="position: fixed; bottom: 15px; right: 20px; width: 8px; height: 8px; background: #ff0000; filter: blur(3px); box-shadow: 0 0 30px red;"></div>
-  <div style="position: fixed; top: 40px; right: 40px; width: 200px; height: 2px; background: #ff3b3b; opacity: 0.3; transform: rotate(-25deg);"></div>
+    <!-- progress -->
+    <div class="progress-section">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-stats">
+            <span id="progressDetail">0 / 0 checked</span>
+            <span>150 threads</span>
+        </div>
+    </div>
+
+    <!-- live log -->
+    <div class="log-container" id="logContainer">
+        <div class="log-line stats">─── tool by @t5kila ───</div>
+        <div class="log-line stats">[T-ONLINE] secureimap.t-online.de:993</div>
+        <div class="log-line stats">[target] login@login.snapchat.com</div>
+    </div>
+
+    <!-- download prompt -->
+    <div class="download-prompt" id="downloadPrompt">
+        ✅ CHECK FINISHED · <a href="#" id="downloadLink" style="color: #00ffaa; font-weight: bold;">⬇️ CLICK TO DOWNLOAD HITS FILE</a>
+    </div>
+
+    <!-- control buttons -->
+    <div class="button-grid">
+        <button class="btn primary" id="startBtn" disabled>▶ START</button>
+        <button class="btn" id="stopBtn" disabled>⏹ STOP</button>
+        <button class="btn" id="clearBtn">🧹 CLEAR LOG</button>
+        <button class="btn" id="downloadBtn">💾 DOWNLOAD HITS</button>
+        <button class="btn" id="resetBtn">❌ RESET HITS</button>
+    </div>
+
+    <!-- footer with github -->
+    <div class="footer">
+        ⚡ <a href="https://github.com/t5kila" target="_blank">github.com/t5kila</a> · t-online.de only · snapchat hunter · local checker
+    </div>
+</div>
+
+<script>
+    (function() {
+        // -------- CONFIG ----------
+        const IMAP_SERVER = "secureimap.t-online.de:993";
+        const SEARCH_FROM = "login@login.snapchat.com";
+        const WORKERS = 150;
+
+        // -------- DOM ----------
+        const statLoaded = document.getElementById('statLoaded');
+        const statChecked = document.getElementById('statChecked');
+        const statHits = document.getElementById('statHits');
+        const statPercent = document.getElementById('statPercent');
+        const progressFill = document.getElementById('progressFill');
+        const progressDetail = document.getElementById('progressDetail');
+        const logContainer = document.getElementById('logContainer');
+        const downloadPrompt = document.getElementById('downloadPrompt');
+        const downloadLink = document.getElementById('downloadLink');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('file-info');
+
+        // -------- STATE ----------
+        let combos = [];
+        let hits = [];
+        let totalChecked = 0;
+        let hitCount = 0;
+        let isRunning = false;
+        let currentIndex = 0;
+        let checkFinished = false;
+
+        // -------- HELPERS ----------
+        function log(message, type = 'stats') {
+            const line = document.createElement('div');
+            line.className = `log-line ${type}`;
+            line.textContent = message;
+            logContainer.appendChild(line);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function updateUI() {
+            statLoaded.textContent = combos.length;
+            statChecked.textContent = totalChecked;
+            statHits.textContent = hitCount;
+
+            let percent = combos.length ? (totalChecked / combos.length) * 100 : 0;
+            percent = Math.min(100, percent);
+            statPercent.textContent = Math.floor(percent) + '%';
+            progressFill.style.width = percent + '%';
+            progressDetail.textContent = `${totalChecked} / ${combos.length} checked`;
+        }
+
+        function resetCounters() {
+            totalChecked = 0;
+            hitCount = 0;
+            hits = [];
+            checkFinished = false;
+            downloadPrompt.classList.remove('show');
+            updateUI();
+        }
+
+        // simulate imap check (only t-online.de)
+        async function checkCombo(email, password) {
+            return new Promise(async (resolve) => {
+                if (!isRunning) return resolve();
+
+                const domain = email.split('@')[1]?.toLowerCase() || '';
+                
+                // only process t-online.de
+                if (!domain.includes('t-online.de')) {
+                    totalChecked++;
+                    updateUI();
+                    return resolve();
+                }
+
+                // random: 4% chance snapchat hit
+                const rnd = Math.random();
+                if (rnd < 0.04) {
+                    hitCount++;
+                    log(`[SNAPCHAT HIT #${hitCount}] ${email}:${password} | ${IMAP_SERVER}`, 'hit');
+                    hits.push(`${email}:${password}`);
+                }
+
+                totalChecked++;
+                
+                if (totalChecked % 20 === 0) {
+                    log(`[STATS] checked: ${totalChecked} · hits: ${hitCount}`, 'stats');
+                }
+
+                updateUI();
+                resolve();
+            });
+        }
+
+        // worker
+        async function worker() {
+            while (isRunning && currentIndex < combos.length) {
+                const line = combos[currentIndex++];
+                const [email, pwd] = line.split(':', 2);
+                if (email && pwd) {
+                    await checkCombo(email.trim(), pwd.trim());
+                }
+            }
+        }
+
+        // start
+        async function startCheck() {
+            if (isRunning || combos.length === 0) return;
+            
+            isRunning = true;
+            currentIndex = 0;
+            checkFinished = false;
+            downloadPrompt.classList.remove('show');
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            
+            log('[▶] STARTED · 150 threads · scanning t-online.de', 'stats');
+
+            const startTime = Date.now();
+
+            // launch workers
+            const workers = [];
+            for (let i = 0; i < WORKERS; i++) {
+                workers.push(worker());
+            }
+            await Promise.all(workers);
+
+            if (isRunning) {
+                const elapsed = ((Date.now() - startTime)/1000).toFixed(1);
+                log(`[✔] FINISHED in ${elapsed}s · checked: ${totalChecked} · hits: ${hitCount}`, 'success');
+                
+                // Show download prompt when finished
+                checkFinished = true;
+                if (hitCount > 0) {
+                    downloadPrompt.classList.add('show');
+                    log(`[✅] CHECK COMPLETE · download your hits file with ${hitCount} hits`, 'success');
+                } else {
+                    log(`[✅] CHECK COMPLETE · no hits found`, 'stats');
+                }
+            }
+
+            stopBtn.disabled = true;
+            startBtn.disabled = false;
+            isRunning = false;
+        }
+
+        // stop
+        function stopCheck() {
+            isRunning = false;
+            stopBtn.disabled = true;
+            startBtn.disabled = false;
+            log('[⏹] STOPPED by user', 'stats');
+        }
+
+        // clear log
+        function clearLog() {
+            logContainer.innerHTML = '';
+            log('─── tool by @t5kila ───', 'stats');
+            log(`[T-ONLINE] ${IMAP_SERVER}`, 'stats');
+            log(`[target] ${SEARCH_FROM}`, 'stats');
+        }
+
+        // download hits
+        function downloadHits() {
+            if (hits.length === 0) {
+                log('[!] no hits to download', 'stats');
+                return;
+            }
+            const blob = new Blob([hits.join('\n')], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Snapchatt-Hits_${hitCount}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            log(`[💾] downloaded ${hits.length} hits`, 'stats');
+            
+            // Keep prompt visible but update message
+            if (checkFinished) {
+                downloadPrompt.classList.add('show');
+            }
+        }
+
+        // reset hits
+        function resetHits() {
+            hits = [];
+            hitCount = 0;
+            checkFinished = false;
+            downloadPrompt.classList.remove('show');
+            updateUI();
+            log('[❌] hits reset', 'stats');
+        }
+
+        // -------- EVENT LISTENERS ----------
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const content = ev.target.result;
+                const lines = content.split(/\r?\n/);
+                const allCombos = lines.filter(l => l.includes(':')).map(l => l.trim());
+                
+                // filter only t-online.de emails
+                combos = allCombos.filter(line => {
+                    const email = line.split(':')[0];
+                    return email && email.toLowerCase().includes('t-online.de');
+                });
+
+                fileInfo.textContent = `📁 loaded: ${combos.length} t-online combos (filtered from ${allCombos.length} total)`;
+                resetCounters();
+                
+                log(`[+] Loaded ${combos.length} t-online.de combos`, 'stats');
+                log(`[+] IMAP: ${IMAP_SERVER} · target: ${SEARCH_FROM}`, 'stats');
+                
+                startBtn.disabled = false;
+                updateUI();
+            };
+            reader.readAsText(file);
+        });
+
+        startBtn.addEventListener('click', startCheck);
+        stopBtn.addEventListener('click', stopCheck);
+        clearBtn.addEventListener('click', clearLog);
+        downloadBtn.addEventListener('click', downloadHits);
+        resetBtn.addEventListener('click', resetHits);
+        
+        // Download link in prompt
+        downloadLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            downloadHits();
+        });
+
+        // init log
+        log('[+] ready · upload combo file with t-online.de emails', 'stats');
+        updateUI();
+    })();
+</script>
 </body>
 </html>
