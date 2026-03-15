@@ -3,151 +3,201 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Info Finder · @t5kila</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>TK·OSINT // @t5kila</title>
     <style>
-        /* ----- MIXED CSS & DESIGN ----- */
+        /* ===== RESET / GLOBAL ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         body {
-            background: linear-gradient(145deg, #0b0e14 0%, #151e2a 100%);
+            background: #03050b;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1.2rem;
-            color: #eef2f8;
+            padding: 1rem;
+            color: #e5e9f0;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* main card */
-        .finder-card {
-            max-width: 800px;
+        /* terminal/grid overlay — pure style */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 180, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 70, 120, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 40% 50%, rgba(255, 80, 120, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(0, 180, 255, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 30% 80%, rgba(0, 255, 150, 0.08) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* MAIN CARD — fully responsive */
+        .card {
             width: 100%;
-            background: rgba(18, 24, 34, 0.9);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 70, 120, 0.3);
-            border-radius: 3rem;
-            padding: 2.2rem 2rem;
-            box-shadow: 0 30px 50px -20px #000, 0 0 0 1px rgba(255, 110, 130, 0.2) inset;
-            transition: all 0.2s;
+            max-width: 860px;
+            background: rgba(8, 12, 22, 0.9);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border: 1.5px solid rgba(255, 70, 120, 0.3);
+            border-radius: 2.5rem;
+            padding: 1.8rem 1.8rem 2.2rem;
+            box-shadow: 0 35px 65px -20px #000, 0 0 0 1px rgba(255, 110, 130, 0.15) inset;
+            transition: border 0.2s;
         }
 
-        /* header with rgb line */
-        .header {
+        .card:hover {
+            border-color: rgba(255, 110, 130, 0.5);
+        }
+
+        /* HEADER — only @t5kila, clean */
+        .top-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 2.2rem;
-            padding-bottom: 1rem;
-            border-bottom: 3px solid;
-            border-image: linear-gradient(90deg, #ff4d6d, #3b9eff, #2ee6a0) 1;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid;
+            border-image: linear-gradient(90deg, #ff4d6d, #3d9cff, #2ce6a0) 1;
         }
 
-        .logo h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ff7080, #60a5fa, #4ade80);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
+        .badge {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            color: #9aa8d0;
+            background: #131a28;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            border: 1px solid #ff4d6d40;
         }
 
         .credit {
-            background: #1e2638;
-            padding: 0.5rem 1.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            background: linear-gradient(145deg, #ff8a9f, #70b8ff, #8ceebb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 0.3rem 1.2rem;
+            border: 1px solid #ff6b8b40;
             border-radius: 40px;
-            font-weight: 600;
-            border: 1px solid #ff6070;
         }
 
-        .credit span {
-            color: #ff8a9f;
+        /* SEARCH — "enter target username:" */
+        .search-sector {
+            margin: 2rem 0 2.2rem;
         }
 
-        /* search area */
-        .search-zone {
-            margin: 1.8rem 0 2rem;
+        .prompt-label {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            color: #b2bcdd;
+            letter-spacing: 1.2px;
+            margin-bottom: 0.5rem;
+            margin-left: 0.8rem;
         }
 
-        .input-wrap {
+        .prompt-label::before {
+            content: '>';
+            color: #ff6b8b;
+            margin-right: 8px;
+            font-weight: 700;
+        }
+
+        .input-group {
             display: flex;
             align-items: center;
-            background: #0f172a;
-            border: 2px solid #2d374e;
+            background: #0c1422;
+            border: 2px solid #28324a;
             border-radius: 60px;
-            padding: 0.2rem 0.2rem 0.2rem 2rem;
-            transition: 0.2s;
+            padding: 0.2rem;
+            transition: 0.15s;
         }
 
-        .input-wrap:focus-within {
+        .input-group:focus-within {
             border-color: #ff4d6d;
             box-shadow: 0 0 0 4px rgba(255, 70, 120, 0.2);
         }
 
-        .at-sign {
-            color: #ff6b8b;
+        .at-prefix {
+            color: #ff7a9a;
             font-size: 2rem;
-            font-weight: 700;
-            margin-right: 0.2rem;
-            text-shadow: 0 0 8px #ff4d6d;
+            font-weight: 600;
+            margin-left: 1.5rem;
+            margin-right: 0.3rem;
+            opacity: 0.9;
         }
 
-        .input-wrap input {
+        .input-group input {
             flex: 1;
             background: transparent;
             border: none;
             padding: 1rem 0.5rem;
             font-size: 1.2rem;
-            color: white;
+            color: #ffffff;
             outline: none;
+            font-weight: 400;
         }
 
-        .input-wrap input::placeholder {
-            color: #5a6885;
+        .input-group input::placeholder {
+            color: #40506e;
             font-size: 1rem;
+            font-weight: 300;
         }
 
-        .search-btn {
-            background: linear-gradient(145deg, #ff4d6d, #ff2d55);
+        .action-btn {
+            background: linear-gradient(145deg, #ff4d6d, #ff2a55);
             border: none;
-            color: #111;
+            color: #0b0f18;
             font-weight: 800;
             padding: 0.9rem 2.2rem;
             border-radius: 60px;
             font-size: 1.1rem;
+            border: 1px solid #ffb0c0;
+            box-shadow: 0 6px 0 #942a42;
             cursor: pointer;
-            border: 1px solid #ffaab4;
-            box-shadow: 0 6px 0 #912d40;
-            transition: 0.08s linear;
+            transition: 0.08s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
-        .search-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 9px 0 #912d40;
+        .action-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 0 #942a42;
         }
 
-        .search-btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 2px 0 #912d40;
+        .action-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #942a42;
         }
 
-        .search-btn:disabled {
+        .action-btn:disabled {
             opacity: 0.5;
             transform: none;
-            box-shadow: 0 6px 0 #912d40;
+            box-shadow: 0 6px 0 #942a42;
             pointer-events: none;
         }
 
-        /* loading animation */
-        .load-indicator {
+        /* LOADING (minimal) */
+        .load-zone {
             display: none;
             align-items: center;
             justify-content: center;
@@ -155,424 +205,490 @@
             margin: 2rem 0;
         }
 
-        .load-indicator.active {
+        .load-zone.active {
             display: flex;
         }
 
-        .rgb-spinner {
+        .spinner-rgb {
             width: 28px;
             height: 28px;
-            border: 4px solid rgba(255, 80, 120, 0.3);
-            border-top: 4px solid #ff4d6d;
-            border-right: 4px solid #3b9eff;
-            border-bottom: 4px solid #2ee6a0;
+            border: 3px solid rgba(255, 100, 130, 0.3);
+            border-top: 3px solid #ff4d6d;
+            border-right: 3px solid #3d9cff;
+            border-bottom: 3px solid #2ce6a0;
             border-radius: 50%;
-            animation: rotate 0.9s infinite linear;
+            animation: spin 0.9s infinite linear;
         }
 
-        @keyframes rotate {
+        @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
         .load-text {
-            background: linear-gradient(90deg, #ff7a9a, #6aaeff, #86efac);
+            background: linear-gradient(90deg, #ff9bb0, #70b8ff, #a0f0c0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 600;
         }
 
-        /* error box */
-        .error-badge {
-            background: rgba(255, 70, 90, 0.18);
+        /* ERROR */
+        .error-box {
+            background: #1f1a24;
             border: 2px solid #ff4d6d;
+            color: #ffb0c0;
+            padding: 1rem 1.5rem;
             border-radius: 3rem;
-            padding: 1rem 1.8rem;
-            margin: 1.2rem 0;
-            color: #ff9bae;
+            margin: 1rem 0;
             display: none;
-            font-weight: 500;
             text-align: center;
+            font-weight: 500;
         }
 
-        .error-badge.active {
+        .error-box.active {
             display: block;
         }
 
-        /* result container */
-        .result-area {
+        /* RESULT SECTION */
+        .output-area {
             display: none;
             margin-top: 2.2rem;
         }
 
-        .result-area.active {
+        .output-area.active {
             display: block;
         }
 
-        /* profile summary */
-        .profile-summary {
+        /* PROFILE ROW */
+        .profile-row {
             display: flex;
             gap: 1.8rem;
             align-items: center;
-            background: #111b2b;
-            border: 1px solid #334155;
+            background: #0d1524;
+            border: 1px solid #293651;
             border-radius: 3rem;
             padding: 1.5rem 2rem;
             margin-bottom: 2rem;
         }
 
-        .avatar-box {
-            width: 85px;
-            height: 85px;
-            background: linear-gradient(135deg, #ff4d6d, #3b9eff, #2ee6a0);
+        .avatar-circle {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #ff4d6d, #3d9cff, #2ce6a0);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 700;
             color: #111;
-            border: 3px solid #ffffff40;
-            box-shadow: 0 12px 0 #1a2538;
+            border: 3px solid #ffffff30;
+            box-shadow: 0 12px 0 #1a253a;
         }
 
-        .name-block h2 {
-            font-size: 1.8rem;
-            background: linear-gradient(to right, #fff, #d4daf0);
+        .name-section h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #ffffff, #cbd5ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.2;
         }
 
-        .name-block p {
-            font-size: 1.1rem;
-            color: #9aa9c9;
+        .name-section p {
+            font-size: 1.2rem;
+            color: #a1b2da;
             display: flex;
             align-items: center;
             gap: 0.8rem;
             flex-wrap: wrap;
         }
 
-        .verify-tag {
-            background: #1a3752;
-            color: #7cc5ff;
-            padding: 0.2rem 1.2rem;
+        .verif-tag {
+            background: #103656;
+            color: #6ab5ff;
+            padding: 0.2rem 1.4rem;
             border-radius: 40px;
             font-size: 0.8rem;
-            border: 1px solid #3b9eff;
+            border: 1px solid #3d9cff;
         }
 
-        /* quick stats */
-        .stats-mini {
+        /* quick stats row */
+        .stat-row {
             display: flex;
             justify-content: space-around;
-            background: #0f1a28;
-            border: 1px solid #2a3950;
+            background: #0c1424;
+            border: 1px solid #2a3852;
             border-radius: 4rem;
             padding: 1rem 0.5rem;
-            margin-bottom: 2.2rem;
+            margin-bottom: 2.5rem;
         }
 
-        .stat-cell {
+        .stat-item {
             text-align: center;
         }
 
         .stat-num {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             font-weight: 800;
-            background: linear-gradient(145deg, #ff8080, #70b8ff);
+            background: linear-gradient(145deg, #ff8a9f, #6aaeff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .stat-label {
+        .stat-tag {
             font-size: 0.7rem;
             text-transform: uppercase;
-            color: #9baed0;
+            color: #96abcf;
             letter-spacing: 1px;
         }
 
-        /* info fields — exactly as requested */
-        .fields-grid {
+        /* DETAIL GRID — exactly the fields requested */
+        .detail-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
         }
 
-        .field-item {
-            background: #0f1825;
-            border: 1px solid #28344a;
-            border-radius: 1.8rem;
+        .detail-item {
+            background: #0f1829;
+            border: 1px solid #293755;
+            border-radius: 2rem;
             padding: 1rem 1.3rem;
             transition: 0.15s;
         }
 
-        .field-item:hover {
+        .detail-item:hover {
             border-color: #ff6b8b;
-            box-shadow: 0 4px 0 #1f2c40;
         }
 
-        .field-label {
+        .detail-label {
             font-size: 0.6rem;
             text-transform: uppercase;
-            color: #96a9ce;
-            letter-spacing: 0.6px;
-            margin-bottom: 0.3rem;
+            color: #98aed5;
+            letter-spacing: 0.8px;
+            margin-bottom: 0.2rem;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
-        .field-value {
+        .detail-value {
             font-size: 1.1rem;
             font-weight: 500;
             word-break: break-word;
         }
 
-        .bio-field {
+        .full-row {
             grid-column: span 2;
         }
 
-        /* save button */
-        .save-button {
-            background: linear-gradient(90deg, #ff4d6d, #3b9eff, #2ee6a0);
+        /* SAVE BUTTON */
+        .save-data-btn {
+            background: linear-gradient(90deg, #ff4d6d, #3d9cff, #2ce6a0);
             border: none;
-            color: #0f172a;
+            color: #0a0f1c;
             font-weight: 800;
             padding: 1.2rem 2rem;
             border-radius: 3rem;
             width: 100%;
-            margin-top: 2.2rem;
+            margin-top: 2.5rem;
             font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            cursor: pointer;
             border: 2px solid #ffffff60;
-            box-shadow: 0 7px 0 #162032;
-            transition: 0.1s;
+            box-shadow: 0 7px 0 #182237;
+            cursor: pointer;
+            transition: 0.08s;
         }
 
-        .save-button:hover {
+        .save-data-btn:hover {
             transform: translateY(-4px);
-            box-shadow: 0 11px 0 #162032;
+            box-shadow: 0 11px 0 #182237;
         }
 
-        .save-button:active {
+        .save-data-btn:active {
             transform: translateY(5px);
-            box-shadow: 0 2px 0 #162032;
+            box-shadow: 0 2px 0 #182237;
         }
 
-        /* footer */
-        .footer-note {
-            margin-top: 2rem;
+        /* FOOTER */
+        .footer {
+            margin-top: 2.2rem;
             text-align: center;
-            color: #6d7ca0;
+            color: #5d719c;
             font-size: 0.85rem;
-            border-top: 1px dashed #2e3b4e;
-            padding-top: 1.5rem;
+            border-top: 1px dashed #2e3e58;
+            padding-top: 1.3rem;
         }
 
-        .footer-note strong {
-            color: #ff97aa;
+        .footer strong {
+            color: #ffb0c0;
             font-weight: 700;
         }
 
-        /* mobile */
-        @media (max-width: 550px) {
-            .fields-grid {
-                grid-template-columns: 1fr;
+        /* ===== FULL RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem;
+                border-radius: 2rem;
             }
-            .bio-field {
-                grid-column: span 1;
-            }
-            .profile-summary {
+            .profile-row {
                 flex-direction: column;
                 text-align: center;
+                padding: 1.5rem 1rem;
             }
-            .input-wrap {
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-row {
+                grid-column: span 1;
+            }
+            .stat-row {
+                flex-wrap: wrap;
+                gap: 1rem;
+                padding: 1.2rem;
+            }
+            .input-group {
                 flex-wrap: wrap;
                 background: transparent;
                 border: none;
                 padding: 0;
             }
-            .at-sign { display: none; }
-            .input-wrap input {
-                width: 100%;
-                border: 2px solid #2d374e;
-                border-radius: 60px;
-                margin-bottom: 0.6rem;
-                background: #0f172a;
+            .at-prefix {
+                display: none;
             }
-            .search-btn {
+            .input-group input {
                 width: 100%;
+                background: #0c1422;
+                border: 2px solid #28324a;
+                border-radius: 60px;
+                margin-bottom: 0.8rem;
+                padding: 1rem 1.5rem;
+            }
+            .action-btn {
+                width: 100%;
+            }
+            .avatar-circle {
+                width: 75px;
+                height: 75px;
+                font-size: 2.5rem;
+            }
+            .name-section h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* small phones */
+        @media (max-width: 380px) {
+            .stat-num {
+                font-size: 1.4rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="finder-card">
-        <!-- header with credit -->
-        <div class="header">
-            <div class="logo">
-                <h1>tiktok · osint</h1>
-            </div>
-            <div class="credit">
-                <span>by @t5kila</span>
-            </div>
+    <div class="card">
+        <!-- top: only @t5kila appears -->
+        <div class="top-bar">
+            <span class="badge">TK·OSINT</span>
+            <span class="credit">@t5kila</span>
         </div>
 
-        <!-- search box -->
-        <div class="search-zone">
-            <div class="input-wrap">
-                <span class="at-sign">@</span>
-                <input type="text" id="usernameField" placeholder="enter username" value="charlidamelio">
-                <button class="search-btn" id="fetchBtn">FIND</button>
+        <!-- search area with exactly "enter target username:" -->
+        <div class="search-sector">
+            <div class="prompt-label">enter target username:</div>
+            <div class="input-group">
+                <span class="at-prefix">@</span>
+                <input type="text" id="targetUser" placeholder="username" value="charlidamelio">
+                <button class="action-btn" id="scanNow">SCAN</button>
             </div>
         </div>
 
-        <!-- loading -->
-        <div class="load-indicator" id="loading">
-            <div class="rgb-spinner"></div>
-            <span class="load-text">resolving profile ...</span>
+        <!-- loading indicator (minimal) -->
+        <div class="load-zone" id="loadingIndicator">
+            <div class="spinner-rgb"></div>
+            <span class="load-text">collecting intel ...</span>
         </div>
 
-        <!-- error display -->
-        <div class="error-badge" id="errorMsg"></div>
+        <!-- error message -->
+        <div class="error-box" id="errorMessage"></div>
 
-        <!-- results area -->
-        <div class="result-area" id="resultSection">
-            <!-- profile summary (dynamic) -->
-            <div class="profile-summary" id="profileSummary">
-                <div class="avatar-box" id="avatarPreview">CD</div>
-                <div class="name-block">
-                    <h2 id="fullName">Charlie D'Amelio</h2>
-                    <p id="userWithBadge">
+        <!-- result block -->
+        <div class="output-area" id="resultBlock">
+            <!-- profile header -->
+            <div class="profile-row">
+                <div class="avatar-circle" id="avatarPreview">CD</div>
+                <div class="name-section">
+                    <h2 id="displayNick">Charlie D'Amelio</h2>
+                    <p id="displayUserLine">
                         @charlidamelio
-                        <span class="verify-tag" id="verifiedLabel">✓ verified</span>
+                        <span class="verif-tag" id="verifiedTag">✓ verified</span>
                     </p>
                 </div>
             </div>
 
-            <!-- quick stats: followers, following, hearts, videos -->
-            <div class="stats-mini">
-                <div class="stat-cell">
-                    <div class="stat-num" id="statFollowers">47.2M</div>
-                    <div class="stat-label">followers</div>
+            <!-- mini stats: followers / following / hearts / videos -->
+            <div class="stat-row">
+                <div class="stat-item">
+                    <div class="stat-num" id="statF">47.2M</div>
+                    <div class="stat-tag">followers</div>
                 </div>
-                <div class="stat-cell">
-                    <div class="stat-num" id="statFollowing">412</div>
-                    <div class="stat-label">following</div>
+                <div class="stat-item">
+                    <div class="stat-num" id="statFg">412</div>
+                    <div class="stat-tag">following</div>
                 </div>
-                <div class="stat-cell">
-                    <div class="stat-num" id="statLikes">2.1B</div>
-                    <div class="stat-label">hearts</div>
+                <div class="stat-item">
+                    <div class="stat-num" id="statH">2.1B</div>
+                    <div class="stat-tag">hearts</div>
                 </div>
-                <div class="stat-cell">
-                    <div class="stat-num" id="statVideos">1.2k</div>
-                    <div class="stat-label">videos</div>
+                <div class="stat-item">
+                    <div class="stat-num" id="statV">1.2k</div>
+                    <div class="stat-tag">videos</div>
                 </div>
             </div>
 
-            <!-- exact fields required: Country, User ID, Username, Nickname, Bio, Create Time, Followers, Following, Likes, Videos -->
-            <div class="fields-grid" id="infoGrid">
+            <!-- exact required fields: country, user id, username, nickname, bio, create time, followers, following, likes, videos -->
+            <div class="detail-grid" id="infoGrid">
                 <!-- country -->
-                <div class="field-item">
-                    <div class="field-label">🌍 country</div>
-                    <div class="field-value" id="displayCountry">United States</div>
+                <div class="detail-item">
+                    <div class="detail-label">🌍 country</div>
+                    <div class="detail-value" id="valCountry">United States</div>
                 </div>
                 <!-- user id -->
-                <div class="field-item">
-                    <div class="field-label">🆔 user id</div>
-                    <div class="field-value" id="displayUserId">1079551345</div>
+                <div class="detail-item">
+                    <div class="detail-label">🆔 user id</div>
+                    <div class="detail-value" id="valUserId">1079551345</div>
                 </div>
                 <!-- username -->
-                <div class="field-item">
-                    <div class="field-label">📝 username</div>
-                    <div class="field-value" id="displayUsername">charlidamelio</div>
+                <div class="detail-item">
+                    <div class="detail-label">📝 username</div>
+                    <div class="detail-value" id="valUsername">charlidamelio</div>
                 </div>
                 <!-- nickname -->
-                <div class="field-item">
-                    <div class="field-label">🏷️ nickname</div>
-                    <div class="field-value" id="displayNickname">Charlie D'Amelio</div>
+                <div class="detail-item">
+                    <div class="detail-label">🏷️ nickname</div>
+                    <div class="detail-value" id="valNickname">Charlie D'Amelio</div>
                 </div>
-                <!-- bio - spans two columns -->
-                <div class="field-item bio-field">
-                    <div class="field-label">📄 bio</div>
-                    <div class="field-value" id="displayBio">📧 business@charlie.com</div>
+                <!-- bio (full row) -->
+                <div class="detail-item full-row">
+                    <div class="detail-label">📄 bio</div>
+                    <div class="detail-value" id="valBio">📧 business@charlie.com</div>
                 </div>
                 <!-- create time -->
-                <div class="field-item">
-                    <div class="field-label">⏰ create time</div>
-                    <div class="field-value" id="displayCreate">March 14, 2019</div>
+                <div class="detail-item">
+                    <div class="detail-label">⏰ create time</div>
+                    <div class="detail-value" id="valCreate">March 14, 2019</div>
                 </div>
                 <!-- followers (detailed) -->
-                <div class="field-item">
-                    <div class="field-label">👥 followers</div>
-                    <div class="field-value" id="displayFollowersDetail">47,200,000</div>
+                <div class="detail-item">
+                    <div class="detail-label">👥 followers</div>
+                    <div class="detail-value" id="valFollowers">47,200,000</div>
                 </div>
                 <!-- following (detailed) -->
-                <div class="field-item">
-                    <div class="field-label">👣 following</div>
-                    <div class="field-value" id="displayFollowingDetail">412</div>
+                <div class="detail-item">
+                    <div class="detail-label">👣 following</div>
+                    <div class="detail-value" id="valFollowing">412</div>
                 </div>
                 <!-- likes / hearts -->
-                <div class="field-item">
-                    <div class="field-label">❤️ likes (hearts)</div>
-                    <div class="field-value" id="displayLikesDetail">2,100,000,000</div>
+                <div class="detail-item">
+                    <div class="detail-label">❤️ likes (hearts)</div>
+                    <div class="detail-value" id="valLikes">2,100,000,000</div>
                 </div>
                 <!-- videos -->
-                <div class="field-item">
-                    <div class="field-label">🎬 videos</div>
-                    <div class="field-value" id="displayVideos">1243</div>
+                <div class="detail-item">
+                    <div class="detail-label">🎬 videos</div>
+                    <div class="detail-value" id="valVideos">1243</div>
                 </div>
             </div>
 
             <!-- save button -->
-            <button class="save-button" id="saveDataBtn">💾 save results</button>
+            <button class="save-data-btn" id="saveResultsBtn">⬇️ save output</button>
         </div>
 
-        <!-- footer -->
-        <div class="footer-note">
-            <strong>@t5kila</strong> · 2023-2026 · tiktok information finder
+        <!-- footer: only @t5kila appears -->
+        <div class="footer">
+            <strong>@t5kila</strong> · 2023-2026
         </div>
     </div>
 
     <script>
-        // ===================== TIKTOK INFO FETCHER =====================
-        // simple, clean, real api calls – created by @t5kila
+        (function() {
+            // ========== TIKTOK OSINT ENGINE ==========
+            // clean fetcher, no extra commentary — by @t5kila
 
-        class TikTokFinder {
-            constructor() {
-                this.headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-                };
-            }
+            const targetInput = document.getElementById('targetUser');
+            const scanBtn = document.getElementById('scanNow');
+            const loading = document.getElementById('loadingIndicator');
+            const errorBox = document.getElementById('errorMessage');
+            const resultDiv = document.getElementById('resultBlock');
 
-            async fetchProfile(username) {
+            // profile elements
+            const avatar = document.getElementById('avatarPreview');
+            const dispNick = document.getElementById('displayNick');
+            const dispUserLine = document.getElementById('displayUserLine');
+            const verifiedSpan = document.getElementById('verifiedTag');
+
+            // stats
+            const statF = document.getElementById('statF');
+            const statFg = document.getElementById('statFg');
+            const statH = document.getElementById('statH');
+            const statV = document.getElementById('statV');
+
+            // detail fields
+            const valCountry = document.getElementById('valCountry');
+            const valUserId = document.getElementById('valUserId');
+            const valUsername = document.getElementById('valUsername');
+            const valNickname = document.getElementById('valNickname');
+            const valBio = document.getElementById('valBio');
+            const valCreate = document.getElementById('valCreate');
+            const valFollowers = document.getElementById('valFollowers');
+            const valFollowing = document.getElementById('valFollowing');
+            const valLikes = document.getElementById('valLikes');
+            const valVideos = document.getElementById('valVideos');
+
+            let lastScan = null;
+
+            // helper: format numbers compact (1.2M, 430K)
+            const compact = (num) => {
+                if (!num) return '0';
+                if (num >= 1e9) return (num / 1e9).toFixed(1) + 'B';
+                if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
+                if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
+                return String(num);
+            };
+
+            // format with commas
+            const commas = (num) => String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            // core fetch
+            async function fetchTikTokData(username) {
+                const clean = username.replace(/^@/, '').trim();
+                if (!clean) return null;
+
                 const endpoints = [
-                    `https://www.tiktok.com/@${username}`,
-                    `https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/web/user/profile/?unique_id=${username}`
+                    `https://www.tiktok.com/@${clean}`,
+                    `https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/web/user/profile/?unique_id=${clean}`
                 ];
 
-                for (let endpoint of endpoints) {
+                for (let ep of endpoints) {
                     try {
-                        // use cors-friendly proxy
-                        const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(endpoint)}`;
+                        const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(ep)}`;
                         const resp = await fetch(proxy);
                         if (!resp.ok) continue;
 
                         const text = await resp.text();
 
-                        // try json parse
+                        // try json
                         try {
                             const json = JSON.parse(text);
-                            const extracted = this.extractUser(json);
+                            const extracted = extractUser(json);
                             if (extracted) return extracted;
                         } catch (e) {
-                            // try html extraction (universal data)
+                            // try html embedded json
                             const match = text.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application\/json">(.*?)<\/script>/s);
                             if (match) {
                                 const json = JSON.parse(match[1]);
-                                const extracted = this.extractUser(json);
+                                const extracted = extractUser(json);
                                 if (extracted) return extracted;
                             }
                         }
@@ -583,196 +699,134 @@
                 return null;
             }
 
-            extractUser(json) {
+            function extractUser(json) {
                 try {
-                    // multiple possible paths
                     let userInfo = json?.__DEFAULT_SCOPE__?.['webapp.user-detail']?.userInfo ||
                                    json?.__DEFAULT_SCOPE__?.['user-detail']?.userInfo ||
                                    json?.userInfo ||
                                    json?.data?.userInfo;
                     if (userInfo) return userInfo;
-
-                    if (json?.user) {
-                        return {
-                            user: json.user,
-                            stats: json.stats || {}
-                        };
-                    }
-                    return null;
-                } catch {
-                    return null;
-                }
+                    if (json?.user) return { user: json.user, stats: json.stats || {} };
+                } catch (e) {}
+                return null;
             }
 
-            parseData(userInfo) {
-                const user = userInfo.user || {};
-                const stats = userInfo.stats || {};
-
+            function parseData(userInfo) {
+                const u = userInfo.user || {};
+                const s = userInfo.stats || {};
                 return {
-                    country: user.region || user.country || 'N/A',
-                    userId: user.id || user.uid || 'N/A',
-                    username: user.uniqueId || user.unique_id || 'N/A',
-                    nickname: user.nickname || 'N/A',
-                    bio: user.signature || 'No bio available',
-                    createTime: user.createTime || user.create_time || 0,
-                    followers: stats.followerCount || stats.follower_count || user.follower_count || 0,
-                    following: stats.followingCount || stats.following_count || user.following_count || 0,
-                    likes: stats.heartCount || stats.heart_count || user.total_favorited || 0,
-                    videos: stats.videoCount || stats.video_count || user.aweme_count || 0,
-                    verified: user.verified || user.is_verified || false,
-                    avatar: user.avatarLarger || user.avatar_larger || ''
+                    country: u.region || u.country || 'N/A',
+                    userId: u.id || u.uid || 'N/A',
+                    username: u.uniqueId || u.unique_id || 'N/A',
+                    nickname: u.nickname || 'N/A',
+                    bio: u.signature || 'No bio',
+                    createTime: u.createTime || u.create_time || 0,
+                    followers: s.followerCount || s.follower_count || u.follower_count || 0,
+                    following: s.followingCount || s.following_count || u.following_count || 0,
+                    likes: s.heartCount || s.heart_count || u.total_favorited || 0,
+                    videos: s.videoCount || s.video_count || u.aweme_count || 0,
+                    verified: u.verified || u.is_verified || false,
                 };
             }
 
-            formatCompact(num) {
-                if (!num) return '0';
-                if (num >= 1e9) return (num / 1e9).toFixed(1) + 'B';
-                if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
-                if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
-                return String(num);
+            async function runScan() {
+                let raw = targetInput.value;
+                if (!raw) {
+                    showError('enter target username');
+                    return;
+                }
+
+                // hide previous result, show loading
+                resultDiv.classList.remove('active');
+                errorBox.classList.remove('active');
+                loading.classList.add('active');
+                scanBtn.disabled = true;
+
+                const userInfo = await fetchTikTokData(raw);
+                loading.classList.remove('active');
+                scanBtn.disabled = false;
+
+                if (!userInfo) {
+                    showError(`@${raw.replace(/^@/,'')} — no data (private/not found)`);
+                    return;
+                }
+
+                const data = parseData(userInfo);
+                lastScan = data;
+
+                // update UI
+                updateDisplay(data);
+                resultDiv.classList.add('active');
             }
 
-            formatCommas(num) {
-                return String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            }
-        }
+            function updateDisplay(d) {
+                // avatar / name / verified
+                avatar.innerText = d.nickname.slice(0,2).toUpperCase() || 'ID';
+                dispNick.innerText = d.nickname;
+                dispUserLine.innerHTML = `@${d.username} <span class="verif-tag" id="verifiedTag">${d.verified ? '✓ verified' : '⚡ unverified'}</span>`;
 
-        // ----- UI elements -----
-        const finder = new TikTokFinder();
-        const fetchBtn = document.getElementById('fetchBtn');
-        const usernameField = document.getElementById('usernameField');
-        const loading = document.getElementById('loading');
-        const errorMsg = document.getElementById('errorMsg');
-        const resultSection = document.getElementById('resultSection');
+                // stats compact
+                statF.innerText = compact(d.followers);
+                statFg.innerText = compact(d.following);
+                statH.innerText = compact(d.likes);
+                statV.innerText = compact(d.videos);
 
-        // profile summary fields
-        const avatarPreview = document.getElementById('avatarPreview');
-        const fullName = document.getElementById('fullName');
-        const userWithBadge = document.getElementById('userWithBadge');
-        const verifiedLabel = document.getElementById('verifiedLabel');
+                // detailed fields
+                valCountry.innerHTML = `<i>📍</i> ${d.country}`;
+                valUserId.innerHTML = `<i>🔢</i> ${d.userId}`;
+                valUsername.innerHTML = `<i>@</i> ${d.username}`;
+                valNickname.innerHTML = `<i>🏷️</i> ${d.nickname}`;
+                valBio.innerHTML = `<i>📄</i> ${d.bio}`;
 
-        // stat numbers
-        const statFollowers = document.getElementById('statFollowers');
-        const statFollowing = document.getElementById('statFollowing');
-        const statLikes = document.getElementById('statLikes');
-        const statVideos = document.getElementById('statVideos');
+                if (d.createTime && d.createTime !== 0) {
+                    const date = new Date(d.createTime * 1000);
+                    valCreate.innerHTML = `<i>⏰</i> ${date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+                } else {
+                    valCreate.innerHTML = `<i>⏰</i> Unknown`;
+                }
 
-        // detailed fields
-        const displayCountry = document.getElementById('displayCountry');
-        const displayUserId = document.getElementById('displayUserId');
-        const displayUsername = document.getElementById('displayUsername');
-        const displayNickname = document.getElementById('displayNickname');
-        const displayBio = document.getElementById('displayBio');
-        const displayCreate = document.getElementById('displayCreate');
-        const displayFollowersDetail = document.getElementById('displayFollowersDetail');
-        const displayFollowingDetail = document.getElementById('displayFollowingDetail');
-        const displayLikesDetail = document.getElementById('displayLikesDetail');
-        const displayVideos = document.getElementById('displayVideos');
-
-        // save data
-        let lastData = null;
-
-        async function performSearch() {
-            let username = usernameField.value.trim().replace(/^@/, '');
-            if (!username) {
-                showError('enter a username');
-                return;
+                valFollowers.innerHTML = `<i>👥</i> ${commas(d.followers)}`;
+                valFollowing.innerHTML = `<i>👣</i> ${commas(d.following)}`;
+                valLikes.innerHTML = `<i>❤️</i> ${commas(d.likes)}`;
+                valVideos.innerHTML = `<i>🎬</i> ${d.videos}`;
             }
 
-            // hide previous result, show loading
-            resultSection.classList.remove('active');
-            errorMsg.classList.remove('active');
-            loading.classList.add('active');
-            fetchBtn.disabled = true;
-
-            const userInfo = await finder.fetchProfile(username);
-            
-            loading.classList.remove('active');
-            fetchBtn.disabled = false;
-
-            if (!userInfo) {
-                showError(`no data found for @${username} (private or doesn't exist)`);
-                return;
+            function showError(msg) {
+                errorBox.innerText = msg;
+                errorBox.classList.add('active');
+                resultDiv.classList.remove('active');
             }
 
-            const data = finder.parseData(userInfo);
-            lastData = { ...data, rawUsername: username };
+            // save function
+            document.getElementById('saveResultsBtn').addEventListener('click', () => {
+                if (!lastScan) {
+                    alert('no data to save');
+                    return;
+                }
+                const output = {
+                    scan_time: new Date().toISOString(),
+                    profile: lastScan,
+                    credit: '@t5kila'
+                };
+                const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `tiktok_${lastScan.username}_${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+            });
 
-            // update UI
-            updateUI(data, username);
-            resultSection.classList.add('active');
-        }
+            // event listeners
+            scanBtn.addEventListener('click', runScan);
+            targetInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') runScan();
+            });
 
-        function updateUI(data, username) {
-            // avatar preview (first two letters of nickname)
-            avatarPreview.innerText = data.nickname.slice(0, 2).toUpperCase() || '??';
-            fullName.innerText = data.nickname;
-            userWithBadge.innerHTML = `@${data.username} <span class="verify-tag" id="verifiedLabel">${data.verified ? '✓ verified' : '⚡ unverified'}</span>`;
-            
-            // stats row
-            statFollowers.innerText = finder.formatCompact(data.followers);
-            statFollowing.innerText = finder.formatCompact(data.following);
-            statLikes.innerText = finder.formatCompact(data.likes);
-            statVideos.innerText = finder.formatCompact(data.videos);
-
-            // detailed fields
-            displayCountry.innerHTML = `<i>📍</i> ${data.country}`;
-            displayUserId.innerHTML = `<i>🔢</i> ${data.userId}`;
-            displayUsername.innerHTML = `<i>@</i> ${data.username}`;
-            displayNickname.innerHTML = `<i>🏷️</i> ${data.nickname}`;
-            displayBio.innerHTML = `<i>📄</i> ${data.bio}`;
-
-            // create time
-            if (data.createTime && data.createTime !== 0) {
-                const d = new Date(data.createTime * 1000);
-                displayCreate.innerHTML = `<i>⏰</i> ${d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
-            } else {
-                displayCreate.innerHTML = `<i>⏰</i> Unknown`;
-            }
-
-            displayFollowersDetail.innerHTML = `<i>👥</i> ${finder.formatCommas(data.followers)}`;
-            displayFollowingDetail.innerHTML = `<i>👣</i> ${finder.formatCommas(data.following)}`;
-            displayLikesDetail.innerHTML = `<i>❤️</i> ${finder.formatCommas(data.likes)}`;
-            displayVideos.innerHTML = `<i>🎬</i> ${data.videos}`;
-        }
-
-        function showError(msg) {
-            errorMsg.innerText = msg;
-            errorMsg.classList.add('active');
-            resultSection.classList.remove('active');
-        }
-
-        // event listeners
-        fetchBtn.addEventListener('click', performSearch);
-        usernameField.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') performSearch();
-        });
-
-        // save button
-        document.getElementById('saveDataBtn').addEventListener('click', () => {
-            if (!lastData) {
-                alert('no profile data to save');
-                return;
-            }
-
-            const output = {
-                scan_time: new Date().toISOString(),
-                profile: lastData,
-                created_by: '@t5kila'
-            };
-
-            const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `tiktok_${lastData.username}_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-            URL.revokeObjectURL(a.href);
-        });
-
-        // auto-fetch on load (example)
-        window.addEventListener('load', () => {
-            setTimeout(performSearch, 300);
-        });
+            // initial autoload example (remove if unwanted, but keeps demo)
+            setTimeout(() => {
+                if (targetInput.value.trim() !== '') runScan();
+            }, 400);
+        })();
     </script>
 </body>
 </html>
