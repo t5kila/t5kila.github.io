@@ -1,10 +1,10 @@
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ckb" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>tk::recon // @t5kila</title>
+    <title>Speed Finder - بە @t5kila</title>
     <style>
         * {
             margin: 0;
@@ -82,20 +82,22 @@
             border-radius: 40px;
         }
 
-        /* intro text: "enter the username @*****" */
+        /* prompt in Sorani Kurdish */
         .prompt {
             font-family: 'SF Mono', 'Monaco', monospace;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #bac6ec;
             margin-bottom: 0.6rem;
-            margin-left: 0.3rem;
+            margin-right: 0.3rem;
+            text-align: right;
         }
 
         .prompt::before {
             content: '>';
             color: #ff7080;
-            margin-right: 8px;
+            margin-left: 8px;
             font-weight: 600;
+            display: inline-block;
         }
 
         /* search row */
@@ -107,6 +109,7 @@
             border-radius: 60px;
             padding: 0.1rem;
             margin-bottom: 1rem;
+            direction: ltr;
         }
 
         .search:focus-within {
@@ -118,8 +121,8 @@
             color: #ff7f9f;
             font-size: 2rem;
             font-weight: 500;
-            margin-left: 1.2rem;
-            margin-right: 0.2rem;
+            margin-left: 0.2rem;
+            margin-right: 1.2rem;
         }
 
         .search input {
@@ -163,6 +166,23 @@
             opacity: 0.4;
             transform: none;
             box-shadow: 0 4px 0 #942a42;
+        }
+
+        /* speed tag */
+        .speed-tag {
+            text-align: center;
+            margin: 0.2rem 0 0.8rem;
+            color: #2ce6a0;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .speed-tag span {
+            background: rgba(44, 230, 160, 0.1);
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            border: 1px solid #2ce6a040;
         }
 
         /* loading */
@@ -395,30 +415,41 @@
         .foot strong {
             color: #ffb5c0;
         }
+
+        /* Kurdish specific */
+        .kurdish-note {
+            font-size: 0.7rem;
+            color: #a0b5dd;
+            margin-top: 0.3rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="card">
         <!-- top: only @t5kila -->
         <div class="bar">
-            <span class="badge">tk·recon</span>
+            <span class="badge">speed·finder</span>
             <span class="credit">@t5kila</span>
         </div>
 
-        <!-- prompt exactly: "enter the username @*****" -->
-        <div class="prompt">enter the username @*****</div>
+        <!-- prompt in Sorani Kurdish -->
+        <div class="prompt">ناوی بەکارهێنەر بنووسە @*****</div>
 
         <!-- search -->
         <div class="search">
             <span class="at-pref">@</span>
             <input type="text" id="target" placeholder="username" value="charlidamelio">
-            <button class="find-btn" id="scan">FIND</button>
+            <button class="find-btn" id="scan">گەڕان</button>
         </div>
+
+        <!-- speed tag -->
+        <div class="speed-tag"><span>⚡ SPEED FINDER · خێرا</span></div>
 
         <!-- loading -->
         <div class="load" id="loading">
             <div class="spinner"></div>
-            <span class="load-txt">retrieving ...</span>
+            <span class="load-txt">دۆزینەوە ...</span>
         </div>
 
         <!-- error -->
@@ -431,16 +462,16 @@
                 <div class="avatar" id="avatar">CD</div>
                 <div class="names">
                     <h2 id="displayName">Charlie D'Amelio</h2>
-                    <p id="displayUname">@charlidamelio <span class="verif" id="verifTag">✓ verified</span></p>
+                    <p id="displayUname">@charlidamelio <span class="verif" id="verifTag">✓ پشتڕاستکراوە</span></p>
                 </div>
             </div>
 
             <!-- mini stats row (followers/following/likes/videos) -->
             <div class="statrow">
-                <div class="statb"><span class="statnum" id="mFollowers">47.2M</span><div class="stattxt">followers</div></div>
-                <div class="statb"><span class="statnum" id="mFollowing">412</span><div class="stattxt">following</div></div>
-                <div class="statb"><span class="statnum" id="mLikes">2.1B</span><div class="stattxt">likes</div></div>
-                <div class="statb"><span class="statnum" id="mVideos">1.2k</span><div class="stattxt">videos</div></div>
+                <div class="statb"><span class="statnum" id="mFollowers">47.2M</span><div class="stattxt">شوێنکەوتوو</div></div>
+                <div class="statb"><span class="statnum" id="mFollowing">412</span><div class="stattxt">بەشوێنکەوتوو</div></div>
+                <div class="statb"><span class="statnum" id="mLikes">2.1B</span><div class="stattxt">دڵخوازی</div></div>
+                <div class="statb"><span class="statnum" id="mVideos">1.2k</span><div class="stattxt">ڤیدیۆ</div></div>
             </div>
 
             <!-- detailed fields (exactly the list) -->
@@ -449,13 +480,14 @@
             </div>
 
             <!-- save button -->
-            <button class="save" id="saveBtn">⬇️ save profile</button>
+            <button class="save" id="saveBtn">⬇️ پاشەکەوتکردن</button>
         </div>
 
-        <!-- footer -->
+        <!-- footer with Kurdish note -->
         <div class="foot">
-            <strong>@t5kila</strong> · 2023-2026
+            <strong>@t5kila</strong> · 2023-2026 · بە خێراترین شێوە
         </div>
+        <div class="kurdish-note">⚡ بە زمانی کوردی سۆرانی</div>
     </div>
 
     <script>
@@ -489,7 +521,7 @@
             };
             const commas = (num) => String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-            // fetch logic (same robust engine)
+            // optimized fetch with timeout and speed
             async function fetchTikTok(username) {
                 const clean = username.replace(/^@/, '').trim();
                 if (!clean) return null;
@@ -502,15 +534,22 @@
                 for (let ep of endpoints) {
                     try {
                         const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(ep)}`;
-                        const resp = await fetch(proxy);
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 4000); // 4s timeout for speed
+                        
+                        const resp = await fetch(proxy, { signal: controller.signal });
+                        clearTimeout(timeoutId);
+                        
                         if (!resp.ok) continue;
                         const text = await resp.text();
 
+                        // try json
                         try {
                             const json = JSON.parse(text);
                             const extracted = extractUser(json);
                             if (extracted) return extracted;
                         } catch (e) {
+                            // try html script tag
                             const match = text.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application\/json">(.*?)<\/script>/s);
                             if (match) {
                                 const json = JSON.parse(match[1]);
@@ -519,6 +558,9 @@
                             }
                         }
                     } catch (err) {
+                        if (err.name === 'AbortError') {
+                            console.log('request timeout');
+                        }
                         continue;
                     }
                 }
@@ -577,31 +619,31 @@
                 };
 
                 const fields = [
-                    { label: '🌍 Country', value: d.country },
-                    { label: '@ level', value: d.level + '%' },
-                    { label: '🆔 Account ID', value: d.accountId },
-                    { label: '📝 Username', value: '@' + d.username },
-                    { label: '🏷️ Nickname', value: d.nickname },
-                    { label: '📄 Signature (Bio)', value: d.bio },
-                    { label: '⏰ Creation Time', value: formatDate(d.createTime) },
-                    { label: '✅ Verified', value: d.verified ? 'Yes' : 'No', cls: d.verified ? 'yes' : 'no' },
+                    { label: '🌍 وڵات', value: d.country },
+                    { label: '@ ئاست', value: d.level + '%' },
+                    { label: '🆔 ژمارەی ئەکاونت', value: d.accountId },
+                    { label: '📝 ناوی بەکارهێنەر', value: '@' + d.username },
+                    { label: '🏷️ ناو', value: d.nickname },
+                    { label: '📄 بایۆ', value: d.bio },
+                    { label: '⏰ بەرواری دروستبوون', value: formatDate(d.createTime) },
+                    { label: '✅ پشتڕاستکراوە', value: d.verified ? 'بەڵێ' : 'نەخێر', cls: d.verified ? 'yes' : 'no' },
                     { label: '🔑 Secret UID', value: d.secretUid.length > 24 ? d.secretUid.slice(0,24)+'…' : d.secretUid },
-                    { label: '👥 Followers', value: commas(d.followers) },
-                    { label: '👣 Following', value: commas(d.following) },
-                    { label: '🤝 Friends', value: commas(d.friends) },
-                    { label: '❤️ Likes', value: commas(d.likes) },
-                    { label: '🎬 Videos', value: d.videos },
-                    { label: '🗣️ Language', value: d.language },
-                    { label: '🔒 Private Account', value: d.privateAccount ? 'Yes' : 'No', cls: d.privateAccount ? 'priv' : '' },
-                    { label: '⬇️ Download Settings', value: d.downloadSettings },
-                    { label: '🎤 Duet Settings', value: d.duetSettings },
-                    { label: '✂️ Stitch Settings', value: d.stitchSettings },
-                    { label: '🕒 Nickname Modification Time', value: d.nicknameModTime ? formatDate(d.nicknameModTime) : 'Never' },
-                    { label: '🔗 Bio Link', value: d.bioLink },
-                    { label: '🎵 Profile Tab Music', value: d.profileTabMusic ? 'Enabled' : 'Disabled', cls: d.profileTabMusic ? 'yes' : 'no' },
-                    { label: '📋 Profile Tab Playlist', value: d.profileTabPlaylist ? 'Enabled' : 'Disabled', cls: d.profileTabPlaylist ? 'yes' : 'no' },
-                    { label: '🔄 Suggest Account Bind', value: d.suggestAccountBind ? 'Yes' : 'No', cls: d.suggestAccountBind ? 'yes' : 'no' },
-                    { label: '👁️ Followers Visibility', value: d.followersVisibility }
+                    { label: '👥 شوێنکەوتوو', value: commas(d.followers) },
+                    { label: '👣 بەشوێنکەوتوو', value: commas(d.following) },
+                    { label: '🤝 هاوڕێکان', value: commas(d.friends) },
+                    { label: '❤️ دڵخوازی', value: commas(d.likes) },
+                    { label: '🎬 ڤیدیۆ', value: d.videos },
+                    { label: '🗣️ زمان', value: d.language },
+                    { label: '🔒 ئەکاونی تایبەت', value: d.privateAccount ? 'بەڵێ' : 'نەخێر', cls: d.privateAccount ? 'priv' : '' },
+                    { label: '⬇️ ڕێگەپێدانی داونلۆد', value: d.downloadSettings },
+                    { label: '🎤 ڕێگەپێدانی دیوێت', value: d.duetSettings },
+                    { label: '✂️ ڕێگەپێدانی ستیچ', value: d.stitchSettings },
+                    { label: '🕒 کاتی گۆڕینی ناو', value: d.nicknameModTime ? formatDate(d.nicknameModTime) : 'Never' },
+                    { label: '🔗 لینکی بایۆ', value: d.bioLink },
+                    { label: '🎵 میوزیک لە پڕۆفایل', value: d.profileTabMusic ? 'چالاک' : 'ناچالاک', cls: d.profileTabMusic ? 'yes' : 'no' },
+                    { label: '📋 پلەیلیست لە پڕۆفایل', value: d.profileTabPlaylist ? 'چالاک' : 'ناچالاک', cls: d.profileTabPlaylist ? 'yes' : 'no' },
+                    { label: '🔄 پێشنیاری بەستنەوە', value: d.suggestAccountBind ? 'بەڵێ' : 'نەخێر', cls: d.suggestAccountBind ? 'yes' : 'no' },
+                    { label: '👁️ بینینی شوێنکەوتووان', value: d.followersVisibility }
                 ];
 
                 let html = '';
@@ -615,7 +657,7 @@
             async function scan() {
                 let raw = targetInput.value;
                 if (!raw) {
-                    showError('enter username');
+                    showError('ناوی بەکارهێنەر بنووسە');
                     return;
                 }
 
@@ -629,7 +671,7 @@
                 scanBtn.disabled = false;
 
                 if (!userInfo) {
-                    showError(`@${raw.replace('@','')} — no data`);
+                    showError(`@${raw.replace('@','')} — نەدۆزرایەوە`);
                     return;
                 }
 
@@ -638,7 +680,7 @@
 
                 avatarSpan.innerText = data.nickname.slice(0,2).toUpperCase() || 'ID';
                 displayName.innerText = data.nickname;
-                displayUname.innerHTML = `@${data.username} <span class="verif" id="verifTag">${data.verified ? '✓ verified' : '⚡ unverified'}</span>`;
+                displayUname.innerHTML = `@${data.username} <span class="verif" id="verifTag">${data.verified ? '✓ پشتڕاستکراوە' : '⚡ پشتڕاستنەکراوە'}</span>`;
                 
                 mFollowers.innerText = compact(data.followers);
                 mFollowing.innerText = compact(data.following);
@@ -674,7 +716,7 @@
                 URL.revokeObjectURL(a.href);
             });
 
-            // initial load
+            // initial load with speed
             setTimeout(() => {
                 if (targetInput.value) scan();
             }, 300);
