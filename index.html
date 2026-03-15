@@ -4,18 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Information Finder - Created by @t5kila</title>
+    <title>TikTok OSINT Panel · @t5kila</title>
     <style>
-        /* ===== RED, BLUE & GREEN THEME ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+            font-family: 'Inter', 'Segoe UI', monospace;
         }
 
         body {
-            background: linear-gradient(135deg, #0a0c10 0%, #1a1f2e 100%);
+            background: #03050f;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,51 +22,53 @@
             padding: 1rem;
             color: #ffffff;
             position: relative;
-            overflow-x: hidden;
         }
 
-        /* Animated RGB background */
+        /* RGB BACKGROUND */
         body::before {
             content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
-                radial-gradient(circle at 30% 50%, rgba(255, 75, 100, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 70% 50%, rgba(0, 168, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 80%, rgba(0, 255, 157, 0.15) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
+                radial-gradient(circle at 20% 30%, rgba(255, 70, 100, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 170, 255, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(0, 255, 150, 0.2) 0%, transparent 40%);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 70, 100, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 170, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
             z-index: -1;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Main Container */
-        .container {
+        /* MAIN PANEL */
+        .panel {
             width: 100%;
-            max-width: 950px;
-            background: rgba(10, 12, 18, 0.85);
+            max-width: 1300px;
+            background: rgba(6, 12, 24, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 75, 100, 0.3);
-            border-radius: 2rem;
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.8),
-                0 0 30px rgba(255, 75, 100, 0.3),
-                0 0 60px rgba(0, 168, 255, 0.2),
-                0 0 90px rgba(0, 255, 157, 0.1);
+            border: 2px solid rgba(255, 70, 100, 0.3);
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 60px -15px #000, 0 0 40px rgba(255, 70, 100, 0.3);
             overflow: hidden;
             position: relative;
-            z-index: 1;
         }
 
-        /* RGB Border Animation */
-        .container::before {
+        /* RGB BORDER */
+        .panel::before {
             content: '';
             position: absolute;
             top: -2px;
@@ -75,270 +76,321 @@
             right: -2px;
             bottom: -2px;
             background: linear-gradient(45deg, 
-                #ff4d6d 0%, 
-                #00a8ff 33%, 
-                #00ff9d 66%, 
-                #ff4d6d 100%);
-            border-radius: 2rem;
+                #ff4d6d, #00a8ff, #00ff9d, #ff4d6d, 
+                #00a8ff, #00ff9d, #ff4d6d);
+            background-size: 400% 400%;
+            border-radius: 2.5rem;
             z-index: -1;
-            animation: rgbBorder 4s linear infinite;
-            background-size: 300% 300%;
-            opacity: 0.7;
+            animation: rgbFlow 10s ease infinite;
+            opacity: 0.6;
         }
 
-        @keyframes rgbBorder {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes rgbFlow {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
         }
 
-        /* Header */
+        /* HEADER */
         .header {
-            background: rgba(20, 25, 35, 0.9);
-            padding: 1rem 1.8rem;
-            border-bottom: 2px solid rgba(255, 75, 100, 0.3);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: relative;
-            overflow: hidden;
+            padding: 1.2rem 2rem;
+            background: rgba(10, 18, 30, 0.9);
+            border-bottom: 2px solid rgba(255, 70, 100, 0.3);
         }
 
-        .header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 75, 100, 0.1), 
-                rgba(0, 168, 255, 0.1), 
-                rgba(0, 255, 157, 0.1), 
-                transparent);
-            animation: scan 3s infinite;
-        }
-
-        @keyframes scan {
-            to { left: 100%; }
-        }
-
-        .title-dots {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 1rem;
+        }
+
+        .rgb-dots {
+            display: flex;
+            gap: 8px;
         }
 
         .dot {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            position: relative;
+            animation: pulse 2s infinite;
         }
 
-        .dot.red {
-            background: #ff4d6d;
-            box-shadow: 0 0 15px #ff4d6d;
-            animation: pulse 1.5s infinite;
-        }
-
-        .dot.blue {
-            background: #00a8ff;
-            box-shadow: 0 0 15px #00a8ff;
-            animation: pulse 1.5s infinite 0.5s;
-        }
-
-        .dot.green {
-            background: #00ff9d;
-            box-shadow: 0 0 15px #00ff9d;
-            animation: pulse 1.5s infinite 1s;
-        }
+        .dot.red { background: #ff4d6d; box-shadow: 0 0 15px #ff4d6d; }
+        .dot.blue { background: #00a8ff; box-shadow: 0 0 15px #00a8ff; animation-delay: 0.3s; }
+        .dot.green { background: #00ff9d; box-shadow: 0 0 15px #00ff9d; animation-delay: 0.6s; }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(1.2); }
         }
 
-        .brand {
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
             background: linear-gradient(135deg, #ff4d6d, #00a8ff, #00ff9d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            padding: 0.4rem 1.5rem;
-            border: 2px solid rgba(255, 75, 100, 0.3);
+        }
+
+        .creator {
+            background: rgba(255, 75, 100, 0.1);
+            border: 1px solid #ff4d6d;
+            padding: 0.5rem 1.8rem;
             border-radius: 40px;
-            position: relative;
-        }
-
-        /* Content */
-        .content {
-            padding: 2rem;
-        }
-
-        /* Banner */
-        .banner {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, 
-                rgba(255, 75, 100, 0.1), 
-                rgba(0, 168, 255, 0.1), 
-                rgba(0, 255, 157, 0.1));
-            border: 2px solid rgba(255, 75, 100, 0.3);
-            border-radius: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                #ff4d6d, 
-                #00a8ff, 
-                #00ff9d, 
-                transparent);
-            animation: slide 2s linear infinite;
-        }
-
-        @keyframes slide {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(100%); }
-        }
-
-        .banner-text {
-            font-size: 1.2rem;
             font-weight: 700;
-            line-height: 1.8;
         }
 
-        .banner-text .red { color: #ff4d6d; text-shadow: 0 0 10px #ff4d6d; }
-        .banner-text .blue { color: #00a8ff; text-shadow: 0 0 10px #00a8ff; }
-        .banner-text .green { color: #00ff9d; text-shadow: 0 0 10px #00ff9d; }
+        .creator .red { color: #ff4d6d; }
+        .creator .blue { color: #00a8ff; }
+        .creator .green { color: #00ff9d; }
 
-        /* Search Box */
+        /* MAIN GRID */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 1.5rem;
+            padding: 1.8rem;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            background: rgba(8, 16, 28, 0.7);
+            border: 2px solid rgba(255, 70, 100, 0.25);
+            border-radius: 2rem;
+            padding: 1.8rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-section {
+            margin-bottom: 2rem;
+        }
+
+        .search-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+        }
+
         .search-box {
-            background: rgba(15, 20, 30, 0.8);
-            border: 2px solid;
-            border-image: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d) 1;
-            border-radius: 4rem;
-            padding: 0.5rem;
             display: flex;
             align-items: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(255, 75, 100, 0.2);
-            animation: boxGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes boxGlow {
-            0%, 100% { box-shadow: 0 10px 30px rgba(255, 75, 100, 0.3); }
-            33% { box-shadow: 0 10px 30px rgba(0, 168, 255, 0.3); }
-            66% { box-shadow: 0 10px 30px rgba(0, 255, 157, 0.3); }
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d) 1;
+            border-radius: 3rem;
+            padding: 0.2rem 0.2rem 0.2rem 1.5rem;
         }
 
         .at {
             color: #ff4d6d;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-left: 1.5rem;
-            margin-right: 0.5rem;
-            text-shadow: 0 0 15px #ff4d6d;
             animation: colorCycle 3s infinite;
         }
 
         @keyframes colorCycle {
-            0%, 100% { color: #ff4d6d; text-shadow: 0 0 15px #ff4d6d; }
-            33% { color: #00a8ff; text-shadow: 0 0 15px #00a8ff; }
-            66% { color: #00ff9d; text-shadow: 0 0 15px #00ff9d; }
+            0%, 100% { color: #ff4d6d; text-shadow: 0 0 10px #ff4d6d; }
+            33% { color: #00a8ff; text-shadow: 0 0 10px #00a8ff; }
+            66% { color: #00ff9d; text-shadow: 0 0 10px #00ff9d; }
         }
 
         .search-box input {
             flex: 1;
             background: transparent;
             border: none;
-            padding: 1rem 0.8rem;
-            font-size: 1.3rem;
+            padding: 1rem 0.5rem;
+            font-size: 1.1rem;
             color: white;
             outline: none;
-            font-family: monospace;
-        }
-
-        .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
         }
 
         .search-btn {
             background: linear-gradient(135deg, #ff4d6d, #00a8ff, #00ff9d);
             border: none;
-            color: #0a0c10;
+            color: black;
             font-weight: 800;
-            padding: 1rem 2.5rem;
-            border-radius: 4rem;
-            font-size: 1.2rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
             cursor: pointer;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 5px 0 #1a1f2e;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .search-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.3), 
-                transparent);
-            transition: left 0.5s;
-        }
-
-        .search-btn:hover::before {
-            left: 100%;
+            font-size: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 0 #0f1422;
+            transition: 0.1s;
         }
 
         .search-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 0 #1a1f2e, 0 12px 35px rgba(255, 75, 100, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #0f1422;
         }
 
-        .search-btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 2px 0 #1a1f2e;
+        .recent-list {
+            margin-top: 2rem;
         }
 
-        .search-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+        .recent-item {
+            padding: 0.8rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,70,100,0.2);
+            border-radius: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            transition: 0.2s;
         }
 
-        /* Loading */
+        .recent-item:hover {
+            border-color: #00a8ff;
+            transform: translateX(5px);
+        }
+
+        .recent-item .uname { color: #00a8ff; }
+        .recent-item .time { color: rgba(255,255,255,0.4); font-size: 0.7rem; margin-left: 0.5rem; }
+
+        /* ===== CONTENT AREA ===== */
+        .content {
+            background: rgba(8, 16, 28, 0.7);
+            border: 2px solid rgba(255, 70, 100, 0.25);
+            border-radius: 2rem;
+            padding: 1.8rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* PROFILE HEADER */
+        .profile-header {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid;
+            border-image: linear-gradient(90deg, #ff4d6d, #00a8ff, #00ff9d) 1;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff4d6d, #00a8ff, #00ff9d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            border: 4px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 25px rgba(255,70,100,0.5);
+        }
+
+        .profile-title {
+            flex: 1;
+        }
+
+        .profile-title h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ff4d6d, #00a8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.3rem;
+        }
+
+        .profile-title h2 {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.2rem;
+        }
+
+        .verified-badge {
+            display: inline-block;
+            background: #00a8ff30;
+            border: 1px solid #00a8ff;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        /* STATS ROW */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-box {
+            background: rgba(0,0,0,0.25);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d) 1;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff4d6d, #00a8ff, #00ff9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* DATA GRID - EXACT FIELDS */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+
+        .data-item {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 70, 100, 0.3);
+            border-radius: 1.2rem;
+            padding: 1rem 1.2rem;
+            transition: 0.2s;
+        }
+
+        .data-item:hover {
+            border-color: #00a8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,170,255,0.2);
+        }
+
+        .data-label {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .data-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .data-value i {
+            color: #00ff9d;
+            margin-right: 5px;
+        }
+
+        /* LOADING */
         .loading {
             display: none;
             align-items: center;
             justify-content: center;
             gap: 1rem;
-            margin: 2rem 0;
-            padding: 1rem;
-            background: rgba(15, 20, 30, 0.6);
-            border-radius: 3rem;
-            border: 2px solid;
-            border-image: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d) 1;
+            padding: 2rem;
         }
 
         .loading.active {
@@ -348,7 +400,7 @@
         .spinner {
             width: 30px;
             height: 30px;
-            border: 4px solid rgba(255, 75, 100, 0.3);
+            border: 4px solid rgba(255,70,100,0.3);
             border-top-color: #ff4d6d;
             border-right-color: #00a8ff;
             border-bottom-color: #00ff9d;
@@ -360,269 +412,32 @@
             to { transform: rotate(360deg); }
         }
 
-        .loading-text {
-            background: linear-gradient(90deg, #ff4d6d, #00a8ff, #00ff9d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 600;
-        }
-
-        /* Results */
-        .results {
-            background: rgba(10, 15, 25, 0.7);
-            border: 2px solid;
-            border-image: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d) 1;
-            border-radius: 2rem;
-            padding: 2rem;
-            margin-top: 2rem;
-            display: none;
-            backdrop-filter: blur(10px);
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .results.active {
-            display: block;
-        }
-
-        .target-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .target-header .red { color: #ff4d6d; }
-        .target-header .blue { color: #00a8ff; }
-        .target-header .green { color: #00ff9d; }
-
-        /* Section Titles */
-        .section-title {
-            background: linear-gradient(90deg, #ff4d6d, #00a8ff, #00ff9d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 1.2rem;
+        /* SAVE BUTTON */
+        .save-btn {
+            background: linear-gradient(135deg, #ff4d6d, #00a8ff, #00ff9d);
+            border: none;
+            color: black;
             font-weight: 800;
-            margin: 1.5rem 0 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid;
-            border-image: linear-gradient(90deg, #ff4d6d, #00a8ff, #00ff9d) 1;
+            padding: 1rem 2rem;
+            border-radius: 3rem;
+            width: 100%;
+            margin-top: 2rem;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 5px 0 #0f1422;
+            font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        /* Grid Layouts */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.2rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        /* Cards */
-        .info-card {
-            background: rgba(15, 22, 36, 0.8);
-            border: 2px solid;
-            border-image: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d) 1;
-            border-radius: 1.2rem;
-            padding: 1rem 1.2rem;
-            transition: all 0.3s;
-            backdrop-filter: blur(5px);
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 75, 100, 0.3);
-            border-image: linear-gradient(45deg, #00ff9d, #00a8ff, #ff4d6d) 1;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, 
-                rgba(255, 75, 100, 0.2), 
-                rgba(0, 168, 255, 0.2), 
-                rgba(0, 255, 157, 0.2));
-            border: 2px solid;
-            border-image: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d) 1;
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(255, 75, 100, 0.4);
-        }
-
-        .video-card {
-            background: rgba(15, 22, 36, 0.8);
-            border: 2px solid;
-            border-image: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d) 1;
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s;
-        }
-
-        .video-card:hover {
-            transform: translateX(10px);
-            box-shadow: -5px 5px 20px rgba(255, 75, 100, 0.3);
-        }
-
-        /* Text Styles */
-        .label {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.3rem;
-        }
-
-        .value {
-            color: white;
-            font-size: 1rem;
-            font-weight: 500;
-            word-break: break-word;
-            background: linear-gradient(90deg, #fff, #e0e0ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .value.highlight {
-            background: linear-gradient(90deg, #ff4d6d, #00a8ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ff4d6d, #00a8ff, #00ff9d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.2;
-        }
-
-        .stat-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Video Stats */
-        .video-stats {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin: 0.8rem 0;
-        }
-
-        .video-stats span {
-            padding: 0.3rem 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 2rem;
-            font-size: 0.8rem;
-        }
-
-        .video-stats span:nth-child(1) { 
-            color: #ff4d6d; 
-            border: 1px solid #ff4d6d; 
-        }
-        .video-stats span:nth-child(2) { 
-            color: #00a8ff; 
-            border: 1px solid #00a8ff; 
-        }
-        .video-stats span:nth-child(3) { 
-            color: #00ff9d; 
-            border: 1px solid #00ff9d; 
-        }
-        .video-stats span:nth-child(4) { 
-            background: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .video-desc {
-            color: white;
-            margin-bottom: 0.8rem;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .video-url {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.7rem;
-            word-break: break-all;
-            padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        .avatar-url {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.7rem;
-            word-break: break-all;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.5rem;
-            border-radius: 0.8rem;
-        }
-
-        /* Save Button */
-        .save-btn {
-            background: linear-gradient(135deg, #ff4d6d, #00a8ff, #00ff9d);
-            border: none;
-            color: #0a0c10;
-            font-weight: 700;
-            padding: 1rem 2rem;
-            border-radius: 3rem;
-            font-size: 1rem;
-            cursor: pointer;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 5px 0 #1a1f2e;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 1.5rem;
-            width: 100%;
-        }
-
         .save-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 0 #1a1f2e;
+            box-shadow: 0 8px 0 #0f1422;
         }
 
-        /* Footer */
-        .footer {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            text-align: center;
-            border-top: 2px solid;
-            border-image: linear-gradient(90deg, #ff4d6d, #00a8ff, #00ff9d) 1;
-            font-size: 0.9rem;
-        }
-
-        .footer .red { color: #ff4d6d; font-weight: 700; }
-        .footer .blue { color: #00a8ff; font-weight: 700; }
-        .footer .green { color: #00ff9d; font-weight: 700; }
-
-        /* Error Message */
+        /* ERROR */
         .error {
-            background: rgba(255, 75, 100, 0.2);
+            background: rgba(255,70,100,0.2);
             border: 2px solid #ff4d6d;
             color: #ff4d6d;
             padding: 1rem;
@@ -630,349 +445,347 @@
             margin: 1rem 0;
             display: none;
             text-align: center;
-            font-weight: 600;
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
         }
 
         .error.active {
             display: block;
         }
 
-        /* Responsive */
-        @media (max-width: 700px) {
-            .grid-2 {
+        /* FOOTER */
+        .footer {
+            padding: 1.2rem 2rem;
+            text-align: center;
+            border-top: 2px solid rgba(255,70,100,0.3);
+            font-size: 0.9rem;
+        }
+
+        .footer span.red { color: #ff4d6d; }
+        .footer span.blue { color: #00a8ff; }
+        .footer span.green { color: #00ff9d; font-weight: 700; }
+
+        @media (max-width: 900px) {
+            .main-grid {
                 grid-template-columns: 1fr;
             }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .content {
-                padding: 1rem;
-            }
-            .search-box {
-                flex-direction: column;
-                background: transparent;
-                border: none;
-                box-shadow: none;
-            }
-            .at {
-                display: none;
-            }
-            .search-box input {
-                width: 100%;
-                background: rgba(15, 20, 30, 0.8);
-                border: 2px solid;
-                border-image: linear-gradient(45deg, #ff4d6d, #00a8ff, #00ff9d) 1;
-                border-radius: 3rem;
-                margin-bottom: 0.5rem;
-                padding: 1rem;
+            .data-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="panel">
         <div class="header">
-            <div class="title-dots">
-                <div class="dot red"></div>
-                <div class="dot blue"></div>
-                <div class="dot green"></div>
-                <span style="color: rgba(255,255,255,0.5); margin-left: 0.5rem;">tiktok-finder.py</span>
+            <div class="logo">
+                <div class="rgb-dots">
+                    <div class="dot red"></div>
+                    <div class="dot blue"></div>
+                    <div class="dot green"></div>
+                </div>
+                <span class="logo-text">TIKTOK OSINT PANEL</span>
             </div>
-            <div class="brand">@t5kila</div>
+            <div class="creator">
+                <span class="red">by</span> <span class="blue">@</span><span class="green">t5kila</span>
+            </div>
         </div>
-        
-        <div class="content">
-            <div class="banner">
-                <div class="banner-text">
-                    <div class="red">════════════════════════════════════════</div>
-                    <div class="blue">TikTok Information Finder Tool</div>
-                    <div class="green">Created by @t5kila</div>
-                    <div class="red">════════════════════════════════════════</div>
+
+        <div class="main-grid">
+            <!-- SIDEBAR -->
+            <div class="sidebar">
+                <div class="search-section">
+                    <div class="search-label">TARGET USERNAME</div>
+                    <div class="search-box">
+                        <span class="at">@</span>
+                        <input type="text" id="username" placeholder="username" value="charlidamelio">
+                        <button class="search-btn" id="scanBtn">SCAN</button>
+                    </div>
+                </div>
+
+                <div class="recent-list">
+                    <div class="search-label" style="margin-bottom: 1rem;">RECENT SCANS</div>
+                    <div class="recent-item">
+                        <span class="uname">@charlidamelio</span>
+                        <span class="time">2 min ago</span>
+                    </div>
+                    <div class="recent-item">
+                        <span class="uname">@khaby.lame</span>
+                        <span class="time">15 min ago</span>
+                    </div>
+                    <div class="recent-item">
+                        <span class="uname">@bellapoarch</span>
+                        <span class="time">1 hour ago</span>
+                    </div>
+                    <div class="recent-item">
+                        <span class="uname">@addisonre</span>
+                        <span class="time">3 hours ago</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 1rem;">
+                    <div style="color: #00ff9d; margin-bottom: 0.5rem;">⚡ LIVE STATUS</div>
+                    <div style="font-size: 0.8rem; color: rgba(255,255,255,0.6);">API: ONLINE</div>
+                    <div style="font-size: 0.8rem; color: rgba(255,255,255,0.6);">Rate: 60 req/min</div>
                 </div>
             </div>
 
-            <div class="search-box">
-                <span class="at">@</span>
-                <input type="text" id="username" placeholder="Enter username (e.g., charlidamelio)" value="charlidamelio">
-                <button class="search-btn" id="scanBtn">SCAN</button>
-            </div>
+            <!-- CONTENT AREA -->
+            <div class="content">
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <span style="background: linear-gradient(135deg, #ff4d6d, #00a8ff, #00ff9d); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">FETCHING PROFILE DATA...</span>
+                </div>
 
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <span class="loading-text">Fetching profile data...</span>
-            </div>
+                <div class="error" id="error"></div>
 
-            <div class="error" id="error"></div>
+                <div id="profileData" style="display: none;">
+                    <!-- PROFILE HEADER -->
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="avatar">CD</div>
+                        <div class="profile-title">
+                            <h1 id="displayName">Charlie D'Amelio</h1>
+                            <h2 id="displayUsername">@charlidamelio</h2>
+                            <span class="verified-badge" id="verifiedBadge">✓ Verified</span>
+                        </div>
+                    </div>
 
-            <div class="results" id="results">
-                <!-- Results will be inserted here by JavaScript -->
-            </div>
+                    <!-- STATS ROW -->
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <div class="stat-value" id="followersCount">47.2M</div>
+                            <div class="stat-label">FOLLOWERS</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="followingCount">412</div>
+                            <div class="stat-label">FOLLOWING</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="likesCount">2.1B</div>
+                            <div class="stat-label">LIKES</div>
+                        </div>
+                    </div>
 
-            <div class="footer">
-                <span class="red">© 2023-2026</span> | Made with 
-                <span class="blue">❤️</span> by <span class="green">@t5kila</span>
+                    <!-- EXACT DATA FIELDS AS REQUESTED -->
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <div class="data-label">🌍 Country</div>
+                            <div class="data-value" id="country">United States</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">🆔 User ID</div>
+                            <div class="data-value" id="userId">1079551345</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">📝 Username</div>
+                            <div class="data-value" id="username_field">charlidamelio</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">🏷️ Nickname</div>
+                            <div class="data-value" id="nickname">Charlie D'Amelio</div>
+                        </div>
+                        <div class="data-item" style="grid-column: span 2;">
+                            <div class="data-label">📄 Bio</div>
+                            <div class="data-value" id="bio">📧 business@charliedamelio.com ✨ 20m</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">⏰ Create Time</div>
+                            <div class="data-value" id="createTime">March 14, 2019</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">👥 Followers</div>
+                            <div class="data-value" id="followersDetail">47,200,000</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">👣 Following</div>
+                            <div class="data-value" id="followingDetail">412</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">❤️ Likes (Hearts)</div>
+                            <div class="data-value" id="likesDetail">2,100,000,000</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">🎬 Videos</div>
+                            <div class="data-value" id="videosCount">1243</div>
+                        </div>
+                    </div>
+
+                    <button class="save-btn" id="saveBtn">💾 SAVE RESULTS TO FILE</button>
+                </div>
             </div>
+        </div>
+
+        <div class="footer">
+            <span class="red">© 2023-2026</span> · Made by <span class="green">@t5kila</span> · <span class="blue">TikTok OSINT Panel</span>
         </div>
     </div>
 
     <script>
-        class TikTokFinder {
+        class TikTokPanel {
             constructor() {
-                this.headers = {
+                this.apiHeaders = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
                 };
             }
 
-            async fetchProfile(username) {
-                try {
-                    // Try multiple endpoints
-                    const endpoints = [
-                        `https://www.tiktok.com/@${username}`,
-                        `https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/web/user/profile/?unique_id=${username}`
-                    ];
+            async fetchUser(username) {
+                const endpoints = [
+                    `https://www.tiktok.com/@${username}`,
+                    `https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/web/user/profile/?unique_id=${username}`
+                ];
 
-                    for (const endpoint of endpoints) {
+                for (const endpoint of endpoints) {
+                    try {
+                        const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(endpoint)}`;
+                        const res = await fetch(proxy);
+                        if (!res.ok) continue;
+                        
+                        const text = await res.text();
+                        
+                        // Try JSON
                         try {
-                            const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(endpoint)}`;
-                            const res = await fetch(proxy);
-                            if (!res.ok) continue;
-                            
-                            const text = await res.text();
-                            
-                            // Try JSON
-                            try {
-                                const json = JSON.parse(text);
-                                const info = this.parseJSON(json);
+                            const json = JSON.parse(text);
+                            const info = this.extractUser(json);
+                            if (info) return info;
+                        } catch {
+                            // Try HTML extraction
+                            const match = text.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application\/json">(.*?)<\/script>/s);
+                            if (match) {
+                                const json = JSON.parse(match[1]);
+                                const info = this.extractUser(json);
                                 if (info) return info;
-                            } catch {
-                                // Try HTML
-                                const match = text.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application\/json">(.*?)<\/script>/s);
-                                if (match) {
-                                    const json = JSON.parse(match[1]);
-                                    const info = this.parseJSON(json);
-                                    if (info) return info;
-                                }
                             }
-                        } catch (e) {}
-                    }
-                    return null;
-                } catch (e) {
-                    return null;
+                        }
+                    } catch (e) {}
                 }
+                return null;
             }
 
-            parseJSON(json) {
+            extractUser(json) {
                 try {
-                    // Try different paths
-                    const paths = [
-                        () => json?.__DEFAULT_SCOPE__?.['webapp.user-detail']?.userInfo,
-                        () => json?.__DEFAULT_SCOPE__?.['user-detail']?.userInfo,
-                        () => json?.userInfo,
-                        () => json?.data?.userInfo,
-                        () => json?.user ? { user: json.user, stats: json.stats || {} } : null
-                    ];
-
-                    for (const path of paths) {
-                        const result = path();
-                        if (result) return result;
+                    // Try all possible paths
+                    let userInfo = json?.__DEFAULT_SCOPE__?.['webapp.user-detail']?.userInfo ||
+                                  json?.__DEFAULT_SCOPE__?.['user-detail']?.userInfo ||
+                                  json?.userInfo ||
+                                  json?.data?.userInfo;
+                    
+                    if (userInfo) return userInfo;
+                    
+                    if (json?.user) {
+                        return {
+                            user: json.user,
+                            stats: json.stats || {}
+                        };
                     }
+                    
                     return null;
                 } catch {
                     return null;
                 }
             }
 
+            parseData(userInfo) {
+                const user = userInfo.user || {};
+                const stats = userInfo.stats || {};
+                
+                return {
+                    country: user.region || user.country || 'N/A',
+                    userId: user.id || user.uid || 'N/A',
+                    username: user.uniqueId || user.unique_id || 'N/A',
+                    nickname: user.nickname || 'N/A',
+                    bio: user.signature || 'No bio available',
+                    createTime: user.createTime || user.create_time || 0,
+                    followers: stats.followerCount || stats.follower_count || user.follower_count || 0,
+                    following: stats.followingCount || stats.following_count || user.following_count || 0,
+                    likes: stats.heartCount || stats.heart_count || user.total_favorited || 0,
+                    videos: stats.videoCount || stats.video_count || user.aweme_count || 0,
+                    verified: user.verified || user.is_verified || false,
+                    avatar: user.avatarLarger || user.avatar_larger || ''
+                };
+            }
+
             formatNumber(num) {
                 if (!num) return '0';
+                if (num >= 1000000000) return (num/1000000000).toFixed(1) + 'B';
                 if (num >= 1000000) return (num/1000000).toFixed(1) + 'M';
                 if (num >= 1000) return (num/1000).toFixed(1) + 'K';
                 return num.toString();
             }
 
-            parseData(userInfo) {
-                try {
-                    const user = userInfo.user || {};
-                    const stats = userInfo.stats || {};
-                    
-                    return {
-                        username: user.uniqueId || user.unique_id || 'N/A',
-                        user_id: user.id || user.uid || 'N/A',
-                        nickname: user.nickname || 'N/A',
-                        bio: user.signature || 'No bio',
-                        bio_link: user.bioLink?.link || user.bio_link || 'No link',
-                        verified: user.verified || user.is_verified || false,
-                        private: user.privateAccount || user.is_private || false,
-                        followers: stats.followerCount || stats.follower_count || user.follower_count || 0,
-                        following: stats.followingCount || stats.following_count || user.following_count || 0,
-                        likes: stats.heartCount || stats.heart_count || user.total_favorited || 0,
-                        videos: stats.videoCount || stats.video_count || user.aweme_count || 0,
-                        avatar: user.avatarLarger || user.avatar_larger || '',
-                        created: user.createTime || user.create_time || 0,
-                        region: user.region || 'N/A',
-                        sec_uid: user.secUid || user.sec_uid || 'N/A'
-                    };
-                } catch {
-                    return null;
-                }
+            formatWithCommas(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
 
-            displayResults(data, username) {
-                const date = data.created ? new Date(data.created * 1000).toLocaleDateString() : 'Unknown';
-                const followersF = this.formatNumber(data.followers);
-                const likesF = this.formatNumber(data.likes);
+            displayData(data, username) {
+                // Profile header
+                document.getElementById('avatar').innerText = data.nickname.substring(0,2).toUpperCase();
+                document.getElementById('displayName').innerText = data.nickname;
+                document.getElementById('displayUsername').innerText = '@' + data.username;
+                document.getElementById('verifiedBadge').innerText = data.verified ? '✓ Verified' : '⚡ Not Verified';
+                document.getElementById('verifiedBadge').style.background = data.verified ? '#00a8ff30' : 'rgba(255,255,255,0.1)';
+                document.getElementById('verifiedBadge').style.color = data.verified ? '#00a8ff' : '#aaa';
                 
-                const html = `
-                    <div class="target-header">
-                        <div class="red">════════════════════════════════════════</div>
-                        <div class="blue">[ TARGET: @${username} ]</div>
-                        <div class="green">════════════════════════════════════════</div>
-                    </div>
-
-                    <div class="section-title">📌 BASIC INFO</div>
-                    <div class="grid-2">
-                        <div class="info-card">
-                            <div class="label">User ID</div>
-                            <div class="value">${data.user_id}</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="label">Nickname</div>
-                            <div class="value">${data.nickname}</div>
-                        </div>
-                        <div class="info-card" style="grid-column: span 2;">
-                            <div class="label">Bio</div>
-                            <div class="value">${data.bio}</div>
-                        </div>
-                    </div>
-
-                    <div class="section-title">🔐 STATUS</div>
-                    <div class="grid-2">
-                        <div class="info-card">
-                            <div class="label">Verified</div>
-                            <div class="value ${data.verified ? 'highlight' : ''}">${data.verified ? '✅ Yes' : '❌ No'}</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="label">Private</div>
-                            <div class="value">${data.private ? '✅ Yes' : '❌ No'}</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="label">Region</div>
-                            <div class="value">${data.region}</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="label">Created</div>
-                            <div class="value">${date}</div>
-                        </div>
-                    </div>
-
-                    <div class="section-title">📊 STATS</div>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number">${followersF}</div>
-                            <div class="stat-label">FOLLOWERS</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">${data.following}</div>
-                            <div class="stat-label">FOLLOWING</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">${likesF}</div>
-                            <div class="stat-label">LIKES</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">${data.videos}</div>
-                            <div class="stat-label">VIDEOS</div>
-                        </div>
-                    </div>
-
-                    <div class="section-title">🖼️ MEDIA</div>
-                    <div class="info-card">
-                        <div class="label">Avatar URL</div>
-                        <div class="avatar-url">${data.avatar || 'No avatar'}</div>
-                    </div>
-
-                    <div class="section-title">🔧 ADVANCED</div>
-                    <div class="info-card">
-                        <div class="label">secUid</div>
-                        <div class="value small">${data.sec_uid.substring(0, 40)}${data.sec_uid.length > 40 ? '...' : ''}</div>
-                    </div>
-
-                    <button class="save-btn" onclick="saveResults()">💾 SAVE RESULTS</button>
-                `;
+                // Stats row
+                document.getElementById('followersCount').innerText = this.formatNumber(data.followers);
+                document.getElementById('followingCount').innerText = this.formatNumber(data.following);
+                document.getElementById('likesCount').innerText = this.formatNumber(data.likes);
                 
-                document.getElementById('results').innerHTML = html;
-                window.lastData = { data, username };
+                // Detail fields
+                document.getElementById('country').innerHTML = `<i>📍</i> ${data.country}`;
+                document.getElementById('userId').innerHTML = `<i>🔢</i> ${data.userId}`;
+                document.getElementById('username_field').innerHTML = `<i>@</i> ${data.username}`;
+                document.getElementById('nickname').innerHTML = `<i>🏷️</i> ${data.nickname}`;
+                document.getElementById('bio').innerHTML = `<i>📄</i> ${data.bio}`;
+                
+                // Create time
+                if (data.createTime) {
+                    const date = new Date(data.createTime * 1000);
+                    document.getElementById('createTime').innerHTML = `<i>⏰</i> ${date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+                } else {
+                    document.getElementById('createTime').innerHTML = `<i>⏰</i> Unknown`;
+                }
+                
+                document.getElementById('followersDetail').innerHTML = `<i>👥</i> ${this.formatWithCommas(data.followers)}`;
+                document.getElementById('followingDetail').innerHTML = `<i>👣</i> ${this.formatWithCommas(data.following)}`;
+                document.getElementById('likesDetail').innerHTML = `<i>❤️</i> ${this.formatWithCommas(data.likes)}`;
+                document.getElementById('videosCount').innerHTML = `<i>🎬</i> ${data.videos}`;
+                
+                // Store for save
+                window.currentData = { data, username };
             }
         }
 
-        // Global save function
-        window.saveResults = function() {
-            if (!window.lastData) {
-                alert('No data to save');
-                return;
-            }
-            
-            const { data, username } = window.lastData;
-            const output = {
-                username: username,
-                scan_time: new Date().toISOString(),
-                profile: data,
-                created_by: '@t5kila'
-            };
-            
-            const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `tiktok_${username}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-        };
-
         // Initialize
-        const finder = new TikTokFinder();
+        const panel = new TikTokPanel();
         const scanBtn = document.getElementById('scanBtn');
         const usernameInput = document.getElementById('username');
         const loading = document.getElementById('loading');
-        const results = document.getElementById('results');
         const error = document.getElementById('error');
+        const profileDiv = document.getElementById('profileData');
 
         async function scan() {
             let username = usernameInput.value.trim().replace(/^@/, '');
             if (!username) {
-                showError('Enter a username');
+                showError('Enter username');
                 return;
             }
 
             loading.classList.add('active');
-            scanBtn.disabled = true;
+            profileDiv.style.display = 'none';
             error.classList.remove('active');
-            results.classList.remove('active');
+            scanBtn.disabled = true;
 
-            const userInfo = await finder.fetchProfile(username);
+            const userInfo = await panel.fetchUser(username);
             
             loading.classList.remove('active');
             scanBtn.disabled = false;
 
             if (!userInfo) {
-                showError(`Could not find @${username}`);
+                showError(`User @${username} not found`);
                 return;
             }
 
-            const data = finder.parseData(userInfo);
-            if (!data) {
-                showError('Failed to parse data');
-                return;
-            }
-
-            finder.displayResults(data, username);
-            results.classList.add('active');
+            const data = panel.parseData(userInfo);
+            panel.displayData(data, username);
+            profileDiv.style.display = 'block';
         }
 
         function showError(msg) {
@@ -985,7 +798,31 @@
             if (e.key === 'Enter') scan();
         });
 
-        // Auto-scan on load
+        // Save button
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            if (!window.currentData) {
+                alert('No data to save');
+                return;
+            }
+            
+            const { data, username } = window.currentData;
+            const output = {
+                username: username,
+                scan_time: new Date().toISOString(),
+                profile: data,
+                created_by: '@t5kila'
+            };
+            
+            const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tiktok_${username}_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // Auto scan on load
         setTimeout(scan, 500);
     </script>
 </body>
