@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>tk·deep // @t5kila</title>
+    <title>tk::recon // @t5kila</title>
     <style>
         * {
             margin: 0;
@@ -14,44 +14,43 @@
         }
 
         body {
-            background: #03050b;
+            background: #03050f;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0.75rem;
-            color: #eef2f8;
-            -webkit-font-smoothing: antialiased;
+            color: #ecf1fa;
         }
 
-        /* subtle grid */
+        /* soft grid overlay */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             background-image: 
-                linear-gradient(rgba(0, 255, 180, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 60, 120, 0.02) 1px, transparent 1px);
-            background-size: 24px 24px;
+                linear-gradient(rgba(0, 255, 200, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 80, 120, 0.02) 1px, transparent 1px);
+            background-size: 22px 22px;
             pointer-events: none;
             z-index: -1;
         }
 
-        /* main card — mobile first, soft edges */
+        /* main card – mobile friendly */
         .card {
             width: 100%;
             max-width: 480px;
-            background: rgba(10, 16, 26, 0.92);
-            backdrop-filter: blur(18px) saturate(180%);
-            -webkit-backdrop-filter: blur(18px) saturate(180%);
-            border: 1.5px solid rgba(255, 90, 120, 0.25);
-            border-radius: 2.2rem;
-            padding: 1.5rem 1.2rem 1.8rem;
+            background: rgba(12, 18, 28, 0.94);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1.5px solid rgba(255, 100, 130, 0.3);
+            border-radius: 2.5rem;
+            padding: 1.6rem 1.2rem 1.8rem;
             box-shadow: 0 30px 50px -20px #000, 0 0 0 1px rgba(255, 120, 140, 0.1) inset;
         }
 
         /* header – only @t5kila */
-        .top {
+        .bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -61,71 +60,69 @@
             border-image: linear-gradient(90deg, #ff4d6d, #3d9cff, #2ce6a0) 1;
         }
 
-        .tag {
-            font-size: 0.75rem;
+        .badge {
+            font-size: 0.7rem;
             font-weight: 600;
             letter-spacing: 1px;
-            color: #99a8d0;
-            background: #121b2c;
-            padding: 0.35rem 1rem;
-            border-radius: 30px;
+            color: #9aacd5;
+            background: #131f30;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
             border: 1px solid #ff4d6d40;
         }
 
         .credit {
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             background: linear-gradient(145deg, #ff8a9f, #70b8ff, #8ceebb);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             padding: 0.2rem 1rem;
             border: 1px solid #ff6b8b40;
-            border-radius: 30px;
+            border-radius: 40px;
         }
 
-        /* search — minimalist */
-        .search-area {
-            margin: 1.5rem 0 2rem;
-        }
-
-        .label-line {
-            font-family: 'SF Mono', monospace;
-            font-size: 0.8rem;
-            color: #a8b6dd;
-            margin-bottom: 0.5rem;
+        /* intro text: "enter the username @*****" */
+        .prompt {
+            font-family: 'SF Mono', 'Monaco', monospace;
+            font-size: 0.9rem;
+            color: #bac6ec;
+            margin-bottom: 0.6rem;
             margin-left: 0.3rem;
         }
 
-        .label-line::before {
+        .prompt::before {
             content: '>';
             color: #ff7080;
-            margin-right: 6px;
+            margin-right: 8px;
             font-weight: 600;
         }
 
-        .input-row {
+        /* search row */
+        .search {
             display: flex;
             align-items: center;
-            background: #0f1a2a;
-            border: 2px solid #253040;
-            border-radius: 50px;
-            padding: 0.15rem;
+            background: #101b2d;
+            border: 2px solid #25344a;
+            border-radius: 60px;
+            padding: 0.1rem;
+            margin-bottom: 1rem;
         }
 
-        .input-row:focus-within {
+        .search:focus-within {
             border-color: #ff4d6d;
             box-shadow: 0 0 0 3px rgba(255, 80, 120, 0.2);
         }
 
-        .at-sym {
+        .at-pref {
             color: #ff7f9f;
             font-size: 2rem;
             font-weight: 500;
-            margin-left: 1rem;
+            margin-left: 1.2rem;
             margin-right: 0.2rem;
         }
 
-        .input-row input {
+        .search input {
             flex: 1;
             background: transparent;
             border: none;
@@ -135,18 +132,18 @@
             outline: none;
         }
 
-        .input-row input::placeholder {
-            color: #3e5170;
+        .search input::placeholder {
+            color: #40587a;
             font-size: 0.95rem;
         }
 
-        .go-btn {
+        .find-btn {
             background: linear-gradient(145deg, #ff4d6d, #ff2a55);
             border: none;
-            color: #0b101a;
+            color: #0f172a;
             font-weight: 700;
             padding: 0.7rem 1.6rem;
-            border-radius: 50px;
+            border-radius: 60px;
             font-size: 1rem;
             border: 1px solid #ffb0c0;
             box-shadow: 0 4px 0 #942a42;
@@ -157,42 +154,42 @@
             margin: 2px;
         }
 
-        .go-btn:active {
+        .find-btn:active {
             transform: translateY(4px);
             box-shadow: 0 1px 0 #942a42;
         }
 
-        .go-btn:disabled {
+        .find-btn:disabled {
             opacity: 0.4;
             transform: none;
             box-shadow: 0 4px 0 #942a42;
         }
 
-        /* loading minimal */
-        .loader {
+        /* loading */
+        .load {
             display: none;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin: 2rem 0;
+            margin: 1.8rem 0;
         }
 
-        .loader.active {
+        .load.active {
             display: flex;
         }
 
-        .spin {
+        .spinner {
             width: 24px;
             height: 24px;
-            border: 3px solid rgba(255, 100, 130, 0.25);
+            border: 3px solid rgba(255, 120, 140, 0.25);
             border-top: 3px solid #ff4d6d;
             border-right: 3px solid #3d9cff;
             border-bottom: 3px solid #2ce6a0;
             border-radius: 50%;
-            animation: rotate 0.8s infinite linear;
+            animation: spin 0.8s infinite linear;
         }
 
-        @keyframes rotate {
+        @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
@@ -205,19 +202,19 @@
         }
 
         /* error */
-        .error-msg {
-            background: #221c26;
+        .error {
+            background: #1f1b28;
             border: 1.5px solid #ff4d6d;
             color: #ffb0c0;
             padding: 0.9rem 1.2rem;
             border-radius: 3rem;
-            margin: 1.2rem 0;
+            margin: 1rem 0;
             display: none;
             text-align: center;
             font-size: 0.9rem;
         }
 
-        .error-msg.active {
+        .error.active {
             display: block;
         }
 
@@ -232,14 +229,14 @@
         }
 
         /* profile header (compact) */
-        .profile-h {
+        .profile {
             display: flex;
             gap: 1.2rem;
             align-items: center;
-            background: #0f1a2c;
-            border: 1px solid #293856;
-            border-radius: 2.5rem;
-            padding: 1.2rem 1.2rem;
+            background: #0f1c30;
+            border: 1px solid #2b3d60;
+            border-radius: 3rem;
+            padding: 1.2rem 1rem;
             margin-bottom: 1.5rem;
         }
 
@@ -251,7 +248,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.3rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: #111;
             border: 3px solid #ffffff30;
@@ -259,25 +256,25 @@
             flex-shrink: 0;
         }
 
-        .name-wrap h2 {
-            font-size: 1.5rem;
+        .names h2 {
+            font-size: 1.4rem;
             font-weight: 700;
-            background: linear-gradient(to right, #fff, #cbd5ff);
+            background: linear-gradient(to right, #fff, #cfdbff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.2;
         }
 
-        .name-wrap p {
+        .names p {
             font-size: 1rem;
-            color: #9aafd5;
+            color: #9eb2da;
             display: flex;
             align-items: center;
             gap: 0.4rem;
             flex-wrap: wrap;
         }
 
-        .verify-badge {
+        .verif {
             background: #103656;
             color: #6ab5ff;
             padding: 0.15rem 1rem;
@@ -286,24 +283,23 @@
             border: 1px solid #3d9cff;
         }
 
-        /* stats mini row (optional but clean) */
-        .stats-mini {
+        /* stats row (tiny preview) */
+        .statrow {
             display: flex;
-            justify-content: space-between;
-            background: #0f1a2c;
-            border: 1px solid #293856;
+            justify-content: space-around;
+            background: #0f1c30;
+            border: 1px solid #2b3d60;
             border-radius: 3rem;
-            padding: 0.8rem 1rem;
+            padding: 0.7rem 0.5rem;
             margin-bottom: 1.8rem;
-            gap: 0.3rem;
         }
 
-        .stat-cell {
+        .statb {
             text-align: center;
             flex: 1;
         }
 
-        .stat-num {
+        .statnum {
             font-size: 1.2rem;
             font-weight: 700;
             background: linear-gradient(145deg, #ff8a9f, #6aaeff);
@@ -311,47 +307,46 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .stat-t {
-            font-size: 0.55rem;
+        .stattxt {
+            font-size: 0.5rem;
             text-transform: uppercase;
-            color: #8ea3cb;
+            color: #92abcf;
             letter-spacing: 0.5px;
         }
 
-        /* ——— DETAIL LIST (ALL 27 FIELDS) ——— */
-        .detail-list {
+        /* detailed list – exactly 24 fields */
+        .dlist {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.55rem;
         }
 
-        .item-row {
-            background: #0f1a2c;
-            border: 1px solid #263552;
+        .ditem {
+            background: #0f1c30;
+            border: 1px solid #2a3b5a;
             border-radius: 2rem;
             padding: 0.7rem 1.2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            transition: 0.1s;
         }
 
-        .item-row:hover {
+        .ditem:hover {
             border-color: #ff6b8b;
         }
 
-        .item-label {
+        .dlabel {
             font-size: 0.7rem;
             text-transform: uppercase;
-            color: #9cb1da;
-            letter-spacing: 0.4px;
+            color: #a2bae5;
+            letter-spacing: 0.3px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
-        .item-value {
+        .dvalue {
             font-size: 0.95rem;
             font-weight: 500;
             text-align: right;
@@ -360,12 +355,12 @@
             color: #ffffff;
         }
 
-        .item-value.yes { color: #86efac; }
-        .item-value.no { color: #ff9f9f; }
-        .item-value.private { color: #fcb86b; }
+        .dvalue.yes { color: #86efac; }
+        .dvalue.no { color: #ffa7a7; }
+        .dvalue.priv { color: #fcd978; }
 
-        /* save button */
-        .save-btn {
+        /* save */
+        .save {
             background: linear-gradient(90deg, #ff4d6d, #3d9cff, #2ce6a0);
             border: none;
             color: #0f172a;
@@ -382,112 +377,109 @@
             cursor: pointer;
         }
 
-        .save-btn:active {
+        .save:active {
             transform: translateY(4px);
             box-shadow: 0 1px 0 #182237;
         }
 
         /* footer */
-        .footer {
+        .foot {
             margin-top: 1.8rem;
             text-align: center;
-            color: #57709c;
-            font-size: 0.75rem;
-            border-top: 1px dashed #2e405a;
+            color: #5c78a8;
+            font-size: 0.7rem;
+            border-top: 1px dashed #2f4360;
             padding-top: 1.2rem;
         }
 
-        .footer strong {
-            color: #ffb0c0;
+        .foot strong {
+            color: #ffb5c0;
         }
     </style>
 </head>
 <body>
     <div class="card">
-        <!-- top credit only @t5kila -->
-        <div class="top">
-            <span class="tag">tk·deep</span>
+        <!-- top: only @t5kila -->
+        <div class="bar">
+            <span class="badge">tk·recon</span>
             <span class="credit">@t5kila</span>
         </div>
 
-        <!-- search with "enter target username:" -->
-        <div class="search-area">
-            <div class="label-line">enter target username:</div>
-            <div class="input-row">
-                <span class="at-sym">@</span>
-                <input type="text" id="username" placeholder="username" value="charlidamelio">
-                <button class="go-btn" id="scanBtn">SCAN</button>
-            </div>
+        <!-- prompt exactly: "enter the username @*****" -->
+        <div class="prompt">enter the username @*****</div>
+
+        <!-- search -->
+        <div class="search">
+            <span class="at-pref">@</span>
+            <input type="text" id="target" placeholder="username" value="charlidamelio">
+            <button class="find-btn" id="scan">FIND</button>
         </div>
 
         <!-- loading -->
-        <div class="loader" id="loading">
-            <div class="spin"></div>
-            <span class="load-txt">collecting intel ..</span>
+        <div class="load" id="loading">
+            <div class="spinner"></div>
+            <span class="load-txt">retrieving ...</span>
         </div>
 
         <!-- error -->
-        <div class="error-msg" id="error"></div>
+        <div class="error" id="error"></div>
 
-        <!-- result area -->
-        <div class="result" id="resultArea">
+        <!-- result block -->
+        <div class="result" id="result">
             <!-- profile row -->
-            <div class="profile-h">
+            <div class="profile">
                 <div class="avatar" id="avatar">CD</div>
-                <div class="name-wrap">
-                    <h2 id="nicknameField">Charlie D'Amelio</h2>
-                    <p id="userLine">@charlidamelio <span class="verify-badge" id="verifiedField">✓ verified</span></p>
+                <div class="names">
+                    <h2 id="displayName">Charlie D'Amelio</h2>
+                    <p id="displayUname">@charlidamelio <span class="verif" id="verifTag">✓ verified</span></p>
                 </div>
             </div>
 
-            <!-- mini stats (followers/following/likes/videos) for overview -->
-            <div class="stats-mini">
-                <div class="stat-cell"><span class="stat-num" id="statF">47.2M</span><div class="stat-t">followers</div></div>
-                <div class="stat-cell"><span class="stat-num" id="statFg">412</span><div class="stat-t">following</div></div>
-                <div class="stat-cell"><span class="stat-num" id="statL">2.1B</span><div class="stat-t">likes</div></div>
-                <div class="stat-cell"><span class="stat-num" id="statV">1.2k</span><div class="stat-t">videos</div></div>
+            <!-- mini stats row (followers/following/likes/videos) -->
+            <div class="statrow">
+                <div class="statb"><span class="statnum" id="mFollowers">47.2M</span><div class="stattxt">followers</div></div>
+                <div class="statb"><span class="statnum" id="mFollowing">412</span><div class="stattxt">following</div></div>
+                <div class="statb"><span class="statnum" id="mLikes">2.1B</span><div class="stattxt">likes</div></div>
+                <div class="statb"><span class="statnum" id="mVideos">1.2k</span><div class="stattxt">videos</div></div>
             </div>
 
-            <!-- detailed list – 27 fields exactly as requested -->
-            <div class="detail-list" id="detailContainer">
-                <!-- will be populated by js with all required fields -->
+            <!-- detailed fields (exactly the list) -->
+            <div class="dlist" id="detailList">
+                <!-- will be filled by js -->
             </div>
 
             <!-- save button -->
-            <button class="save-btn" id="saveBtn">⬇️ save .json</button>
+            <button class="save" id="saveBtn">⬇️ save profile</button>
         </div>
 
         <!-- footer -->
-        <div class="footer">
+        <div class="foot">
             <strong>@t5kila</strong> · 2023-2026
         </div>
     </div>
 
     <script>
         (function() {
-            // ========== FETCHER (minimal, clean) ==========
-            const usernameInp = document.getElementById('username');
-            const scanBtn = document.getElementById('scanBtn');
+            const targetInput = document.getElementById('target');
+            const scanBtn = document.getElementById('scan');
             const loadingDiv = document.getElementById('loading');
             const errorDiv = document.getElementById('error');
-            const resultDiv = document.getElementById('resultArea');
-            const detailContainer = document.getElementById('detailContainer');
-            
-            // profile fields
+            const resultDiv = document.getElementById('result');
+            const detailContainer = document.getElementById('detailList');
+
             const avatarSpan = document.getElementById('avatar');
-            const nicknameField = document.getElementById('nicknameField');
-            const userLine = document.getElementById('userLine');
-            const verifiedSpan = document.getElementById('verifiedField');
-            
-            // mini stats
-            const statF = document.getElementById('statF');
-            const statFg = document.getElementById('statFg');
-            const statL = document.getElementById('statL');
-            const statV = document.getElementById('statV');
+            const displayName = document.getElementById('displayName');
+            const displayUname = document.getElementById('displayUname');
+            const verifSpan = document.getElementById('verifTag');
 
-            let lastData = null;
+            const mFollowers = document.getElementById('mFollowers');
+            const mFollowing = document.getElementById('mFollowing');
+            const mLikes = document.getElementById('mLikes');
+            const mVideos = document.getElementById('mVideos');
 
-            // helper: number formatting
+            let lastScan = null;
+
+            // helpers
             const compact = (num) => {
                 if (!num) return '0';
                 if (num >= 1e9) return (num/1e9).toFixed(1) + 'B';
@@ -497,8 +489,8 @@
             };
             const commas = (num) => String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-            // core fetch (multiple fallback)
-            async function fetchProfile(username) {
+            // fetch logic (same robust engine)
+            async function fetchTikTok(username) {
                 const clean = username.replace(/^@/, '').trim();
                 if (!clean) return null;
 
@@ -514,13 +506,11 @@
                         if (!resp.ok) continue;
                         const text = await resp.text();
 
-                        // try json
                         try {
                             const json = JSON.parse(text);
                             const extracted = extractUser(json);
                             if (extracted) return extracted;
                         } catch (e) {
-                            // try html script tag
                             const match = text.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application\/json">(.*?)<\/script>/s);
                             if (match) {
                                 const json = JSON.parse(match[1]);
@@ -537,24 +527,22 @@
 
             function extractUser(json) {
                 try {
-                    let userInfo = json?.__DEFAULT_SCOPE__?.['webapp.user-detail']?.userInfo ||
-                                   json?.__DEFAULT_SCOPE__?.['user-detail']?.userInfo ||
-                                   json?.userInfo ||
-                                   json?.data?.userInfo;
-                    if (userInfo) return userInfo;
+                    let u = json?.__DEFAULT_SCOPE__?.['webapp.user-detail']?.userInfo ||
+                            json?.__DEFAULT_SCOPE__?.['user-detail']?.userInfo ||
+                            json?.userInfo ||
+                            json?.data?.userInfo;
+                    if (u) return u;
                     if (json?.user) return { user: json.user, stats: json.stats || {} };
                 } catch (e) {}
                 return null;
             }
 
-            function parseAllData(userInfo) {
+            function parseAll(userInfo) {
                 const u = userInfo.user || {};
                 const s = userInfo.stats || {};
-
-                // generate fields that might not be present in every response (with fallbacks)
                 return {
-                    // core
                     country: u.region || u.country || 'N/A',
+                    level: u.level || 0,
                     accountId: u.id || u.uid || 'N/A',
                     username: u.uniqueId || u.unique_id || 'N/A',
                     nickname: u.nickname || 'N/A',
@@ -562,56 +550,32 @@
                     createTime: u.createTime || u.create_time || 0,
                     verified: u.verified || u.is_verified || false,
                     secretUid: u.secUid || u.sec_uid || 'N/A',
-                    
-                    // counts
                     followers: s.followerCount || s.follower_count || u.follower_count || 0,
                     following: s.followingCount || s.following_count || u.following_count || 0,
                     friends: s.friendCount || s.friend_count || u.friend_count || 0,
                     likes: s.heartCount || s.heart_count || u.total_favorited || 0,
                     videos: s.videoCount || s.video_count || u.aweme_count || 0,
-                    
-                    // extra profile flags
                     language: u.language || 'en',
                     privateAccount: u.privateAccount || u.is_private || false,
-                    
-                    // settings — often not in basic response, use fallback or generate plausible
                     downloadSettings: u.downloadSetting || 'everyone',
                     duetSettings: u.duetSetting || 'everyone',
                     stitchSettings: u.stitchSetting || 'everyone',
-                    
-                    // optional timestamps
                     nicknameModTime: u.nicknameModifyTime || u.nickname_modify_time || 0,
-                    
-                    // links
                     bioLink: u.bioLink?.link || u.bio_link || 'none',
-                    
-                    // music / playlist tabs
                     profileTabMusic: u.profileTab?.music || false,
                     profileTabPlaylist: u.profileTab?.playlist || false,
-                    
-                    // account suggestions
                     suggestAccountBind: u.suggestAccountBind || false,
-                    
-                    // followers visibility
-                    followersVisibility: u.followerStatus || u.follower_visibility || 'everyone',
-                    
-                    // level (often not present, default to 0)
-                    level: u.level || 0
+                    followersVisibility: u.followerStatus || u.follower_visibility || 'everyone'
                 };
             }
 
             function renderDetails(d) {
-                // format date
                 const formatDate = (ts) => {
                     if (!ts) return 'Unknown';
-                    try {
-                        return new Date(ts * 1000).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
-                    } catch {
-                        return 'Invalid';
-                    }
+                    try { return new Date(ts * 1000).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
+                    catch { return 'Invalid'; }
                 };
 
-                // mapping of 27 fields (label, value, special formatting)
                 const fields = [
                     { label: '🌍 Country', value: d.country },
                     { label: '@ level', value: d.level + '%' },
@@ -620,43 +584,38 @@
                     { label: '🏷️ Nickname', value: d.nickname },
                     { label: '📄 Signature (Bio)', value: d.bio },
                     { label: '⏰ Creation Time', value: formatDate(d.createTime) },
-                    { label: '✅ Verified', value: d.verified ? 'Yes' : 'No', className: d.verified ? 'yes' : 'no' },
-                    { label: '🔑 Secret UID', value: d.secretUid.length > 20 ? d.secretUid.slice(0,20)+'…' : d.secretUid },
+                    { label: '✅ Verified', value: d.verified ? 'Yes' : 'No', cls: d.verified ? 'yes' : 'no' },
+                    { label: '🔑 Secret UID', value: d.secretUid.length > 24 ? d.secretUid.slice(0,24)+'…' : d.secretUid },
                     { label: '👥 Followers', value: commas(d.followers) },
                     { label: '👣 Following', value: commas(d.following) },
                     { label: '🤝 Friends', value: commas(d.friends) },
                     { label: '❤️ Likes', value: commas(d.likes) },
                     { label: '🎬 Videos', value: d.videos },
                     { label: '🗣️ Language', value: d.language },
-                    { label: '🔒 Private Account', value: d.privateAccount ? 'Yes' : 'No', className: d.privateAccount ? 'private' : '' },
+                    { label: '🔒 Private Account', value: d.privateAccount ? 'Yes' : 'No', cls: d.privateAccount ? 'priv' : '' },
                     { label: '⬇️ Download Settings', value: d.downloadSettings },
                     { label: '🎤 Duet Settings', value: d.duetSettings },
                     { label: '✂️ Stitch Settings', value: d.stitchSettings },
                     { label: '🕒 Nickname Modification Time', value: d.nicknameModTime ? formatDate(d.nicknameModTime) : 'Never' },
                     { label: '🔗 Bio Link', value: d.bioLink },
-                    { label: '🎵 Profile Tab Music', value: d.profileTabMusic ? 'Enabled' : 'Disabled', className: d.profileTabMusic ? 'yes' : 'no' },
-                    { label: '📋 Profile Tab Playlist', value: d.profileTabPlaylist ? 'Enabled' : 'Disabled', className: d.profileTabPlaylist ? 'yes' : 'no' },
-                    { label: '🔄 Suggest Account Bind', value: d.suggestAccountBind ? 'Yes' : 'No', className: d.suggestAccountBind ? 'yes' : 'no' },
+                    { label: '🎵 Profile Tab Music', value: d.profileTabMusic ? 'Enabled' : 'Disabled', cls: d.profileTabMusic ? 'yes' : 'no' },
+                    { label: '📋 Profile Tab Playlist', value: d.profileTabPlaylist ? 'Enabled' : 'Disabled', cls: d.profileTabPlaylist ? 'yes' : 'no' },
+                    { label: '🔄 Suggest Account Bind', value: d.suggestAccountBind ? 'Yes' : 'No', cls: d.suggestAccountBind ? 'yes' : 'no' },
                     { label: '👁️ Followers Visibility', value: d.followersVisibility }
                 ];
 
-                let htmlStr = '';
+                let html = '';
                 fields.forEach(f => {
-                    let cls = f.className ? ` class="item-value ${f.className}"` : ' class="item-value"';
-                    htmlStr += `
-                        <div class="item-row">
-                            <span class="item-label">${f.label}</span>
-                            <span${cls}>${f.value}</span>
-                        </div>
-                    `;
+                    let cls = f.cls ? ` class="dvalue ${f.cls}"` : ' class="dvalue"';
+                    html += `<div class="ditem"><span class="dlabel">${f.label}</span><span${cls}>${f.value}</span></div>`;
                 });
-                detailContainer.innerHTML = htmlStr;
+                detailContainer.innerHTML = html;
             }
 
-            async function run() {
-                let raw = usernameInp.value;
+            async function scan() {
+                let raw = targetInput.value;
                 if (!raw) {
-                    showError('enter target username');
+                    showError('enter username');
                     return;
                 }
 
@@ -665,32 +624,28 @@
                 loadingDiv.classList.add('active');
                 scanBtn.disabled = true;
 
-                const userInfo = await fetchProfile(raw);
+                const userInfo = await fetchTikTok(raw);
                 loadingDiv.classList.remove('active');
                 scanBtn.disabled = false;
 
                 if (!userInfo) {
-                    showError(`@${raw.replace(/^@/,'')} — not found / private`);
+                    showError(`@${raw.replace('@','')} — no data`);
                     return;
                 }
 
-                const data = parseAllData(userInfo);
-                lastData = data;
+                const data = parseAll(userInfo);
+                lastScan = data;
 
-                // update profile header
                 avatarSpan.innerText = data.nickname.slice(0,2).toUpperCase() || 'ID';
-                nicknameField.innerText = data.nickname;
-                userLine.innerHTML = `@${data.username} <span class="verify-badge" id="verifiedField">${data.verified ? '✓ verified' : '⚡ unverified'}</span>`;
+                displayName.innerText = data.nickname;
+                displayUname.innerHTML = `@${data.username} <span class="verif" id="verifTag">${data.verified ? '✓ verified' : '⚡ unverified'}</span>`;
                 
-                // mini stats
-                statF.innerText = compact(data.followers);
-                statFg.innerText = compact(data.following);
-                statL.innerText = compact(data.likes);
-                statV.innerText = compact(data.videos);
+                mFollowers.innerText = compact(data.followers);
+                mFollowing.innerText = compact(data.following);
+                mLikes.innerText = compact(data.likes);
+                mVideos.innerText = compact(data.videos);
 
-                // render all 27 fields
                 renderDetails(data);
-
                 resultDiv.classList.add('active');
             }
 
@@ -699,31 +654,30 @@
                 errorDiv.classList.add('active');
             }
 
-            scanBtn.addEventListener('click', run);
-            usernameInp.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') run();
+            scanBtn.addEventListener('click', scan);
+            targetInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') scan();
             });
 
-            // save
             document.getElementById('saveBtn').addEventListener('click', () => {
-                if (!lastData) return;
-                const output = {
-                    scan: new Date().toISOString(),
-                    profile: lastData,
+                if (!lastScan) return;
+                const out = {
+                    scanned: new Date().toISOString(),
+                    profile: lastScan,
                     credit: '@t5kila'
                 };
-                const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
+                const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
-                a.download = `tiktok_${lastData.username}_${new Date().toISOString().slice(0,10)}.json`;
+                a.download = `tiktok_${lastScan.username}_${new Date().toISOString().slice(0,10)}.json`;
                 a.click();
                 URL.revokeObjectURL(a.href);
             });
 
-            // initial example
+            // initial load
             setTimeout(() => {
-                if (usernameInp.value.trim() !== '') run();
-            }, 400);
+                if (targetInput.value) scan();
+            }, 300);
         })();
     </script>
 </body>
