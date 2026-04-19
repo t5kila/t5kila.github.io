@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>t5kila | TikTok OSINT 2026</title>
+    <title>t5kila | TikTok OSINT - Red Edition</title>
     <style>
         * {
             margin: 0;
@@ -12,15 +12,15 @@
         }
 
         body {
-            background: radial-gradient(ellipse at center, #0a0f0a 0%, #030603 100%);
-            font-family: 'Share Tech Mono', 'Courier New', 'Fira Code', monospace;
+            background: #0a0000;
+            font-family: 'Courier New', 'Fira Code', 'Share Tech Mono', monospace;
             min-height: 100vh;
             padding: 20px;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* 2026 Cyber Grid */
+        /* Blood Rain Effect */
         body::before {
             content: '';
             position: fixed;
@@ -28,426 +28,439 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background: repeating-linear-gradient(0deg, 
+                rgba(255, 0, 0, 0.02) 0px, 
+                rgba(255, 0, 0, 0.02) 2px,
+                transparent 2px,
+                transparent 8px);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* 2026 Neon Glow Effect */
-        @keyframes neonPulse {
-            0%, 100% { text-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0; }
-            50% { text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 40px #0f0; }
+        /* Red Grid */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
+        /* Animations */
+        @keyframes redPulse {
+            0%, 100% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000; }
+            50% { text-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000, 0 0 50px #ff0000; }
         }
 
-        @keyframes glitch2026 {
-            0%, 100% { transform: skew(0deg, 0deg); opacity: 1; }
-            95% { transform: skew(0deg, 0deg); opacity: 1; }
-            96% { transform: skew(2deg, 1deg); opacity: 0.8; }
-            97% { transform: skew(-2deg, -1deg); opacity: 0.9; }
+        @keyframes scanRed {
+            0% { transform: translateY(-100%); opacity: 0.5; }
+            100% { transform: translateY(100%); opacity: 0.5; }
+        }
+
+        @keyframes glitchRed {
+            0%, 100% { transform: skew(0deg); opacity: 1; }
+            95% { transform: skew(0deg); opacity: 1; }
+            96% { transform: skew(3deg, 2deg); opacity: 0.9; text-shadow: -2px 0 #ff0000; }
+            97% { transform: skew(-3deg, -2deg); opacity: 0.9; text-shadow: 2px 0 #ff0000; }
             98% { transform: skew(1deg, 0.5deg); }
             99% { transform: skew(-1deg, -0.5deg); }
         }
 
         @keyframes blinkRed {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.2; }
         }
 
-        .scanline-effect {
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% { opacity: 1; }
+            10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% { opacity: 0.7; }
+        }
+
+        .scan-red {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, rgba(0, 255, 0, 0.03) 50%);
+            background: linear-gradient(to bottom, transparent 50%, rgba(255, 0, 0, 0.05) 50%);
             background-size: 100% 4px;
             pointer-events: none;
             z-index: 2;
-            animation: scanline 8s linear infinite;
+            animation: scanRed 6s linear infinite;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1500px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
-        /* 2026 HUD Header */
-        .hud-header {
-            background: rgba(0, 5, 0, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid #00ff00;
-            border-radius: 0;
-            padding: 15px 25px;
+        /* Red HUD Header */
+        .red-hud {
+            background: rgba(20, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
+            border: 2px solid #ff0000;
             margin-bottom: 20px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
             position: relative;
         }
 
-        .hud-header::before {
+        .red-hud::before {
             content: '';
             position: absolute;
             top: -2px;
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(45deg, #0f0, transparent, #0f0);
+            background: linear-gradient(45deg, #ff0000, transparent, #ff0000);
             z-index: -1;
-            opacity: 0.3;
+            opacity: 0.4;
         }
 
-        .status-bar {
+        .status-bar-red {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 15px;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #00ff0066;
+            padding: 15px 25px;
+            border-bottom: 1px solid #ff0000;
         }
 
-        .system-status {
+        .system-status-red {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             font-size: 0.75rem;
         }
 
-        .status-led {
+        .status-led-red {
             display: inline-block;
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: #00ff00;
-            box-shadow: 0 0 5px #0f0;
-            animation: blinkRed 2s infinite;
-            margin-right: 5px;
+            background: #ff0000;
+            box-shadow: 0 0 8px #ff0000;
+            animation: blinkRed 1.5s infinite;
+            margin-right: 6px;
         }
 
-        .status-text {
-            color: #00ff00;
+        .status-text-red {
+            color: #ff4444;
+            font-weight: bold;
         }
 
-        .timestamp {
-            color: #00ff0088;
+        .timestamp-red {
+            color: #ff6666;
             font-family: monospace;
         }
 
-        .glitch-title {
-            font-size: 2.2rem;
-            color: #00ff00;
+        .glitch-red {
+            font-size: 2.5rem;
+            color: #ff0000;
             text-transform: uppercase;
-            letter-spacing: 8px;
-            animation: glitch2026 3s infinite;
+            letter-spacing: 10px;
+            padding: 20px 25px;
+            animation: glitchRed 2s infinite;
         }
 
-        .glitch-title small {
+        .glitch-red small {
             font-size: 0.7rem;
-            letter-spacing: 2px;
-            color: #00ff0088;
+            letter-spacing: 3px;
+            color: #ff6666;
         }
 
-        /* 2026 Terminal Panel */
-        .terminal-panel {
-            background: rgba(0, 5, 0, 0.9);
-            backdrop-filter: blur(5px);
-            border: 1px solid #00ff00;
+        /* Red Terminal */
+        .red-terminal {
+            background: rgba(10, 0, 0, 0.95);
+            border: 1px solid #ff0000;
             margin-bottom: 20px;
-            position: relative;
         }
 
-        .panel-header {
-            background: #001a00;
+        .terminal-header-red {
+            background: #1a0000;
             padding: 12px 20px;
-            border-bottom: 1px solid #00ff00;
+            border-bottom: 1px solid #ff0000;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
             gap: 10px;
         }
 
-        .panel-title {
-            color: #00ff00;
+        .terminal-title-red {
+            color: #ff4444;
             font-weight: bold;
             text-transform: uppercase;
             font-size: 0.8rem;
         }
 
-        .panel-title::before {
-            content: '>';
+        .terminal-title-red::before {
+            content: '►';
             margin-right: 8px;
-            color: #0f0;
+            color: #ff0000;
         }
 
-        .connection-badge {
-            background: #00ff0011;
-            border: 1px solid #00ff00;
+        .api-badge-red {
+            background: #ff000011;
+            border: 1px solid #ff0000;
             padding: 4px 12px;
-            border-radius: 20px;
+            border-radius: 0;
             font-size: 0.7rem;
-            color: #0f0;
+            color: #ff6666;
         }
 
-        .panel-content {
+        .terminal-content {
             padding: 25px;
         }
 
-        /* 2026 Input Section */
-        .input-container {
+        /* Input Section */
+        .input-area {
             margin-bottom: 25px;
         }
 
-        .input-line {
+        .command-line-red {
             display: flex;
             align-items: center;
             background: #000000;
-            border: 1px solid #00ff00;
-            padding: 0;
-            transition: all 0.3s;
+            border: 1px solid #ff0000;
+            margin-bottom: 15px;
         }
 
-        .input-line:focus-within {
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-            border-color: #0f0;
-        }
-
-        .input-prompt {
-            background: #001a00;
-            padding: 14px 18px;
-            color: #00ff00;
+        .command-prompt-red {
+            background: #1a0000;
+            padding: 14px 20px;
+            color: #ff4444;
             font-weight: bold;
-            border-right: 1px solid #00ff00;
+            border-right: 1px solid #ff0000;
             font-family: monospace;
-            font-size: 0.9rem;
         }
 
-        .input-field {
+        .command-input-red {
             flex: 1;
             background: transparent;
             border: none;
-            color: #00ff00;
-            padding: 14px 18px;
-            font-family: 'Share Tech Mono', monospace;
+            color: #ff4444;
+            padding: 14px 20px;
+            font-family: monospace;
             font-size: 1rem;
             outline: none;
         }
 
-        .input-field::placeholder {
-            color: #00ff0044;
+        .command-input-red::placeholder {
+            color: #ff444444;
         }
 
-        .execute-btn {
-            background: #001a00;
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            padding: 12px 30px;
-            margin: 15px 0;
+        .execute-red {
+            background: #1a0000;
+            border: 1px solid #ff0000;
+            color: #ff4444;
+            padding: 12px 35px;
             cursor: pointer;
             font-family: monospace;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             transition: all 0.2s;
             width: 100%;
         }
 
-        .execute-btn:hover {
-            background: #00ff00;
+        .execute-red:hover {
+            background: #ff0000;
             color: #000000;
-            box-shadow: 0 0 25px #0f0;
-            transform: scale(1.01);
+            box-shadow: 0 0 25px #ff0000;
         }
 
         /* Quick Commands */
-        .quick-commands {
+        .quick-red {
             margin-top: 20px;
             padding: 15px;
-            border-left: 3px solid #00ff00;
-            background: #000a00;
+            border-left: 3px solid #ff0000;
+            background: #050000;
         }
 
-        .quick-title {
-            color: #00ff0088;
+        .quick-label-red {
+            color: #ff6666;
             font-size: 0.7rem;
             margin-bottom: 10px;
             text-transform: uppercase;
         }
 
-        .cmd-chip {
+        .cmd-red {
             display: inline-block;
-            background: #001a00;
-            color: #00ff00;
+            background: #1a0000;
+            color: #ff4444;
             padding: 6px 15px;
             margin: 5px;
-            border: 1px solid #00ff0066;
+            border: 1px solid #ff000066;
             cursor: pointer;
             font-family: monospace;
             font-size: 0.8rem;
             transition: all 0.2s;
         }
 
-        .cmd-chip:hover {
-            background: #00ff0022;
-            border-color: #0f0;
+        .cmd-red:hover {
+            background: #ff000022;
+            border-color: #ff0000;
             transform: translateX(3px);
         }
 
-        /* 2026 Stats Cards */
-        .stats-grid-2026 {
+        /* Stats Grid */
+        .stats-red {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin: 25px 0;
         }
 
-        .stat-card-2026 {
-            background: #000a00;
-            border: 1px solid #00ff00;
+        .stat-red {
+            background: #050000;
+            border: 1px solid #ff0000;
             padding: 20px;
             position: relative;
             overflow: hidden;
             transition: all 0.3s;
         }
 
-        .stat-card-2026:hover {
+        .stat-red:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.2);
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.2);
+            border-color: #ff4444;
         }
 
-        .stat-card-2026::before {
+        .stat-red::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, #0f0, transparent);
-            animation: scanFast 2s infinite;
+            background: linear-gradient(90deg, transparent, #ff0000, transparent);
+            animation: scanRedFast 2s infinite;
         }
 
-        @keyframes scanFast {
+        @keyframes scanRedFast {
             0% { left: -100%; }
             100% { left: 100%; }
         }
 
-        .stat-label-2026 {
-            color: #00ff0088;
+        .stat-label-red {
+            color: #ff6666;
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 10px;
         }
 
-        .stat-value-2026 {
-            color: #00ff00;
+        .stat-value-red {
+            color: #ff3333;
             font-size: 1.8rem;
             font-weight: bold;
             font-family: monospace;
         }
 
-        /* Profile Card 2026 */
-        .profile-card-2026 {
-            background: #000a00;
-            border: 1px solid #00ff00;
+        /* Profile Card */
+        .profile-red {
+            background: #050000;
+            border: 2px solid #ff0000;
             padding: 25px;
             display: flex;
-            gap: 25px;
+            gap: 30px;
             flex-wrap: wrap;
             margin-bottom: 25px;
         }
 
-        .avatar-2026 {
-            width: 120px;
-            height: 120px;
-            border: 2px solid #00ff00;
+        .avatar-red {
+            width: 130px;
+            height: 130px;
+            border: 3px solid #ff0000;
             object-fit: cover;
-            filter: drop-shadow(0 0 10px #0f0);
+            filter: drop-shadow(0 0 15px #ff0000);
         }
 
-        .profile-info-2026 h3 {
-            color: #00ff00;
-            font-size: 1.6rem;
-            margin-bottom: 5px;
+        .profile-info-red h3 {
+            color: #ff4444;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
         }
 
-        .profile-info-2026 .handle {
-            color: #00ff0088;
+        .profile-info-red .handle-red {
+            color: #ff6666;
             margin-bottom: 12px;
+            font-size: 1rem;
         }
 
-        .profile-info-2026 .bio {
-            color: #aaa;
-            max-width: 500px;
+        .profile-info-red .bio-red {
+            color: #cc8888;
+            max-width: 550px;
             line-height: 1.5;
         }
 
-        .badge-2026 {
+        .badge-red {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 5px 15px;
             margin-top: 12px;
             margin-right: 10px;
-            border: 1px solid #00ff00;
+            border: 1px solid #ff0000;
             font-size: 0.7rem;
+            color: #ff6666;
         }
 
         /* IDs Section */
-        .ids-section-2026 {
-            background: #000a00;
-            border: 1px solid #00ff00;
+        .ids-red {
+            background: #050000;
+            border: 1px solid #ff0000;
             padding: 20px;
             margin-bottom: 25px;
         }
 
-        .ids-title-2026 {
-            color: #00ff00;
+        .ids-title-red {
+            color: #ff4444;
             font-size: 0.8rem;
             margin-bottom: 15px;
             padding-bottom: 8px;
-            border-bottom: 1px solid #00ff0066;
+            border-bottom: 1px solid #ff000066;
         }
 
-        .ids-grid-2026 {
+        .ids-grid-red {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
 
-        .id-item-2026 {
+        .id-item-red {
             font-family: monospace;
         }
 
-        .id-label-2026 {
-            color: #00ff0088;
+        .id-label-red {
+            color: #ff6666;
             font-size: 0.7rem;
         }
 
-        .id-value-2026 {
-            color: #00ff00;
+        .id-value-red {
+            color: #ff4444;
             word-break: break-all;
             margin-top: 5px;
         }
 
-        /* Loading Animation 2026 */
-        .loading-2026 {
+        /* Loading */
+        .loading-red {
             text-align: center;
             padding: 50px;
         }
 
-        .spinner-2026 {
-            width: 50px;
-            height: 50px;
-            border: 2px solid #00ff0033;
-            border-top-color: #00ff00;
+        .spinner-red {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #ff000033;
+            border-top-color: #ff0000;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
@@ -457,12 +470,12 @@
             to { transform: rotate(360deg); }
         }
 
-        .loading-text-2026 {
-            color: #00ff00;
+        .loading-text-red {
+            color: #ff4444;
             font-family: monospace;
         }
 
-        .loading-text-2026::after {
+        .loading-text-red::after {
             content: '...';
             animation: dots 1.5s steps(4, end) infinite;
             display: inline-block;
@@ -477,86 +490,88 @@
             80%, 100% { content: '...'; }
         }
 
-        /* Error 2026 */
-        .error-2026 {
+        /* Error */
+        .error-red {
             background: #1a0000;
-            border: 1px solid #ff0000;
-            padding: 20px;
+            border: 2px solid #ff0000;
+            padding: 25px;
             color: #ff6666;
             text-align: center;
             font-family: monospace;
         }
 
         /* Footer */
-        .footer-2026 {
+        .footer-red {
             text-align: center;
             padding: 20px;
-            color: #00ff0066;
+            color: #ff6666;
             font-size: 0.7rem;
-            border-top: 1px solid #00ff0033;
+            border-top: 1px solid #ff000033;
             margin-top: 20px;
         }
 
         @media (max-width: 768px) {
-            .glitch-title { font-size: 1.2rem; letter-spacing: 3px; }
-            .stat-value-2026 { font-size: 1.2rem; }
-            .profile-info-2026 h3 { font-size: 1.2rem; }
-            .avatar-2026 { width: 80px; height: 80px; }
+            .glitch-red { font-size: 1.2rem; letter-spacing: 5px; }
+            .stat-value-red { font-size: 1.2rem; }
+            .profile-info-red h3 { font-size: 1.2rem; }
+            .avatar-red { width: 80px; height: 80px; }
         }
     </style>
 </head>
 <body>
-<div class="scanline-effect"></div>
+<div class="scan-red"></div>
 <div class="container">
-    <!-- HUD Header -->
-    <div class="hud-header">
-        <div class="status-bar">
-            <div class="system-status">
-                <span class="status-text"><span class="status-led"></span> T5KILA-OSINT v2026</span>
-                <span class="status-text">🔒 SECURE CHANNEL</span>
-                <span class="status-text">🟢 API: TIKWM v2</span>
+    <!-- Red HUD -->
+    <div class="red-hud">
+        <div class="status-bar-red">
+            <div class="system-status-red">
+                <span class="status-text-red"><span class="status-led-red"></span> T5KILA-RED-OSINT v3.0</span>
+                <span class="status-text-red">🔴 DARK WEB MODE</span>
+                <span class="status-text-red">⚡ REAL API 2026</span>
+                <span class="status-text-red">🎯 FULL EXTRACTION</span>
             </div>
-            <div class="timestamp" id="timestamp"></div>
+            <div class="timestamp-red" id="timestamp"></div>
         </div>
-        <div class="glitch-title">
-            t5kila<br>
-            <small>TIKTOK OSINT SUITE // 2026 EDITION</small>
+        <div class="glitch-red">
+            T5KILA<br>
+            <small>RED OSINT SUITE // FULL DATA EXTRACTION</small>
         </div>
     </div>
 
-    <!-- Terminal Panel -->
-    <div class="terminal-panel">
-        <div class="panel-header">
-            <span class="panel-title">TARGET_ACQUISITION_TERMINAL</span>
-            <span class="connection-badge">⚡ LIVE API 2026</span>
+    <!-- Red Terminal -->
+    <div class="red-terminal">
+        <div class="terminal-header-red">
+            <span class="terminal-title-red">TARGET_ACQUISITION_TERMINAL_RED</span>
+            <span class="api-badge-red">🔴 LIVE REAL API 2026 | FULL INFO</span>
         </div>
-        <div class="panel-content">
-            <div class="input-container">
-                <div class="input-line">
-                    <span class="input-prompt">t5kila@osint:~$</span>
-                    <input type="text" class="input-field" id="usernameInput" placeholder="tiktok-osint --scan [username] --api 2026" autocomplete="off">
+        <div class="terminal-content">
+            <div class="input-area">
+                <div class="command-line-red">
+                    <span class="command-prompt-red">t5kila@red:~$</span>
+                    <input type="text" class="command-input-red" id="usernameInput" placeholder="osint --target [username] --full --real" autocomplete="off">
                 </div>
-                <button class="execute-btn" id="searchBtn">▶ EXECUTE_SCAN [ENTER]</button>
+                <button class="execute-red" id="searchBtn">▶ EXTRACT_ALL_DATA [ENTER]</button>
             </div>
 
-            <div class="quick-commands">
-                <div class="quick-title">└─[$] QUICK_TARGETS</div>
-                <span class="cmd-chip" data-user="tiktok">SCAN:tiktok</span>
-                <span class="cmd-chip" data-user="charlidamelio">SCAN:charlidamelio</span>
-                <span class="cmd-chip" data-user="therock">SCAN:therock</span>
-                <span class="cmd-chip" data-user="zachking">SCAN:zachking</span>
-                <span class="cmd-chip" data-user="lizzo">SCAN:lizzo</span>
-                <span class="cmd-chip" data-user="mrbeast">SCAN:mrbeast</span>
-                <span class="cmd-chip" data-user="speed">SCAN:speed</span>
+            <div class="quick-red">
+                <div class="quick-label-red">└─[$] TARGET_PRESETS</div>
+                <span class="cmd-red" data-user="tiktok">tiktok</span>
+                <span class="cmd-red" data-user="charlidamelio">charlidamelio</span>
+                <span class="cmd-red" data-user="therock">therock</span>
+                <span class="cmd-red" data-user="zachking">zachking</span>
+                <span class="cmd-red" data-user="lizzo">lizzo</span>
+                <span class="cmd-red" data-user="mrbeast">mrbeast</span>
+                <span class="cmd-red" data-user="speed">speed</span>
+                <span class="cmd-red" data-user="kimkardashian">kimkardashian</span>
             </div>
         </div>
     </div>
 
     <!-- Loading -->
     <div id="loading" style="display: none;">
-        <div class="loading-2026">
-            <div class="spinner-2026"></div>
-            <div class="loading-text-2026">INJECTING_OSINT_PAYLOAD | FETCHING_TARGET_DATA</div>
+        <div class="loading-red">
+            <div class="spinner-red"></div>
+            <div class="loading-text-red">🔴 EXTRACTING_REAL_DATA | FETCHING_ALL_INFO</div>
         </div>
     </div>
 
@@ -567,14 +582,14 @@
     <div id="results" style="display: none;"></div>
 
     <!-- Footer -->
-    <div class="footer-2026">
-        <span>┌──[t5kila@kali-2026]</span><br>
-        <span>└─[$] TikTok OSINT Suite v2026 | API: TikWM v2 | No Limits</span>
+    <div class="footer-red">
+        <span>┌──[t5kila@red-osint]</span><br>
+        <span>└─[$] TikTok OSINT Red Suite | Real API 2026 | Full Extraction | No Limits</span>
     </div>
 </div>
 
 <script>
-    // Timestamp update
+    // Timestamp
     function updateTimestamp() {
         const now = new Date();
         document.getElementById('timestamp').innerHTML = now.toLocaleString('en-US', { 
@@ -594,10 +609,10 @@
     const resultsDiv = document.getElementById('results');
 
     // Command chips
-    document.querySelectorAll('.cmd-chip').forEach(cmd => {
+    document.querySelectorAll('.cmd-red').forEach(cmd => {
         cmd.addEventListener('click', () => {
             let user = cmd.getAttribute('data-user');
-            usernameInput.value = `tiktok-osint --scan ${user} --api 2026`;
+            usernameInput.value = `osint --target ${user} --full --real`;
             performSearch(user);
         });
     });
@@ -606,7 +621,7 @@
         let input = usernameInput.value.trim();
         let username = extractUsername(input);
         if (!username) {
-            showError('[!] ERROR: No target specified. Usage: tiktok-osint --scan [username]');
+            showError('[!] ERROR: No target specified. Use: osint --target [username]');
             return;
         }
         performSearch(username);
@@ -621,8 +636,8 @@
     });
 
     function extractUsername(input) {
-        const scanMatch = input.match(/--scan\s+(\S+)/i);
-        if (scanMatch) return scanMatch[1];
+        const targetMatch = input.match(/--target\s+(\S+)/i);
+        if (targetMatch) return targetMatch[1];
         const directMatch = input.match(/^([a-zA-Z0-9_.]+)$/);
         if (directMatch) return directMatch[1];
         return input.split(' ')[0].trim();
@@ -635,7 +650,7 @@
         loadingDiv.style.display = 'block';
 
         try {
-            // API 2026 - TikWM v2 endpoint
+            // REAL API - TikWM v2 Full Data
             const userInfoUrl = `https://tikwm.com/api/user/info?unique_id=${username}`;
             const userResponse = await fetch(userInfoUrl);
             const userData = await userResponse.json();
@@ -647,27 +662,46 @@
             const user = userData.data.user;
             const stats = userData.data.stats;
 
-            // Fetch creation date
-            let creationDate = 'UNKNOWN';
+            // Fetch more user details from secondary endpoint
+            let additionalInfo = {};
             try {
-                const postsUrl = `https://tikwm.com/api/user/posts?unique_id=${username}&count=1`;
+                const userDetailUrl = `https://tikwm.com/api/user/detail?unique_id=${username}`;
+                const detailResponse = await fetch(userDetailUrl);
+                const detailData = await detailResponse.json();
+                if (detailData?.data) {
+                    additionalInfo = detailData.data;
+                }
+            } catch (e) {}
+
+            // Fetch creation date from first video
+            let creationDate = 'Unknown';
+            let firstVideoDate = null;
+            try {
+                const postsUrl = `https://tikwm.com/api/user/posts?unique_id=${username}&count=5`;
                 const postsResponse = await fetch(postsUrl);
                 const postsData = await postsResponse.json();
-                if (postsData?.data?.videos?.[0]?.create_time) {
-                    const date = new Date(postsData.data.videos[0].create_time * 1000);
-                    creationDate = date.toLocaleDateString('en-US', {
-                        year: 'numeric', month: 'long', day: 'numeric'
-                    });
+                if (postsData?.data?.videos?.length > 0) {
+                    const oldestVideo = postsData.data.videos[postsData.data.videos.length - 1];
+                    if (oldestVideo?.create_time) {
+                        const date = new Date(oldestVideo.create_time * 1000);
+                        creationDate = date.toLocaleDateString('en-US', {
+                            year: 'numeric', month: 'long', day: 'numeric'
+                        });
+                        firstVideoDate = date;
+                    }
                 }
             } catch (e) {}
 
             // Country detection
-            let country = 'UNKNOWN';
+            let country = 'Unknown';
+            let region = 'Unknown';
             if (user.signature) {
                 const flagMap = {
-                    '🇺🇸': 'USA', '🇬🇧': 'UK', '🇨🇦': 'Canada', '🇦🇺': 'Australia',
-                    '🇮🇳': 'India', '🇩🇪': 'Germany', '🇫🇷': 'France', '🇯🇵': 'Japan',
-                    '🇧🇷': 'Brazil', '🇲🇽': 'Mexico', '🇰🇷': 'Korea', '🇮🇹': 'Italy'
+                    '🇺🇸': 'United States', '🇬🇧': 'United Kingdom', '🇨🇦': 'Canada',
+                    '🇦🇺': 'Australia', '🇮🇳': 'India', '🇩🇪': 'Germany',
+                    '🇫🇷': 'France', '🇯🇵': 'Japan', '🇧🇷': 'Brazil',
+                    '🇲🇽': 'Mexico', '🇰🇷': 'South Korea', '🇮🇹': 'Italy',
+                    '🇪🇸': 'Spain', '🇷🇺': 'Russia', '🇿🇦': 'South Africa'
                 };
                 for (const [emoji, name] of Object.entries(flagMap)) {
                     if (user.signature.includes(emoji)) {
@@ -675,16 +709,21 @@
                         break;
                     }
                 }
-                if (country === 'UNKNOWN') {
-                    const match = user.signature.match(/(?:from|in|📍)\s+([A-Za-z\s]{2,20})/i);
+                if (country === 'Unknown') {
+                    const match = user.signature.match(/(?:from|in|📍|based in)\s+([A-Za-z\s]{2,25})/i);
                     if (match) country = match[1].trim();
                 }
             }
 
+            // Extract region from additional data if available
+            if (additionalInfo.region) region = additionalInfo.region;
+
+            // Build complete profile data
             const profileData = {
                 username: user.unique_id || username,
                 nickname: user.nickname || 'N/A',
-                avatar: user.avatar || 'https://via.placeholder.com/120',
+                avatar: user.avatar || 'https://via.placeholder.com/130',
+                avatar_larger: user.avatar_larger || user.avatar || '',
                 bio: user.signature || 'No bio available',
                 verified: user.verified || false,
                 private_account: user.private_account || false,
@@ -694,8 +733,15 @@
                 videos: stats.video_count || 0,
                 user_id: user.id || 'N/A',
                 sec_uid: user.sec_uid || 'N/A',
+                uid: user.uid || 'N/A',
+                unique_id: user.unique_id || username,
                 country: country,
-                creation_date: creationDate
+                region: region,
+                creation_date: creationDate,
+                bio_link: user.bio_link || 'None',
+                is_ad_virtual: user.is_ad_virtual || false,
+                commerce_user: user.commerce_user_info?.commerce_user || false,
+                tt_seller: user.tt_seller || false
             };
 
             renderResults(profileData);
@@ -704,76 +750,87 @@
 
         } catch (err) {
             loadingDiv.style.display = 'none';
-            showError(`[!] OSINT_ERROR_2026: ${err.message}<br><br>► TARGET: ${username}<br>► STATUS: FAILED<br>► POSSIBLE_CAUSES: Invalid username | Private account | Rate limit | API throttle`);
+            showError(`🔴 OSINT_ERROR: ${err.message}<br><br>► TARGET: ${username}<br>► STATUS: EXTRACTION_FAILED<br>► CAUSES: Invalid username | Private account | Rate limit | API throttle`);
         }
     }
 
     function renderResults(data) {
         resultsDiv.innerHTML = `
-            <div class="terminal-panel" style="margin-top: 20px;">
-                <div class="panel-header">
-                    <span class="panel-title">EXTRACTED_DATA // ${data.username.toUpperCase()}</span>
-                    <span class="connection-badge">✓ SCAN_COMPLETE_2026</span>
+            <div class="red-terminal" style="margin-top: 20px;">
+                <div class="terminal-header-red">
+                    <span class="terminal-title-red">EXTRACTED_DATA // ${data.username.toUpperCase()}</span>
+                    <span class="api-badge-red">✅ REAL_DATA_2026 | COMPLETE</span>
                 </div>
-                <div class="panel-content">
-                    <!-- Profile Card -->
-                    <div class="profile-card-2026">
-                        <img src="${data.avatar}" class="avatar-2026" alt="Avatar" onerror="this.src='https://via.placeholder.com/120'">
-                        <div class="profile-info-2026">
+                <div class="terminal-content">
+                    <!-- Profile Section -->
+                    <div class="profile-red">
+                        <img src="${data.avatar}" class="avatar-red" alt="Avatar" onerror="this.src='https://via.placeholder.com/130'">
+                        <div class="profile-info-red">
                             <h3>${escapeHtml(data.nickname)}</h3>
-                            <div class="handle">@${escapeHtml(data.username)}</div>
-                            <div class="bio">${escapeHtml(data.bio.substring(0, 200))}${data.bio.length > 200 ? '...' : ''}</div>
+                            <div class="handle-red">@${escapeHtml(data.username)}</div>
+                            <div class="bio-red">${escapeHtml(data.bio.substring(0, 250))}${data.bio.length > 250 ? '...' : ''}</div>
+                            ${data.bio_link !== 'None' ? `<div class="bio-red" style="color:#ff8888; margin-top:5px;">🔗 ${escapeHtml(data.bio_link)}</div>` : ''}
                             <div>
-                                ${data.verified ? '<span class="badge-2026">✓ VERIFIED</span>' : ''}
-                                ${data.private_account ? '<span class="badge-2026" style="border-color:#ff4444;color:#ff4444;">🔒 PRIVATE</span>' : '<span class="badge-2026">🌐 PUBLIC</span>'}
+                                ${data.verified ? '<span class="badge-red">✓ VERIFIED ACCOUNT</span>' : ''}
+                                ${data.private_account ? '<span class="badge-red" style="border-color:#ff0000;color:#ff6666;">🔒 PRIVATE ACCOUNT</span>' : '<span class="badge-red">🌐 PUBLIC ACCOUNT</span>'}
+                                ${data.commerce_user ? '<span class="badge-red">🛒 COMMERCE USER</span>' : ''}
+                                ${data.tt_seller ? '<span class="badge-red">📦 TIKTOK SELLER</span>' : ''}
                             </div>
                         </div>
                     </div>
 
-                    <!-- Stats Grid -->
-                    <div class="stats-grid-2026">
-                        <div class="stat-card-2026">
-                            <div class="stat-label-2026">FOLLOWERS</div>
-                            <div class="stat-value-2026">${formatNumber(data.followers)}</div>
+                    <!-- Statistics Grid -->
+                    <div class="stats-red">
+                        <div class="stat-red">
+                            <div class="stat-label-red">👥 TOTAL FOLLOWERS</div>
+                            <div class="stat-value-red">${formatNumber(data.followers)}</div>
                         </div>
-                        <div class="stat-card-2026">
-                            <div class="stat-label-2026">FOLLOWING</div>
-                            <div class="stat-value-2026">${formatNumber(data.following)}</div>
+                        <div class="stat-red">
+                            <div class="stat-label-red">🔁 FOLLOWING</div>
+                            <div class="stat-value-red">${formatNumber(data.following)}</div>
                         </div>
-                        <div class="stat-card-2026">
-                            <div class="stat-label-2026">TOTAL LIKES</div>
-                            <div class="stat-value-2026">${formatNumber(data.likes)}</div>
+                        <div class="stat-red">
+                            <div class="stat-label-red">❤️ TOTAL LIKES RECEIVED</div>
+                            <div class="stat-value-red">${formatNumber(data.likes)}</div>
                         </div>
-                        <div class="stat-card-2026">
-                            <div class="stat-label-2026">VIDEOS</div>
-                            <div class="stat-value-2026">${formatNumber(data.videos)}</div>
-                        </div>
-                    </div>
-
-                    <!-- IDs Section -->
-                    <div class="ids-section-2026">
-                        <div class="ids-title-2026">└─[$] UNIQUE_IDENTIFIERS</div>
-                        <div class="ids-grid-2026">
-                            <div class="id-item-2026">
-                                <div class="id-label-2026">USER_ID [UID]</div>
-                                <div class="id-value-2026">${escapeHtml(data.user_id)}</div>
-                            </div>
-                            <div class="id-item-2026">
-                                <div class="id-label-2026">SECURITY_ID [SEC_UID]</div>
-                                <div class="id-value-2026" style="font-size:0.8rem;">${escapeHtml(data.sec_uid)}</div>
-                            </div>
+                        <div class="stat-red">
+                            <div class="stat-label-red">🎬 TOTAL VIDEOS POSTED</div>
+                            <div class="stat-value-red">${formatNumber(data.videos)}</div>
                         </div>
                     </div>
 
-                    <!-- Meta Grid -->
-                    <div class="stats-grid-2026">
-                        <div class="stat-card-2026">
-                            <div class="stat-label-2026">GEO_LOCATION</div>
-                            <div class="stat-value-2026" style="font-size:1rem;">${escapeHtml(data.country)}</div>
+                    <!-- Unique Identifiers -->
+                    <div class="ids-red">
+                        <div class="ids-title-red">🔐 UNIQUE_IDENTIFIERS [FULL EXTRACTION]</div>
+                        <div class="ids-grid-red">
+                            <div class="id-item-red">
+                                <div class="id-label-red">USER ID (UID)</div>
+                                <div class="id-value-red">${escapeHtml(data.user_id)}</div>
+                            </div>
+                            <div class="id-item-red">
+                                <div class="id-label-red">SECURITY ID (SEC_UID)</div>
+                                <div class="id-value-red" style="font-size:0.8rem;">${escapeHtml(data.sec_uid)}</div>
+                            </div>
+                            <div class="id-item-red">
+                                <div class="id-label-red">UNIQUE ID</div>
+                                <div class="id-value-red">${escapeHtml(data.unique_id)}</div>
+                            </div>
+                            ${data.uid !== 'N/A' ? `<div class="id-item-red">
+                                <div class="id-label-red">ALT UID</div>
+                                <div class="id-value-red">${escapeHtml(data.uid)}</div>
+                            </div>` : ''}
                         </div>
-                        <div class="stat-card-2026">
-                            <div class="stat-label-2026">ACCOUNT_CREATED</div>
-                            <div class="stat-value-2026" style="font-size:1rem;">${escapeHtml(data.creation_date)}</div>
+                    </div>
+
+                    <!-- Meta Information -->
+                    <div class="stats-red">
+                        <div class="stat-red">
+                            <div class="stat-label-red">🌍 COUNTRY / REGION</div>
+                            <div class="stat-value-red" style="font-size:1rem;">${escapeHtml(data.country)} ${data.region !== 'Unknown' ? `(${data.region})` : ''}</div>
+                        </div>
+                        <div class="stat-red">
+                            <div class="stat-label-red">📅 ACCOUNT CREATION DATE</div>
+                            <div class="stat-value-red" style="font-size:1rem;">${escapeHtml(data.creation_date)}</div>
                         </div>
                     </div>
                 </div>
@@ -799,7 +856,7 @@
 
     function showError(msg) {
         errorDiv.style.display = 'block';
-        errorDiv.innerHTML = `<div class="error-2026">${msg.replace(/\n/g, '<br>')}</div>`;
+        errorDiv.innerHTML = `<div class="error-red">${msg.replace(/\n/g, '<br>')}</div>`;
         setTimeout(() => {
             if (errorDiv.style.display === 'block') {
                 errorDiv.style.display = 'none';
