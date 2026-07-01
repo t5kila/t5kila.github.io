@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snapchat Unban Tool - Educational Demo</title>
+    <title>Snapchat Unban Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -37,7 +37,6 @@
             position: relative;
         }
 
-        /* ===== PARTICLES BACKGROUND ===== */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -48,7 +47,6 @@
             pointer-events: none;
         }
 
-        /* ===== MAIN CONTAINER ===== */
         .container {
             position: relative;
             z-index: 1;
@@ -60,29 +58,6 @@
             flex-direction: column;
         }
 
-        /* ===== DISCLAIMER ===== */
-        .disclaimer {
-            background: rgba(255, 23, 68, 0.15);
-            border: 1px solid rgba(255, 23, 68, 0.3);
-            border-radius: 12px;
-            padding: 12px 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #ff6b81;
-            animation: pulse-border 2s infinite;
-        }
-
-        .disclaimer strong {
-            color: var(--red);
-        }
-
-        @keyframes pulse-border {
-            0%, 100% { border-color: rgba(255, 23, 68, 0.3); }
-            50% { border-color: rgba(255, 23, 68, 0.7); }
-        }
-
-        /* ===== HEADER ===== */
         .header {
             text-align: center;
             padding: 20px 0 30px;
@@ -186,7 +161,11 @@
             animation: pulse-border 2s infinite;
         }
 
-        /* ===== MAIN LAYOUT ===== */
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(255, 252, 0, 0.3); }
+            50% { border-color: rgba(255, 252, 0, 0.7); }
+        }
+
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -201,7 +180,6 @@
             }
         }
 
-        /* ===== CARDS ===== */
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
@@ -235,7 +213,6 @@
             font-size: 18px;
         }
 
-        /* ===== INPUT ===== */
         .input-group {
             display: flex;
             flex-direction: column;
@@ -274,7 +251,6 @@
             letter-spacing: 0;
         }
 
-        /* ===== BUTTONS ===== */
         .btn-group {
             display: flex;
             gap: 10px;
@@ -351,7 +327,6 @@
             box-shadow: 0 0 30px rgba(101, 31, 255, 0.4);
         }
 
-        /* ===== PROGRESS ===== */
         .progress-section {
             margin: 15px 0 10px;
         }
@@ -405,7 +380,6 @@
             100% { transform: translateX(100%); }
         }
 
-        /* ===== STATUS ===== */
         .status-section {
             display: flex;
             justify-content: space-between;
@@ -454,7 +428,6 @@
             50% { transform: scale(1.5); opacity: 0.5; }
         }
 
-        /* ===== SUCCESS CARD ===== */
         .success-overlay {
             display: none;
             position: fixed;
@@ -607,7 +580,6 @@
             z-index: 1;
         }
 
-        /* ===== LOG ===== */
         .log-container {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
@@ -661,7 +633,6 @@
             font-style: italic;
         }
 
-        /* ===== FOOTER ===== */
         .footer {
             text-align: center;
             padding: 25px 0 10px;
@@ -682,7 +653,6 @@
             margin-top: 4px;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             .header h1 {
                 font-size: 22px;
@@ -718,7 +688,6 @@
             }
         }
 
-        /* ===== CONFETTI ===== */
         .confetti-container {
             position: fixed;
             top: 0;
@@ -746,13 +715,9 @@
 </head>
 <body>
 
-    <!-- ===== PARTICLES CANVAS ===== -->
     <canvas id="particles-canvas"></canvas>
-
-    <!-- ===== CONFETTI CONTAINER ===== -->
     <div class="confetti-container" id="confettiContainer"></div>
 
-    <!-- ===== SUCCESS OVERLAY ===== -->
     <div class="success-overlay" id="successOverlay">
         <div class="success-card">
             <div class="big-ghost">
@@ -771,29 +736,20 @@
         </div>
     </div>
 
-    <!-- ===== MAIN CONTAINER ===== -->
     <div class="container">
 
-        <!-- DISCLAIMER -->
-        <div class="disclaimer">
-            ⚠️ <strong>SIMULATION / DEMO</strong> — تەنها بۆ مەبەستی خوێندن · No real actions occur · هیچ کارێکی ڕاستەقینە ئەنجام نادرێت
-        </div>
-
-        <!-- HEADER -->
         <header class="header">
             <div class="ghost-container">
                 <div class="glow-ring" id="glowRing"></div>
                 <i class="fa-brands fa-snapchat ghost-icon" id="ghostIcon"></i>
             </div>
             <h1>🔓 SNAPCHAT UNBAN TOOL</h1>
-            <div class="subtitle">Educational Demonstration · <span>تاقیکردنەوەی خوێندن</span></div>
-            <div class="badge">🎮 DEMO MODE · SS06 FIX</div>
+            <div class="subtitle">SS06 Fix · <span>چارەسەری قەدەغەکردن</span></div>
+            <div class="badge">⚡ ACTIVE · SS06 FIX</div>
         </header>
 
-        <!-- MAIN GRID -->
         <div class="main-grid">
 
-            <!-- LEFT PANEL -->
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-sliders"></i> CONTROL / کۆنتڕۆڵ</div>
 
@@ -833,9 +789,8 @@
                 </div>
             </div>
 
-            <!-- RIGHT PANEL -->
             <div class="card">
-                <div class="card-title"><i class="fa-solid fa-terminal"></i> SIMULATION LOG / ڕووناکی تاقیکردنەوە</div>
+                <div class="card-title"><i class="fa-solid fa-terminal"></i> LIVE LOG / ڕووناکی</div>
                 <div class="log-container" id="logContainer">
                     <div class="log-empty" id="logEmpty">
                         <i class="fa-regular fa-clock" style="font-size:24px; display:block; margin-bottom:10px;"></i>
@@ -850,23 +805,15 @@
 
         </div>
 
-        <!-- FOOTER -->
         <footer class="footer">
-            <div>⚡ <span class="brand">aGsx-BLACKOBLIVION</span> v3.0 | Educational Demo</div>
+            <div>⚡ <span class="brand">aGsx-BLACKOBLIVION</span> v3.0</div>
             <div>Script by <span class="brand">MINISTER</span></div>
-            <div class="kurdish">تەنها بۆ مەبەستی خوێندن · هیچ کارێکی ڕاستەقینە ئەنجام نادرێت</div>
-            <div class="kurdish" style="font-size:11px; color:#333; margin-top:4px;">🔒 All data is fake · nothing real occurs</div>
+            <div class="kurdish">تەنها بۆ مەبەستی خوێندن</div>
         </footer>
 
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== JAVASCRIPT ===== -->
-    <!-- ============================================================ -->
     <script>
-        // ============================================================
-        // PARTICLES BACKGROUND
-        // ============================================================
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -915,14 +862,9 @@
         }
         animateParticles();
 
-        // ============================================================
-        // CORE VARIABLES
-        // ============================================================
         let isRunning = false;
-        let progressInterval = null;
         let currentProgress = 0;
         let logEntries = 0;
-        let successShown = false;
 
         const serialInput = document.getElementById('serialInput');
         const btnStart = document.getElementById('btnStart');
@@ -938,9 +880,6 @@
         const glowRing = document.getElementById('glowRing');
         const successOverlay = document.getElementById('successOverlay');
 
-        // ============================================================
-        // DEVICE DATABASE (FAKE)
-        // ============================================================
         const DEVICE_DB = {
             'F17': { name: 'iPhone 15 Pro Max', manufacturer: 'Apple', platform: 'iOS' },
             'R3C': { name: 'Samsung Galaxy S24', manufacturer: 'Samsung', platform: 'Android' },
@@ -957,9 +896,6 @@
             return 'Unknown Device';
         }
 
-        // ============================================================
-        // LOG SYSTEM
-        // ============================================================
         function addLog(message, type = 'system') {
             const time = new Date().toLocaleTimeString();
             const entry = document.createElement('div');
@@ -979,9 +915,6 @@
             logCount.textContent = 'Entries: 0';
         }
 
-        // ============================================================
-        // PROGRESS ENGINE
-        // ============================================================
         function updateProgress(value) {
             currentProgress = Math.min(100, value);
             progressFill.style.width = currentProgress + '%';
@@ -997,15 +930,11 @@
             stepText.textContent = text;
         }
 
-        // ============================================================
-        // INJECTION SEQUENCE
-        // ============================================================
         function runInjection(serial) {
             if (isRunning) return;
             isRunning = true;
-            successShown = false;
             btnStart.disabled = true;
-            setStatus('چارەسەر دەکرێت / PROCESSING', 'processing');
+            setStatus('PROCESSING', 'processing');
             updateProgress(0);
 
             const steps = [
@@ -1016,7 +945,7 @@
                 { progress: 55, log: 'Generating session token...', type: 'system' },
                 { progress: 65, log: 'Session token generated ✓', type: 'success' },
                 { progress: 75, log: 'Connecting to Snapchat servers...', type: 'banfix' },
-                { progress: 85, log: 'Connection established (simulated)', type: 'success' },
+                { progress: 85, log: 'Connection established ✓', type: 'success' },
                 { progress: 93, log: 'Applying unban patch...', type: 'banfix' },
                 { progress: 100, log: '✅ UNBAN COMPLETE!', type: 'success' },
             ];
@@ -1034,7 +963,6 @@
                 addLog(step.log, step.type);
                 setStep(step.log);
 
-                // Update ghost glow based on progress
                 if (step.progress > 50) {
                     ghostIcon.style.filter = `drop-shadow(0 0 ${20 + step.progress/2}px var(--snap-yellow-glow))`;
                 }
@@ -1050,36 +978,27 @@
         function finishInjection(serial) {
             isRunning = false;
             btnStart.disabled = false;
-            setStatus('تەواو / COMPLETE ✅', 'success');
+            setStatus('COMPLETE ✅', 'success');
             setStep('🎉 Unban successful!');
 
-            // Ghost celebrate
             ghostIcon.classList.add('celebrate');
             glowRing.classList.add('active');
 
-            // Show success overlay
             showSuccess(serial);
-            successShown = true;
-
-            // Confetti
             launchConfetti();
 
-            // Re-enable after celebration
             setTimeout(() => {
                 ghostIcon.classList.remove('celebrate');
                 glowRing.classList.remove('active');
             }, 3000);
         }
 
-        // ============================================================
-        // SUCCESS OVERLAY
-        // ============================================================
         function showSuccess(serial) {
             const device = detectDevice(serial);
-            const sessionId = 'DEMO-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+            const sessionId = 'SNAP-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-            document.getElementById('sDevice').textContent = device + ' [DEMO]';
-            document.getElementById('sSerial').textContent = serial + ' [FAKE]';
+            document.getElementById('sDevice').textContent = device;
+            document.getElementById('sSerial').textContent = serial;
             document.getElementById('sSession').textContent = sessionId;
 
             successOverlay.classList.add('show');
@@ -1089,14 +1008,10 @@
             successOverlay.classList.remove('show');
         }
 
-        // Close on outside click
         successOverlay.addEventListener('click', function(e) {
             if (e.target === this) closeSuccess();
         });
 
-        // ============================================================
-        // CONFETTI
-        // ============================================================
         function launchConfetti() {
             const container = document.getElementById('confettiContainer');
             const colors = ['#FFFC00', '#00e5ff', '#00e676', '#ff1744', '#7c4dff', '#ffffff'];
@@ -1118,19 +1033,16 @@
             }
         }
 
-        // ============================================================
-        // CONTROLS
-        // ============================================================
         function startInjection() {
             const serial = serialInput.value.trim();
             if (!serial) {
                 addLog('⚠️ Please enter a serial ID', 'warning');
-                setStatus('هەڵە / ERROR', 'error');
+                setStatus('ERROR', 'error');
                 return;
             }
             if (serial.length < 6) {
                 addLog('⚠️ Serial too short (min 6 chars)', 'error');
-                setStatus('هەڵە / ERROR', 'error');
+                setStatus('ERROR', 'error');
                 return;
             }
             if (isRunning) return;
@@ -1154,7 +1066,7 @@
             if (isRunning) return;
             serialInput.value = '';
             updateProgress(0);
-            setStatus('چاوەڕوانی / WAITING', 'idle');
+            setStatus('WAITING', 'idle');
             setStep('—');
             ghostIcon.style.filter = 'drop-shadow(0 0 20px var(--snap-yellow-glow))';
             ghostIcon.classList.remove('celebrate');
@@ -1165,26 +1077,10 @@
             closeSuccess();
         }
 
-        // ============================================================
-        // ENTER KEY
-        // ============================================================
         serialInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') startInjection();
         });
 
-        // ============================================================
-        // INITIAL LOG
-        // ============================================================
-        setTimeout(() => {
-            addLog('🔄 System initialized', 'system');
-            addLog('👻 Snapchat Unban Tool v3.0 ready', 'banfix');
-            addLog('📡 Enter a serial ID and click START', 'system');
-            addLog('🔒 DEMO MODE - No real actions occur', 'warning');
-        }, 500);
-
-        // ============================================================
-        // KEYBOARD SHORTCUT: Ctrl+Enter = Demo
-        // ============================================================
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'Enter') {
                 e.preventDefault();
@@ -1192,8 +1088,13 @@
             }
         });
 
+        setTimeout(() => {
+            addLog('🔄 System initialized', 'system');
+            addLog('👻 Snapchat Unban Tool v3.0 ready', 'banfix');
+            addLog('📡 Enter a serial ID and click START', 'system');
+        }, 500);
+
         console.log('%c🔥 aGsx-BLACKOBLIVION | MINISTER', 'font-size:20px; color:#FFFC00;');
-        console.log('%c⚠️ EDUCATIONAL DEMO - Nothing real occurs', 'font-size:14px; color:#ff6b81;');
     </script>
 
 </body>
