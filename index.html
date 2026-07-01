@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ku">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>t5kila | TikTok OSINT - Red Edition</title>
+    <title>Snapchat Unban Tool - Educational Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,858 +13,1188 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #12163a;
+            --card-bg: rgba(18, 22, 58, 0.75);
+            --snap-yellow: #FFFC00;
+            --snap-yellow-glow: rgba(255, 252, 0, 0.4);
+            --cyan: #00e5ff;
+            --cyan-glow: rgba(0, 229, 255, 0.3);
+            --green: #00e676;
+            --red: #ff1744;
+            --text-white: #ffffff;
+            --text-gray: #888888;
+            --border-glow: 0 0 30px rgba(255, 252, 0, 0.15);
+        }
+
         body {
-            background: #0a0000;
-            font-family: 'Courier New', 'Fira Code', 'Share Tech Mono', monospace;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-white);
             min-height: 100vh;
-            padding: 20px;
-            position: relative;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Blood Rain Effect */
-        body::before {
-            content: '';
+        /* ===== PARTICLES BACKGROUND ===== */
+        #particles-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(0deg, 
-                rgba(255, 0, 0, 0.02) 0px, 
-                rgba(255, 0, 0, 0.02) 2px,
-                transparent 2px,
-                transparent 8px);
-            pointer-events: none;
             z-index: 0;
-        }
-
-        /* Red Grid */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 0, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 0, 0, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
             pointer-events: none;
-            z-index: 0;
         }
 
-        /* Animations */
-        @keyframes redPulse {
-            0%, 100% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000; }
-            50% { text-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000, 0 0 50px #ff0000; }
-        }
-
-        @keyframes scanRed {
-            0% { transform: translateY(-100%); opacity: 0.5; }
-            100% { transform: translateY(100%); opacity: 0.5; }
-        }
-
-        @keyframes glitchRed {
-            0%, 100% { transform: skew(0deg); opacity: 1; }
-            95% { transform: skew(0deg); opacity: 1; }
-            96% { transform: skew(3deg, 2deg); opacity: 0.9; text-shadow: -2px 0 #ff0000; }
-            97% { transform: skew(-3deg, -2deg); opacity: 0.9; text-shadow: 2px 0 #ff0000; }
-            98% { transform: skew(1deg, 0.5deg); }
-            99% { transform: skew(-1deg, -0.5deg); }
-        }
-
-        @keyframes blinkRed {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
-
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% { opacity: 1; }
-            10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% { opacity: 0.7; }
-        }
-
-        .scan-red {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, rgba(255, 0, 0, 0.05) 50%);
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 2;
-            animation: scanRed 6s linear infinite;
-        }
-
+        /* ===== MAIN CONTAINER ===== */
         .container {
-            max-width: 1500px;
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== DISCLAIMER ===== */
+        .disclaimer {
+            background: rgba(255, 23, 68, 0.15);
+            border: 1px solid rgba(255, 23, 68, 0.3);
+            border-radius: 12px;
+            padding: 12px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #ff6b81;
+            animation: pulse-border 2s infinite;
+        }
+
+        .disclaimer strong {
+            color: var(--red);
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(255, 23, 68, 0.3); }
+            50% { border-color: rgba(255, 23, 68, 0.7); }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 20px 0 30px;
+            position: relative;
+        }
+
+        .ghost-container {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .ghost-icon {
+            font-size: 80px;
+            color: var(--snap-yellow);
+            filter: drop-shadow(0 0 20px var(--snap-yellow-glow));
+            animation: ghost-pulse 2s ease-in-out infinite;
+            transition: all 0.5s ease;
+            display: inline-block;
+        }
+
+        .ghost-icon.celebrate {
+            animation: ghost-celebrate 0.6s ease-in-out 3;
+            filter: drop-shadow(0 0 50px var(--snap-yellow-glow)) drop-shadow(0 0 100px var(--snap-yellow-glow));
+        }
+
+        @keyframes ghost-pulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--snap-yellow-glow)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 40px var(--snap-yellow-glow)); }
+        }
+
+        @keyframes ghost-celebrate {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.2) rotate(-5deg); }
+            50% { transform: scale(1.3) rotate(5deg); }
+            75% { transform: scale(1.2) rotate(-5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 252, 0, 0.15) 0%, transparent 70%);
+            animation: ring-pulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .glow-ring.active {
+            animation: ring-celebrate 0.8s ease-in-out 3;
+        }
+
+        @keyframes ring-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+        }
+
+        @keyframes ring-celebrate {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(2); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--snap-yellow), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            color: var(--text-gray);
+            font-size: 16px;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        .header .subtitle span {
+            color: var(--snap-yellow);
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 10px;
+            background: rgba(255, 252, 0, 0.15);
+            border: 1px solid var(--snap-yellow);
+            border-radius: 20px;
+            padding: 5px 18px;
+            font-size: 13px;
+            color: var(--snap-yellow);
+            font-weight: bold;
+            animation: pulse-border 2s infinite;
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            flex: 1;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 252, 0, 0.12);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--border-glow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 252, 0, 0.3);
+            box-shadow: 0 0 40px rgba(255, 252, 0, 0.08);
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: var(--snap-yellow);
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            font-size: 18px;
+        }
+
+        /* ===== INPUT ===== */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            color: var(--text-gray);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 252, 0, 0.15);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-size: 16px;
+            color: var(--text-white);
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+            outline: none;
+            letter-spacing: 1px;
+        }
+
+        .input-group input:focus {
+            border-color: var(--snap-yellow);
+            box-shadow: 0 0 25px var(--snap-yellow-glow);
+        }
+
+        .input-group input::placeholder {
+            color: #444;
+            font-family: 'Segoe UI', sans-serif;
+            letter-spacing: 0;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            flex: 1;
+            justify-content: center;
+            min-height: 48px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--snap-yellow), #e6e600);
+            color: #0a0e27;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px var(--snap-yellow-glow);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-white);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        .btn-danger {
+            background: rgba(255, 23, 68, 0.2);
+            color: var(--red);
+            border: 1px solid rgba(255, 23, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(255, 23, 68, 0.3);
+            transform: scale(1.02);
+        }
+
+        .btn-demo {
+            background: linear-gradient(135deg, #7c4dff, #651fff);
+            color: white;
+        }
+
+        .btn-demo:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(101, 31, 255, 0.4);
+        }
+
+        /* ===== PROGRESS ===== */
+        .progress-section {
+            margin: 15px 0 10px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 6px;
+        }
+
+        .progress-header .percent {
+            color: var(--snap-yellow);
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 252, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--snap-yellow), var(--cyan));
+            border-radius: 12px;
+            transition: width 0.4s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* ===== STATUS ===== */
+        .status-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .status-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .status-text .highlight {
+            color: var(--snap-yellow);
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .status-dot.idle {
+            background: var(--text-gray);
+        }
+        .status-dot.processing {
+            background: var(--snap-yellow);
+            animation: dot-pulse 0.8s infinite;
+        }
+        .status-dot.success {
+            background: var(--green);
+            animation: dot-pulse 0.5s infinite;
+        }
+        .status-dot.error {
+            background: var(--red);
+        }
+
+        @keyframes dot-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        /* ===== SUCCESS CARD ===== */
+        .success-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 39, 0.92);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+            padding: 20px;
+        }
+
+        .success-overlay.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .success-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(30px);
+            border: 2px solid var(--snap-yellow);
+            border-radius: 24px;
+            padding: 50px 40px;
+            max-width: 550px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 80px var(--snap-yellow-glow);
+            animation: success-bounce 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 252, 0, 0.05) 0%, transparent 60%);
+            animation: success-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes success-bounce {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes success-glow {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+        }
+
+        .success-card .big-ghost {
+            font-size: 100px;
+            color: var(--snap-yellow);
+            filter: drop-shadow(0 0 40px var(--snap-yellow-glow));
+            animation: ghost-celebrate 0.8s ease-in-out 3;
+            display: inline-block;
             position: relative;
             z-index: 1;
         }
 
-        /* Red HUD Header */
-        .red-hud {
-            background: rgba(20, 0, 0, 0.95);
-            backdrop-filter: blur(8px);
-            border: 2px solid #ff0000;
-            margin-bottom: 20px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+        .success-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            color: var(--snap-yellow);
+            margin: 15px 0 8px;
             position: relative;
+            z-index: 1;
         }
 
-        .red-hud::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #ff0000, transparent, #ff0000);
-            z-index: -1;
-            opacity: 0.4;
+        .success-card .sub-success {
+            color: var(--green);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
         }
 
-        .status-bar-red {
+        .success-card .device-details {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: left;
+            margin: 15px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-card .device-details div {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            padding: 15px 25px;
-            border-bottom: 1px solid #ff0000;
+            padding: 6px 0;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .system-status-red {
-            display: flex;
-            gap: 25px;
-            font-size: 0.75rem;
+        .success-card .device-details div:last-child {
+            border-bottom: none;
         }
 
-        .status-led-red {
-            display: inline-block;
+        .success-card .device-details .label {
+            color: var(--text-gray);
+        }
+
+        .success-card .device-details .value {
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        .success-card .device-details .value.green {
+            color: var(--green);
+        }
+
+        .success-card .btn-close-success {
+            margin-top: 20px;
+            background: var(--snap-yellow);
+            color: #0a0e27;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-card .btn-close-success:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--snap-yellow-glow);
+        }
+
+        .success-card .footer-text {
+            margin-top: 15px;
+            font-size: 12px;
+            color: var(--text-gray);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== LOG ===== */
+        .log-container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 12px 15px;
+            height: 350px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            border: 1px solid rgba(255, 252, 0, 0.06);
+        }
+
+        .log-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .log-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .log-container::-webkit-scrollbar-thumb {
+            background: var(--snap-yellow);
+            border-radius: 10px;
+        }
+
+        .log-entry {
+            opacity: 0;
+            animation: log-fade 0.3s ease forwards;
+        }
+
+        @keyframes log-fade {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .log-entry .timestamp {
+            color: #444;
+        }
+
+        .log-entry .system { color: var(--cyan); }
+        .log-entry .success { color: var(--green); }
+        .log-entry .warning { color: var(--snap-yellow); }
+        .log-entry .error { color: var(--red); }
+        .log-entry .banfix { color: var(--snap-yellow); font-weight: bold; }
+
+        .log-empty {
+            color: var(--text-gray);
+            text-align: center;
+            padding: 40px 0;
+            font-style: italic;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 25px 0 10px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        .footer .brand {
+            color: var(--snap-yellow);
+            font-weight: bold;
+        }
+
+        .footer .kurdish {
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 22px;
+            }
+            .ghost-icon {
+                font-size: 60px;
+            }
+            .card {
+                padding: 18px;
+            }
+            .btn {
+                font-size: 12px;
+                padding: 10px 16px;
+            }
+            .success-card {
+                padding: 30px 20px;
+            }
+            .success-card h2 {
+                font-size: 24px;
+            }
+            .success-card .big-ghost {
+                font-size: 70px;
+            }
+            .log-container {
+                height: 250px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .btn-group .btn {
+                flex: 1 1 100%;
+            }
+        }
+
+        /* ===== CONFETTI ===== */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
             width: 10px;
             height: 10px;
-            border-radius: 50%;
-            background: #ff0000;
-            box-shadow: 0 0 8px #ff0000;
-            animation: blinkRed 1.5s infinite;
-            margin-right: 6px;
+            top: -10px;
+            animation: confetti-fall linear forwards;
         }
 
-        .status-text-red {
-            color: #ff4444;
-            font-weight: bold;
-        }
-
-        .timestamp-red {
-            color: #ff6666;
-            font-family: monospace;
-        }
-
-        .glitch-red {
-            font-size: 2.5rem;
-            color: #ff0000;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            padding: 20px 25px;
-            animation: glitchRed 2s infinite;
-        }
-
-        .glitch-red small {
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: #ff6666;
-        }
-
-        /* Red Terminal */
-        .red-terminal {
-            background: rgba(10, 0, 0, 0.95);
-            border: 1px solid #ff0000;
-            margin-bottom: 20px;
-        }
-
-        .terminal-header-red {
-            background: #1a0000;
-            padding: 12px 20px;
-            border-bottom: 1px solid #ff0000;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .terminal-title-red {
-            color: #ff4444;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-        }
-
-        .terminal-title-red::before {
-            content: '►';
-            margin-right: 8px;
-            color: #ff0000;
-        }
-
-        .api-badge-red {
-            background: #ff000011;
-            border: 1px solid #ff0000;
-            padding: 4px 12px;
-            border-radius: 0;
-            font-size: 0.7rem;
-            color: #ff6666;
-        }
-
-        .terminal-content {
-            padding: 25px;
-        }
-
-        /* Input Section */
-        .input-area {
-            margin-bottom: 25px;
-        }
-
-        .command-line-red {
-            display: flex;
-            align-items: center;
-            background: #000000;
-            border: 1px solid #ff0000;
-            margin-bottom: 15px;
-        }
-
-        .command-prompt-red {
-            background: #1a0000;
-            padding: 14px 20px;
-            color: #ff4444;
-            font-weight: bold;
-            border-right: 1px solid #ff0000;
-            font-family: monospace;
-        }
-
-        .command-input-red {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #ff4444;
-            padding: 14px 20px;
-            font-family: monospace;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .command-input-red::placeholder {
-            color: #ff444444;
-        }
-
-        .execute-red {
-            background: #1a0000;
-            border: 1px solid #ff0000;
-            color: #ff4444;
-            padding: 12px 35px;
-            cursor: pointer;
-            font-family: monospace;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            transition: all 0.2s;
-            width: 100%;
-        }
-
-        .execute-red:hover {
-            background: #ff0000;
-            color: #000000;
-            box-shadow: 0 0 25px #ff0000;
-        }
-
-        /* Quick Commands */
-        .quick-red {
-            margin-top: 20px;
-            padding: 15px;
-            border-left: 3px solid #ff0000;
-            background: #050000;
-        }
-
-        .quick-label-red {
-            color: #ff6666;
-            font-size: 0.7rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .cmd-red {
-            display: inline-block;
-            background: #1a0000;
-            color: #ff4444;
-            padding: 6px 15px;
-            margin: 5px;
-            border: 1px solid #ff000066;
-            cursor: pointer;
-            font-family: monospace;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-        }
-
-        .cmd-red:hover {
-            background: #ff000022;
-            border-color: #ff0000;
-            transform: translateX(3px);
-        }
-
-        /* Stats Grid */
-        .stats-red {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .stat-red {
-            background: #050000;
-            border: 1px solid #ff0000;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .stat-red:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.2);
-            border-color: #ff4444;
-        }
-
-        .stat-red::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #ff0000, transparent);
-            animation: scanRedFast 2s infinite;
-        }
-
-        @keyframes scanRedFast {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .stat-label-red {
-            color: #ff6666;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .stat-value-red {
-            color: #ff3333;
-            font-size: 1.8rem;
-            font-weight: bold;
-            font-family: monospace;
-        }
-
-        /* Profile Card */
-        .profile-red {
-            background: #050000;
-            border: 2px solid #ff0000;
-            padding: 25px;
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
-
-        .avatar-red {
-            width: 130px;
-            height: 130px;
-            border: 3px solid #ff0000;
-            object-fit: cover;
-            filter: drop-shadow(0 0 15px #ff0000);
-        }
-
-        .profile-info-red h3 {
-            color: #ff4444;
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-        }
-
-        .profile-info-red .handle-red {
-            color: #ff6666;
-            margin-bottom: 12px;
-            font-size: 1rem;
-        }
-
-        .profile-info-red .bio-red {
-            color: #cc8888;
-            max-width: 550px;
-            line-height: 1.5;
-        }
-
-        .badge-red {
-            display: inline-block;
-            padding: 5px 15px;
-            margin-top: 12px;
-            margin-right: 10px;
-            border: 1px solid #ff0000;
-            font-size: 0.7rem;
-            color: #ff6666;
-        }
-
-        /* IDs Section */
-        .ids-red {
-            background: #050000;
-            border: 1px solid #ff0000;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .ids-title-red {
-            color: #ff4444;
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #ff000066;
-        }
-
-        .ids-grid-red {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .id-item-red {
-            font-family: monospace;
-        }
-
-        .id-label-red {
-            color: #ff6666;
-            font-size: 0.7rem;
-        }
-
-        .id-value-red {
-            color: #ff4444;
-            word-break: break-all;
-            margin-top: 5px;
-        }
-
-        /* Loading */
-        .loading-red {
-            text-align: center;
-            padding: 50px;
-        }
-
-        .spinner-red {
-            width: 60px;
-            height: 60px;
-            border: 3px solid #ff000033;
-            border-top-color: #ff0000;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text-red {
-            color: #ff4444;
-            font-family: monospace;
-        }
-
-        .loading-text-red::after {
-            content: '...';
-            animation: dots 1.5s steps(4, end) infinite;
-            display: inline-block;
-            width: 30px;
-            text-align: left;
-        }
-
-        @keyframes dots {
-            0%, 20% { content: ''; }
-            40% { content: '.'; }
-            60% { content: '..'; }
-            80%, 100% { content: '...'; }
-        }
-
-        /* Error */
-        .error-red {
-            background: #1a0000;
-            border: 2px solid #ff0000;
-            padding: 25px;
-            color: #ff6666;
-            text-align: center;
-            font-family: monospace;
-        }
-
-        /* Footer */
-        .footer-red {
-            text-align: center;
-            padding: 20px;
-            color: #ff6666;
-            font-size: 0.7rem;
-            border-top: 1px solid #ff000033;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .glitch-red { font-size: 1.2rem; letter-spacing: 5px; }
-            .stat-value-red { font-size: 1.2rem; }
-            .profile-info-red h3 { font-size: 1.2rem; }
-            .avatar-red { width: 80px; height: 80px; }
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
-<div class="scan-red"></div>
-<div class="container">
-    <!-- Red HUD -->
-    <div class="red-hud">
-        <div class="status-bar-red">
-            <div class="system-status-red">
-                <span class="status-text-red"><span class="status-led-red"></span> T5KILA-RED-OSINT v3.0</span>
-                <span class="status-text-red">🔴 DARK WEB MODE</span>
-                <span class="status-text-red">⚡ REAL API 2026</span>
-                <span class="status-text-red">🎯 FULL EXTRACTION</span>
+
+    <!-- ===== PARTICLES CANVAS ===== -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ===== CONFETTI CONTAINER ===== -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <!-- ===== SUCCESS OVERLAY ===== -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-card">
+            <div class="big-ghost">
+                <i class="fa-brands fa-snapchat"></i>
             </div>
-            <div class="timestamp-red" id="timestamp"></div>
-        </div>
-        <div class="glitch-red">
-            T5KILA<br>
-            <small>RED OSINT SUITE // FULL DATA EXTRACTION</small>
+            <h2>باندی سناپچاتەکەت لاچووە!</h2>
+            <div class="sub-success">✅ Your Snapchat ban has been removed!</div>
+            <div class="device-details" id="successDetails">
+                <div><span class="label">📱 Device</span><span class="value" id="sDevice">—</span></div>
+                <div><span class="label">🔑 Serial</span><span class="value" id="sSerial">—</span></div>
+                <div><span class="label">🌐 Status</span><span class="value green">UNBANNED ✅</span></div>
+                <div><span class="label">🚀 Session</span><span class="value" id="sSession">—</span></div>
+            </div>
+            <button class="btn-close-success" onclick="closeSuccess()">باشە / OK</button>
+            <div class="footer-text">⚡ aGsx-BLACKOBLIVION | MINISTER</div>
         </div>
     </div>
 
-    <!-- Red Terminal -->
-    <div class="red-terminal">
-        <div class="terminal-header-red">
-            <span class="terminal-title-red">TARGET_ACQUISITION_TERMINAL_RED</span>
-            <span class="api-badge-red">🔴 LIVE REAL API 2026 | FULL INFO</span>
+    <!-- ===== MAIN CONTAINER ===== -->
+    <div class="container">
+
+        <!-- DISCLAIMER -->
+        <div class="disclaimer">
+            ⚠️ <strong>SIMULATION / DEMO</strong> — تەنها بۆ مەبەستی خوێندن · No real actions occur · هیچ کارێکی ڕاستەقینە ئەنجام نادرێت
         </div>
-        <div class="terminal-content">
-            <div class="input-area">
-                <div class="command-line-red">
-                    <span class="command-prompt-red">t5kila@red:~$</span>
-                    <input type="text" class="command-input-red" id="usernameInput" placeholder="osint --target [username] --full --real" autocomplete="off">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="ghost-container">
+                <div class="glow-ring" id="glowRing"></div>
+                <i class="fa-brands fa-snapchat ghost-icon" id="ghostIcon"></i>
+            </div>
+            <h1>🔓 SNAPCHAT UNBAN TOOL</h1>
+            <div class="subtitle">Educational Demonstration · <span>تاقیکردنەوەی خوێندن</span></div>
+            <div class="badge">🎮 DEMO MODE · SS06 FIX</div>
+        </header>
+
+        <!-- MAIN GRID -->
+        <div class="main-grid">
+
+            <!-- LEFT PANEL -->
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-sliders"></i> CONTROL / کۆنتڕۆڵ</div>
+
+                <div class="input-group">
+                    <label>🔑 SERIAL ID / ناسنامەی زنجیرەیی</label>
+                    <input type="text" id="serialInput" placeholder="e.g. F17LJQN8HG7P" maxlength="20">
                 </div>
-                <button class="execute-red" id="searchBtn">▶ EXTRACT_ALL_DATA [ENTER]</button>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="btnStart" onclick="startInjection()">
+                        <i class="fa-solid fa-rocket"></i> START UNBAN
+                    </button>
+                    <button class="btn btn-demo" onclick="runDemo()">
+                        <i class="fa-solid fa-gamepad"></i> DEMO
+                    </button>
+                    <button class="btn btn-danger" onclick="resetAll()">
+                        <i class="fa-solid fa-rotate"></i> RESET
+                    </button>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>PROGRESS / پێشکەوتن</span>
+                        <span class="percent" id="percentText">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <div class="status-section">
+                    <div class="status-text">
+                        <span class="status-dot idle" id="statusDot"></span>
+                        <span id="statusText">چاوەڕوانی / WAITING</span>
+                    </div>
+                    <span style="font-size:12px; color:#444;" id="stepText">—</span>
+                </div>
             </div>
 
-            <div class="quick-red">
-                <div class="quick-label-red">└─[$] TARGET_PRESETS</div>
-                <span class="cmd-red" data-user="tiktok">tiktok</span>
-                <span class="cmd-red" data-user="charlidamelio">charlidamelio</span>
-                <span class="cmd-red" data-user="therock">therock</span>
-                <span class="cmd-red" data-user="zachking">zachking</span>
-                <span class="cmd-red" data-user="lizzo">lizzo</span>
-                <span class="cmd-red" data-user="mrbeast">mrbeast</span>
-                <span class="cmd-red" data-user="speed">speed</span>
-                <span class="cmd-red" data-user="kimkardashian">kimkardashian</span>
+            <!-- RIGHT PANEL -->
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-terminal"></i> SIMULATION LOG / ڕووناکی تاقیکردنەوە</div>
+                <div class="log-container" id="logContainer">
+                    <div class="log-empty" id="logEmpty">
+                        <i class="fa-regular fa-clock" style="font-size:24px; display:block; margin-bottom:10px;"></i>
+                        چاوەڕوانی دەستپێکردن...<br>Waiting for start...
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:12px; color:#444;">
+                    <span id="logCount">Entries: 0</span>
+                    <span style="cursor:pointer;" onclick="clearLog()">🗑️ Clear</span>
+                </div>
             </div>
+
         </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div>⚡ <span class="brand">aGsx-BLACKOBLIVION</span> v3.0 | Educational Demo</div>
+            <div>Script by <span class="brand">MINISTER</span></div>
+            <div class="kurdish">تەنها بۆ مەبەستی خوێندن · هیچ کارێکی ڕاستەقینە ئەنجام نادرێت</div>
+            <div class="kurdish" style="font-size:11px; color:#333; margin-top:4px;">🔒 All data is fake · nothing real occurs</div>
+        </footer>
+
     </div>
 
-    <!-- Loading -->
-    <div id="loading" style="display: none;">
-        <div class="loading-red">
-            <div class="spinner-red"></div>
-            <div class="loading-text-red">🔴 EXTRACTING_REAL_DATA | FETCHING_ALL_INFO</div>
-        </div>
-    </div>
+    <!-- ============================================================ -->
+    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================================ -->
+    <script>
+        // ============================================================
+        // PARTICLES BACKGROUND
+        // ============================================================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-    <!-- Error -->
-    <div id="error" style="display: none;"></div>
-
-    <!-- Results -->
-    <div id="results" style="display: none;"></div>
-
-    <!-- Footer -->
-    <div class="footer-red">
-        <span>┌──[t5kila@red-osint]</span><br>
-        <span>└─[$] TikTok OSINT Red Suite | Real API 2026 | Full Extraction | No Limits</span>
-    </div>
-</div>
-
-<script>
-    // Timestamp
-    function updateTimestamp() {
-        const now = new Date();
-        document.getElementById('timestamp').innerHTML = now.toLocaleString('en-US', { 
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit', second: '2-digit',
-            hour12: false 
-        });
-    }
-    updateTimestamp();
-    setInterval(updateTimestamp, 1000);
-
-    // DOM Elements
-    const usernameInput = document.getElementById('usernameInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const loadingDiv = document.getElementById('loading');
-    const errorDiv = document.getElementById('error');
-    const resultsDiv = document.getElementById('results');
-
-    // Command chips
-    document.querySelectorAll('.cmd-red').forEach(cmd => {
-        cmd.addEventListener('click', () => {
-            let user = cmd.getAttribute('data-user');
-            usernameInput.value = `osint --target ${user} --full --real`;
-            performSearch(user);
-        });
-    });
-
-    searchBtn.addEventListener('click', () => {
-        let input = usernameInput.value.trim();
-        let username = extractUsername(input);
-        if (!username) {
-            showError('[!] ERROR: No target specified. Use: osint --target [username]');
-            return;
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
-        performSearch(username);
-    });
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-    usernameInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            let input = usernameInput.value.trim();
-            let username = extractUsername(input);
-            if (username) performSearch(username);
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = ['#FFFC00', '#00e5ff', '#ffffff'][Math.floor(Math.random() * 3)];
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
         }
-    });
 
-    function extractUsername(input) {
-        const targetMatch = input.match(/--target\s+(\S+)/i);
-        if (targetMatch) return targetMatch[1];
-        const directMatch = input.match(/^([a-zA-Z0-9_.]+)$/);
-        if (directMatch) return directMatch[1];
-        return input.split(' ')[0].trim();
-    }
+        for (let i = 0; i < 120; i++) {
+            particles.push(new Particle());
+        }
 
-    async function performSearch(username) {
-        resultsDiv.style.display = 'none';
-        resultsDiv.innerHTML = '';
-        errorDiv.style.display = 'none';
-        loadingDiv.style.display = 'block';
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
 
-        try {
-            // REAL API - TikWM v2 Full Data
-            const userInfoUrl = `https://tikwm.com/api/user/info?unique_id=${username}`;
-            const userResponse = await fetch(userInfoUrl);
-            const userData = await userResponse.json();
+        // ============================================================
+        // CORE VARIABLES
+        // ============================================================
+        let isRunning = false;
+        let progressInterval = null;
+        let currentProgress = 0;
+        let logEntries = 0;
+        let successShown = false;
 
-            if (!userData || !userData.data || !userData.data.user) {
-                throw new Error('TARGET_NOT_FOUND_OR_PRIVATE');
+        const serialInput = document.getElementById('serialInput');
+        const btnStart = document.getElementById('btnStart');
+        const progressFill = document.getElementById('progressFill');
+        const percentText = document.getElementById('percentText');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const stepText = document.getElementById('stepText');
+        const logContainer = document.getElementById('logContainer');
+        const logEmpty = document.getElementById('logEmpty');
+        const logCount = document.getElementById('logCount');
+        const ghostIcon = document.getElementById('ghostIcon');
+        const glowRing = document.getElementById('glowRing');
+        const successOverlay = document.getElementById('successOverlay');
+
+        // ============================================================
+        // DEVICE DATABASE (FAKE)
+        // ============================================================
+        const DEVICE_DB = {
+            'F17': { name: 'iPhone 15 Pro Max', manufacturer: 'Apple', platform: 'iOS' },
+            'R3C': { name: 'Samsung Galaxy S24', manufacturer: 'Samsung', platform: 'Android' },
+            '1A2': { name: 'Google Pixel 8 Pro', manufacturer: 'Google', platform: 'Android' },
+            'OP5': { name: 'OnePlus 12', manufacturer: 'OnePlus', platform: 'Android' },
+            'XM3': { name: 'Xiaomi 14', manufacturer: 'Xiaomi', platform: 'Android' },
+        };
+
+        function detectDevice(serial) {
+            const prefix = serial.substring(0, 3).toUpperCase();
+            if (DEVICE_DB[prefix]) {
+                return DEVICE_DB[prefix].name;
+            }
+            return 'Unknown Device';
+        }
+
+        // ============================================================
+        // LOG SYSTEM
+        // ============================================================
+        function addLog(message, type = 'system') {
+            const time = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            const colorClass = type;
+            entry.innerHTML = `<span class="timestamp">[${time}]</span> <span class="${colorClass}">${message}</span>`;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            logEmpty.style.display = 'none';
+            logEntries++;
+            logCount.textContent = `Entries: ${logEntries}`;
+        }
+
+        function clearLog() {
+            logContainer.innerHTML = `<div class="log-empty" id="logEmpty"><i class="fa-regular fa-clock" style="font-size:24px; display:block; margin-bottom:10px;"></i>چاوەڕوانی دەستپێکردن...<br>Waiting for start...</div>`;
+            logEntries = 0;
+            logCount.textContent = 'Entries: 0';
+        }
+
+        // ============================================================
+        // PROGRESS ENGINE
+        // ============================================================
+        function updateProgress(value) {
+            currentProgress = Math.min(100, value);
+            progressFill.style.width = currentProgress + '%';
+            percentText.textContent = Math.round(currentProgress) + '%';
+        }
+
+        function setStatus(text, state) {
+            statusText.textContent = text;
+            statusDot.className = 'status-dot ' + state;
+        }
+
+        function setStep(text) {
+            stepText.textContent = text;
+        }
+
+        // ============================================================
+        // INJECTION SEQUENCE
+        // ============================================================
+        function runInjection(serial) {
+            if (isRunning) return;
+            isRunning = true;
+            successShown = false;
+            btnStart.disabled = true;
+            setStatus('چارەسەر دەکرێت / PROCESSING', 'processing');
+            updateProgress(0);
+
+            const steps = [
+                { progress: 10, log: 'Validating serial format...', type: 'system' },
+                { progress: 25, log: 'Serial validated ✓', type: 'success' },
+                { progress: 35, log: 'Checking device database...', type: 'system' },
+                { progress: 45, log: `Device detected: ${detectDevice(serial)}`, type: 'success' },
+                { progress: 55, log: 'Generating session token...', type: 'system' },
+                { progress: 65, log: 'Session token generated ✓', type: 'success' },
+                { progress: 75, log: 'Connecting to Snapchat servers...', type: 'banfix' },
+                { progress: 85, log: 'Connection established (simulated)', type: 'success' },
+                { progress: 93, log: 'Applying unban patch...', type: 'banfix' },
+                { progress: 100, log: '✅ UNBAN COMPLETE!', type: 'success' },
+            ];
+
+            let stepIndex = 0;
+
+            function nextStep() {
+                if (stepIndex >= steps.length) {
+                    finishInjection(serial);
+                    return;
+                }
+
+                const step = steps[stepIndex];
+                updateProgress(step.progress);
+                addLog(step.log, step.type);
+                setStep(step.log);
+
+                // Update ghost glow based on progress
+                if (step.progress > 50) {
+                    ghostIcon.style.filter = `drop-shadow(0 0 ${20 + step.progress/2}px var(--snap-yellow-glow))`;
+                }
+
+                stepIndex++;
+                const delay = stepIndex === steps.length ? 800 : 400 + Math.random() * 300;
+                setTimeout(nextStep, delay);
             }
 
-            const user = userData.data.user;
-            const stats = userData.data.stats;
-
-            // Fetch more user details from secondary endpoint
-            let additionalInfo = {};
-            try {
-                const userDetailUrl = `https://tikwm.com/api/user/detail?unique_id=${username}`;
-                const detailResponse = await fetch(userDetailUrl);
-                const detailData = await detailResponse.json();
-                if (detailData?.data) {
-                    additionalInfo = detailData.data;
-                }
-            } catch (e) {}
-
-            // Fetch creation date from first video
-            let creationDate = 'Unknown';
-            let firstVideoDate = null;
-            try {
-                const postsUrl = `https://tikwm.com/api/user/posts?unique_id=${username}&count=5`;
-                const postsResponse = await fetch(postsUrl);
-                const postsData = await postsResponse.json();
-                if (postsData?.data?.videos?.length > 0) {
-                    const oldestVideo = postsData.data.videos[postsData.data.videos.length - 1];
-                    if (oldestVideo?.create_time) {
-                        const date = new Date(oldestVideo.create_time * 1000);
-                        creationDate = date.toLocaleDateString('en-US', {
-                            year: 'numeric', month: 'long', day: 'numeric'
-                        });
-                        firstVideoDate = date;
-                    }
-                }
-            } catch (e) {}
-
-            // Country detection
-            let country = 'Unknown';
-            let region = 'Unknown';
-            if (user.signature) {
-                const flagMap = {
-                    '🇺🇸': 'United States', '🇬🇧': 'United Kingdom', '🇨🇦': 'Canada',
-                    '🇦🇺': 'Australia', '🇮🇳': 'India', '🇩🇪': 'Germany',
-                    '🇫🇷': 'France', '🇯🇵': 'Japan', '🇧🇷': 'Brazil',
-                    '🇲🇽': 'Mexico', '🇰🇷': 'South Korea', '🇮🇹': 'Italy',
-                    '🇪🇸': 'Spain', '🇷🇺': 'Russia', '🇿🇦': 'South Africa'
-                };
-                for (const [emoji, name] of Object.entries(flagMap)) {
-                    if (user.signature.includes(emoji)) {
-                        country = name;
-                        break;
-                    }
-                }
-                if (country === 'Unknown') {
-                    const match = user.signature.match(/(?:from|in|📍|based in)\s+([A-Za-z\s]{2,25})/i);
-                    if (match) country = match[1].trim();
-                }
-            }
-
-            // Extract region from additional data if available
-            if (additionalInfo.region) region = additionalInfo.region;
-
-            // Build complete profile data
-            const profileData = {
-                username: user.unique_id || username,
-                nickname: user.nickname || 'N/A',
-                avatar: user.avatar || 'https://via.placeholder.com/130',
-                avatar_larger: user.avatar_larger || user.avatar || '',
-                bio: user.signature || 'No bio available',
-                verified: user.verified || false,
-                private_account: user.private_account || false,
-                followers: stats.follower_count || 0,
-                following: stats.following_count || 0,
-                likes: stats.heart_count || 0,
-                videos: stats.video_count || 0,
-                user_id: user.id || 'N/A',
-                sec_uid: user.sec_uid || 'N/A',
-                uid: user.uid || 'N/A',
-                unique_id: user.unique_id || username,
-                country: country,
-                region: region,
-                creation_date: creationDate,
-                bio_link: user.bio_link || 'None',
-                is_ad_virtual: user.is_ad_virtual || false,
-                commerce_user: user.commerce_user_info?.commerce_user || false,
-                tt_seller: user.tt_seller || false
-            };
-
-            renderResults(profileData);
-            loadingDiv.style.display = 'none';
-            resultsDiv.style.display = 'block';
-
-        } catch (err) {
-            loadingDiv.style.display = 'none';
-            showError(`🔴 OSINT_ERROR: ${err.message}<br><br>► TARGET: ${username}<br>► STATUS: EXTRACTION_FAILED<br>► CAUSES: Invalid username | Private account | Rate limit | API throttle`);
+            nextStep();
         }
-    }
 
-    function renderResults(data) {
-        resultsDiv.innerHTML = `
-            <div class="red-terminal" style="margin-top: 20px;">
-                <div class="terminal-header-red">
-                    <span class="terminal-title-red">EXTRACTED_DATA // ${data.username.toUpperCase()}</span>
-                    <span class="api-badge-red">✅ REAL_DATA_2026 | COMPLETE</span>
-                </div>
-                <div class="terminal-content">
-                    <!-- Profile Section -->
-                    <div class="profile-red">
-                        <img src="${data.avatar}" class="avatar-red" alt="Avatar" onerror="this.src='https://via.placeholder.com/130'">
-                        <div class="profile-info-red">
-                            <h3>${escapeHtml(data.nickname)}</h3>
-                            <div class="handle-red">@${escapeHtml(data.username)}</div>
-                            <div class="bio-red">${escapeHtml(data.bio.substring(0, 250))}${data.bio.length > 250 ? '...' : ''}</div>
-                            ${data.bio_link !== 'None' ? `<div class="bio-red" style="color:#ff8888; margin-top:5px;">🔗 ${escapeHtml(data.bio_link)}</div>` : ''}
-                            <div>
-                                ${data.verified ? '<span class="badge-red">✓ VERIFIED ACCOUNT</span>' : ''}
-                                ${data.private_account ? '<span class="badge-red" style="border-color:#ff0000;color:#ff6666;">🔒 PRIVATE ACCOUNT</span>' : '<span class="badge-red">🌐 PUBLIC ACCOUNT</span>'}
-                                ${data.commerce_user ? '<span class="badge-red">🛒 COMMERCE USER</span>' : ''}
-                                ${data.tt_seller ? '<span class="badge-red">📦 TIKTOK SELLER</span>' : ''}
-                            </div>
-                        </div>
-                    </div>
+        function finishInjection(serial) {
+            isRunning = false;
+            btnStart.disabled = false;
+            setStatus('تەواو / COMPLETE ✅', 'success');
+            setStep('🎉 Unban successful!');
 
-                    <!-- Statistics Grid -->
-                    <div class="stats-red">
-                        <div class="stat-red">
-                            <div class="stat-label-red">👥 TOTAL FOLLOWERS</div>
-                            <div class="stat-value-red">${formatNumber(data.followers)}</div>
-                        </div>
-                        <div class="stat-red">
-                            <div class="stat-label-red">🔁 FOLLOWING</div>
-                            <div class="stat-value-red">${formatNumber(data.following)}</div>
-                        </div>
-                        <div class="stat-red">
-                            <div class="stat-label-red">❤️ TOTAL LIKES RECEIVED</div>
-                            <div class="stat-value-red">${formatNumber(data.likes)}</div>
-                        </div>
-                        <div class="stat-red">
-                            <div class="stat-label-red">🎬 TOTAL VIDEOS POSTED</div>
-                            <div class="stat-value-red">${formatNumber(data.videos)}</div>
-                        </div>
-                    </div>
+            // Ghost celebrate
+            ghostIcon.classList.add('celebrate');
+            glowRing.classList.add('active');
 
-                    <!-- Unique Identifiers -->
-                    <div class="ids-red">
-                        <div class="ids-title-red">🔐 UNIQUE_IDENTIFIERS [FULL EXTRACTION]</div>
-                        <div class="ids-grid-red">
-                            <div class="id-item-red">
-                                <div class="id-label-red">USER ID (UID)</div>
-                                <div class="id-value-red">${escapeHtml(data.user_id)}</div>
-                            </div>
-                            <div class="id-item-red">
-                                <div class="id-label-red">SECURITY ID (SEC_UID)</div>
-                                <div class="id-value-red" style="font-size:0.8rem;">${escapeHtml(data.sec_uid)}</div>
-                            </div>
-                            <div class="id-item-red">
-                                <div class="id-label-red">UNIQUE ID</div>
-                                <div class="id-value-red">${escapeHtml(data.unique_id)}</div>
-                            </div>
-                            ${data.uid !== 'N/A' ? `<div class="id-item-red">
-                                <div class="id-label-red">ALT UID</div>
-                                <div class="id-value-red">${escapeHtml(data.uid)}</div>
-                            </div>` : ''}
-                        </div>
-                    </div>
+            // Show success overlay
+            showSuccess(serial);
+            successShown = true;
 
-                    <!-- Meta Information -->
-                    <div class="stats-red">
-                        <div class="stat-red">
-                            <div class="stat-label-red">🌍 COUNTRY / REGION</div>
-                            <div class="stat-value-red" style="font-size:1rem;">${escapeHtml(data.country)} ${data.region !== 'Unknown' ? `(${data.region})` : ''}</div>
-                        </div>
-                        <div class="stat-red">
-                            <div class="stat-label-red">📅 ACCOUNT CREATION DATE</div>
-                            <div class="stat-value-red" style="font-size:1rem;">${escapeHtml(data.creation_date)}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
+            // Confetti
+            launchConfetti();
 
-    function formatNumber(num) {
-        if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-        if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-        return num.toString();
-    }
+            // Re-enable after celebration
+            setTimeout(() => {
+                ghostIcon.classList.remove('celebrate');
+                glowRing.classList.remove('active');
+            }, 3000);
+        }
 
-    function escapeHtml(str) {
-        if (!str) return 'N/A';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
+        // ============================================================
+        // SUCCESS OVERLAY
+        // ============================================================
+        function showSuccess(serial) {
+            const device = detectDevice(serial);
+            const sessionId = 'DEMO-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+            document.getElementById('sDevice').textContent = device + ' [DEMO]';
+            document.getElementById('sSerial').textContent = serial + ' [FAKE]';
+            document.getElementById('sSession').textContent = sessionId;
+
+            successOverlay.classList.add('show');
+        }
+
+        function closeSuccess() {
+            successOverlay.classList.remove('show');
+        }
+
+        // Close on outside click
+        successOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closeSuccess();
         });
-    }
 
-    function showError(msg) {
-        errorDiv.style.display = 'block';
-        errorDiv.innerHTML = `<div class="error-red">${msg.replace(/\n/g, '<br>')}</div>`;
+        // ============================================================
+        // CONFETTI
+        // ============================================================
+        function launchConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#FFFC00', '#00e5ff', '#00e676', '#ff1744', '#7c4dff', '#ffffff'];
+
+            for (let i = 0; i < 120; i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti';
+                el.style.left = Math.random() * 100 + '%';
+                el.style.width = (Math.random() * 8 + 4) + 'px';
+                el.style.height = (Math.random() * 8 + 4) + 'px';
+                el.style.background = colors[Math.floor(Math.random() * colors.length)];
+                el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                el.style.animationDelay = (Math.random() * 1.5) + 's';
+                el.style.opacity = Math.random() * 0.8 + 0.2;
+                container.appendChild(el);
+
+                setTimeout(() => el.remove(), 4000);
+            }
+        }
+
+        // ============================================================
+        // CONTROLS
+        // ============================================================
+        function startInjection() {
+            const serial = serialInput.value.trim();
+            if (!serial) {
+                addLog('⚠️ Please enter a serial ID', 'warning');
+                setStatus('هەڵە / ERROR', 'error');
+                return;
+            }
+            if (serial.length < 6) {
+                addLog('⚠️ Serial too short (min 6 chars)', 'error');
+                setStatus('هەڵە / ERROR', 'error');
+                return;
+            }
+            if (isRunning) return;
+            clearLog();
+            addLog(`🚀 Starting unban for serial: ${serial}`, 'system');
+            runInjection(serial);
+        }
+
+        function runDemo() {
+            if (isRunning) return;
+            const demoSerials = ['F17LJQN8HG7P', 'R3CJ8N9X7M6K', '1A2B3C4D5E6F', 'OP5M8N9X7K6J'];
+            const serial = demoSerials[Math.floor(Math.random() * demoSerials.length)];
+            serialInput.value = serial;
+            clearLog();
+            addLog(`🎮 DEMO MODE activated`, 'system');
+            addLog(`📱 Using demo serial: ${serial}`, 'system');
+            runInjection(serial);
+        }
+
+        function resetAll() {
+            if (isRunning) return;
+            serialInput.value = '';
+            updateProgress(0);
+            setStatus('چاوەڕوانی / WAITING', 'idle');
+            setStep('—');
+            ghostIcon.style.filter = 'drop-shadow(0 0 20px var(--snap-yellow-glow))';
+            ghostIcon.classList.remove('celebrate');
+            glowRing.classList.remove('active');
+            clearLog();
+            addLog('🔄 System reset', 'system');
+            addLog('⏳ Waiting for input...', 'system');
+            closeSuccess();
+        }
+
+        // ============================================================
+        // ENTER KEY
+        // ============================================================
+        serialInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') startInjection();
+        });
+
+        // ============================================================
+        // INITIAL LOG
+        // ============================================================
         setTimeout(() => {
-            if (errorDiv.style.display === 'block') {
-                errorDiv.style.display = 'none';
+            addLog('🔄 System initialized', 'system');
+            addLog('👻 Snapchat Unban Tool v3.0 ready', 'banfix');
+            addLog('📡 Enter a serial ID and click START', 'system');
+            addLog('🔒 DEMO MODE - No real actions occur', 'warning');
+        }, 500);
+
+        // ============================================================
+        // KEYBOARD SHORTCUT: Ctrl+Enter = Demo
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                runDemo();
             }
-        }, 8000);
-    }
-</script>
+        });
+
+        console.log('%c🔥 aGsx-BLACKOBLIVION | MINISTER', 'font-size:20px; color:#FFFC00;');
+        console.log('%c⚠️ EDUCATIONAL DEMO - Nothing real occurs', 'font-size:14px; color:#ff6b81;');
+    </script>
+
 </body>
 </html>
