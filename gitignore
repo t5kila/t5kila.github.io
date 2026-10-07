@@ -1,0 +1,12 @@
+node_modules/
+.env
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+database/deathbyte.db*
+.DS_Store
+npm-debug.log*
+yarn-error.log*
+coverage/
+dist/
