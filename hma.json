@@ -1,1 +1,32 @@
 
+{
+  "name": "deathbyte",
+  "version": "1.0.0",
+  "description": "DEATHBYTE — premium digital identity",
+  "main": "backend/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "migrate": "node -e \"require('./backend/services/db').migrate()\"",
+    "create-admin": "node scripts/create-admin.js"
+  },
+  "dependencies": {
+    "argon2": "^0.41.1",
+    "better-sqlite3": "^11.5.0",
+    "connect-sqlite3": "^0.9.15",
+    "cookie-parser": "^1.4.7",
+    "csurf": "^1.11.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "hpp": "^0.2.3",
+    "nodemailer": "^6.9.16",
+    "zod": "^3.23.8"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
