@@ -1,0 +1,23 @@
+# ─── Server ─────────────────────────────────────────────
+NODE_ENV=development
+PORT=3000
+SITE_ORIGIN=https://www.deathbyte0x.win
+DEV_ORIGIN=http://localhost:3000
+
+# ─── Session ────────────────────────────────────────────
+SESSION_SECRET=replace-with-long-random-string-min-32-chars
+
+# ─── Database ───────────────────────────────────────────
+DB_PATH=./database/deathbyte.db
+
+# ─── Contact email (SMTP) ───────────────────────────────
+SMTP_HOST=
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASS=
+CONTACT_TO=inbox@deathbyte0x.win
+CONTACT_FROM=no-reply@deathbyte0x.win
+
+# ─── Admin bootstrap (used once by scripts/create-admin.js) ──
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=
